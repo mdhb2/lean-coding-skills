@@ -6,6 +6,8 @@ Overview
 - Skills are packaged under `skills/` as self-contained folders. Each skill is Markdown-first and compatible with Claude/Anthropic style skill loaders. No runtime code or API keys required in the skill files.
 - `lcs-explore`: interactive explore flow. Agent/runtime performs iterative question loop and persists results to `.lcs/docs/<timestamp>-<slug-work-item>/explore.md`. See `skills/lcs-explore/SKILL.md` for spec.
 - `lcs-toprd`: lean, implementation-focused PRD writer. Agent/runtime creates developer-ready specifications under `.lcs/docs/<timestamp>-<slug-work-item>/prd.md` to limit code reads. See `skills/lcs-toprd/SKILL.md` for spec.
+- `lcs-prd-reviewer`: review, harden, and security-check an existing PRD. Agent writes output to `.lcs/docs/<timestamp>-<slug-work-item>/prd-enhanced.md`. See `skills/lcs-prd-reviewer/SKILL.md` for spec.
+- `lcs-task-slicer`: split a reviewed PRD into actionable, session-sized tasks. Agent writes output to `.lcs/docs/<timestamp>-<slug-work-item>/task/task-###.md`. See `skills/lcs-task-slicer/SKILL.md` for spec.
 
 Install (recommended)
 Run single command to add skills into a target repo (packager will place files under `.agents/skills`):
@@ -30,12 +32,16 @@ PowerShell (copy-paste):
 ```
 Test-Path .\agents\skills\lcs-explore\SKILL.md
 Test-Path .\agents\skills\lcs-toprd\SKILL.md
+Test-Path .\agents\skills\lcs-prd-reviewer\SKILL.md
+Test-Path .\agents\skills\lcs-task-slicer\SKILL.md
 ```
 
 Bash (copy-paste):
 ```
 [ -f .agents/skills/lcs-explore/SKILL.md ] && echo "explore ok"
 [ -f .agents/skills/lcs-toprd/SKILL.md ] && echo "toprd ok"
+[ -f .agents/skills/lcs-prd-reviewer/SKILL.md ] && echo "reviewer ok"
+[ -f .agents/skills/lcs-task-slicer/SKILL.md ] && echo "slicer ok"
 ```
 
 Usage after install
