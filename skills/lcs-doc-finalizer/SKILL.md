@@ -1,0 +1,117 @@
+---
+name: lcs-doc-finalizer
+description: Use this skill whenever the user asks to finalize completed work into canonical documentation. Trigger on "finalize documentation", "prepare final-doc", "lcs-doc-finalizer", "selesaikan dokumentasi". Ensure all tasks are marked done, generate map.md and doc.md under .lcs/docs/reff/<timestamp>-<slug-work-item>/, recommend git commit and PR description, and do not delete source artifacts.
+---
+
+# LCS Doc Finalizer Skill
+
+Shared Coding Contract
+- Refer to Shared Coding Workflow Contract in `../lcs-shared/contract.md` for folder conventions, Handoff format, and token optimization.
+
+Purpose
+- Consolidate completed work into high-quality documentation.
+- Save documentation under `.lcs/docs/reff/<timestamp>-<slug-work-item>/` as two separate files:
+  1. `map.md` (adapted from `aido-map` context map structure)
+  2. `doc.md` (adapted from `aix-doc-finalizer` final-doc structure)
+
+Trigger
+- Activate when the user requests to "finalize documentation", "prepare final-doc", "lcs-doc-finalizer", "selesaikan dokumentasi", or similar.
+
+Behavior checklist
+1. Read `.lcs/state.md` to identify the active work-item directory: `.lcs/docs/<timestamp>-<slug-work-item>/`.
+2. Scan the task folder `.lcs/docs/<timestamp>-<slug-work-item>/task/` and read all task files (`task-###.md`).
+3. Verify all task files are marked `Status: done`.
+   - If any task is NOT done (e.g., `pending` or `blocked`), alert the user, list the incomplete tasks, and ask if they wish to proceed anyway or continue executing tasks first.
+4. Read `.lcs/docs/<timestamp>-<slug-work-item>/prd-enhanced.md` (fallback to `prd.md` if enhanced version is missing) and `explore.md` to capture context.
+5. Create the documentation directory `.lcs/docs/reff/<timestamp>-<slug-work-item>/` if it does not exist.
+6. Generate `.lcs/docs/reff/<timestamp>-<slug-work-item>/map.md` mapping the exact files changed or created during this work-item.
+7. Generate `.lcs/docs/reff/<timestamp>-<slug-work-item>/doc.md` consolidating the functional changes, verification steps, git commit recommendations, and PR description.
+8. Update `.lcs/state.md` with:
+   - `current_phase: finalization`
+   - `timestamp: <current-ISO-timestamp>`
+   - `last_session_note: Finalized documentation for <slug-work-item>`
+9. Do NOT delete any source artifacts (e.g., `prd.md`, `tasks.md`, task files, `explore.md`) unless explicitly requested by the user.
+10. End with a Handoff section.
+
+Prompt templates
+- Starter: "Selesaikan dokumentasi untuk <work-name>"
+- Explicit override: "Selesaikan dokumentasi meskipun ada task yang belum selesai"
+
+---
+
+## Output Template: map.md
+This file indexes the codebase area impacted by this work-item to reduce future token usage. It must be written in English.
+
+```markdown
+# Map: <slug-work-item>
+
+## Description
+<One-line area summary of what this module/feature does>
+
+## Files Impacted
+This section lists only existing files that were modified or created for this work-item.
+* **Modified files**:
+  - `path/to/modified-file-1.ext`
+  - `path/to/modified-file-2.ext`
+* **Created files**:
+  - `path/to/created-file-1.ext`
+
+## Rationale
+* `<file-path>`: <One-line reason why this file was modified or created>
+* `<file-path>`: <One-line reason why this file was modified or created>
+
+## System Relations
+<One-line explanation of how this feature/module interacts with other parts of the system, e.g., database, auth, UI>
+```
+
+---
+
+## Output Template: doc.md
+This file acts as the canonical feature specification and PR summary. It must be written in English.
+
+```markdown
+# Documentation: <slug-work-item>
+
+## Objective
+<Direct summary of goals achieved by this work-item>
+
+## Context & Background
+<Why this work-item was implemented, linking back to original explore.md or prd.md findings>
+
+## Functional Changes
+<Bullet list of user-facing or programmatic changes introduced>
+
+## Verification & Test Results
+<List of tests executed, test commands run, and results confirming success>
+
+## Recommended Git Commit
+```text
+<type>(<scope>): <short description>
+
+- <bullet points detailing change 1>
+- <bullet points detailing change 2>
+```
+
+## Recommended PR Description
+```markdown
+### Summary
+<High-level summary of the changes>
+
+### Key Changes
+- **Feature A**: <detail>
+- **Refactoring**: <detail>
+
+### How to Test
+1. Run `<test command>`
+2. Verify `<expected outcome>`
+```
+
+## Handoff
+Next recommended skill: none (workflow complete)
+Next file to read: .lcs/docs/reff/<timestamp>-<slug-work-item>/doc.md
+Current phase: complete
+Current confidence: high
+Blocking questions: None
+Risks to carry forward: None
+Suggested next command: Buat PR dengan pesan yang direkomendasikan
+```
