@@ -1,6 +1,6 @@
 ---
 name: lcs-doc-finalizer
-description: Use this skill whenever the user asks to finalize completed work into canonical documentation. Trigger on "finalize documentation", "prepare final-doc", "lcs-doc-finalizer", "selesaikan dokumentasi". Ensure all tasks are marked done, generate map.md and doc.md under .lcs/docs/reff/<timestamp>-<slug-work-item>/, recommend git commit and PR description, and do not delete source artifacts.
+description: Use this skill whenever the user asks to finalize completed work into canonical documentation. Trigger on "finalize documentation", "prepare final-doc", "lcs-doc-finalizer", "selesaikan dokumentasi". Ensure all tasks are marked done, generate map.md and doc.md under .lcs/docs/reff/<timestamp>-<slug-work-item>/, recommend git commit and PR description, move source artifacts under .lcs/docs/<timestamp>-<slug-work-item>/ to .lcs/docs/reff/archive/ and delete source folder.
 ---
 
 # LCS Doc Finalizer Skill
@@ -30,8 +30,9 @@ Behavior checklist
    - `current_phase: finalization`
    - `timestamp: <current-ISO-timestamp>`
    - `last_session_note: Finalized documentation for <slug-work-item>`
-9. Do NOT delete any source artifacts (e.g., `prd.md`, `tasks.md`, task files, `explore.md`) unless explicitly requested by the user.
-10. End with a Handoff section.
+9. Move all source artifacts under .lcs/docs/<timestamp>-<slug-work-item>/ to .lcs/docs/reff/archive/<timestamp>-<slug-work-item>/, then delete source folder .lcs/docs/<timestamp>-<slug-work-item>/ completely.
+10. Generate or update `./lcs/docs/reff/reff-index.md` by scanning all subdirectory items under `.lcs/docs/reff/` and listing their `doc.md` and `map.md` with timestamps and descriptions extracted from `map.md` Description or `doc.md` Objective in a clean table.
+11. End with a Handoff section.
 
 Prompt templates
 - Starter: "Selesaikan dokumentasi untuk <work-name>"
@@ -114,4 +115,17 @@ Current confidence: high
 Blocking questions: None
 Risks to carry forward: None
 Suggested next command: Buat PR dengan pesan yang direkomendasikan
+```
+
+---
+
+## Output Template: reff-index.md
+This file contains the table of contents of all generated documentation references.
+
+```markdown
+# Documentation References Index
+
+| Timestamp | Work Item | Description | Map | Documentation |
+|-----------|-----------|-------------|-----|---------------|
+| <timestamp> | <slug-work-item> | <one-line summary extracted from map.md Description> | [Map](./<timestamp>-<slug-work-item>/map.md) | [Doc](./<timestamp>-<slug-work-item>/doc.md) |
 ```
