@@ -6,7 +6,7 @@ description: Use this skill whenever the user asks to produce a lean, implementa
 LCS ToPRD Skill
 
 Shared Coding Contract
-- Refer to Shared Coding Workflow Contract in `contract.md` for folder conventions, Handoff format, and token optimization.
+- Refer to Shared Coding Workflow Contract in `../lcs-shared/contract.md` for folder conventions, Handoff format, and token optimization.
 
 Purpose
 - Create or update prd.md. Keep practical for coding. Include security, performance, acceptance criteria, test strategy.

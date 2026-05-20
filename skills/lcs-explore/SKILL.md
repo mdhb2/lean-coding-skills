@@ -6,7 +6,7 @@ description: Use this skill whenever the user needs to explore, brainstorm, clar
 LCS Explore Skill
 
 Shared Coding Contract
-- Refer to Shared Coding Workflow Contract in `contract.md` for folder conventions, Handoff format, and token optimization.
+- Refer to Shared Coding Workflow Contract in `../lcs-shared/contract.md` for folder conventions, Handoff format, and token optimization.
 
 Purpose
 - Clarify user intent, brainstorm technical options, ask iterative questions until PRD readiness or blocker found.
