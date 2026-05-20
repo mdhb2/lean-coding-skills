@@ -9,13 +9,15 @@ Shared Coding Contract
 - Refer to Shared Coding Workflow Contract in `../lcs-shared/contract.md` for folder conventions, Handoff format, and token optimization.
 
 Purpose
-- Create or update prd.md. Keep practical for coding. Include security, performance, acceptance criteria, test strategy.
+- Create or update prd.md. Keep practical for coding. Include security, performance, acceptance criteria, test strategy. Do NOT interview the user — just synthesize what you already know.
 
 Trigger
 - Activate when user requests to "create PRD", "write PRD", "plan feature", or when user asks for acceptance criteria, test strategy, or technical approach.
 
 Behavior checklist
 - Read state.md first if continuing. Otherwise locate explore.md or debug.md.
+- Explore the repo to understand the current state of the codebase, if you haven't already. Use the project's domain glossary vocabulary throughout the PRD, and respect any ADRs in the area you're touching.
+- Sketch out the major modules you will need to build or modify to complete the implementation. Actively look for opportunities to extract deep modules that can be tested in isolation. A deep module encapsulates a lot of functionality in a simple, testable interface which rarely changes.
 - Ensure PRD uses Affected Areas / Files to limit later code reads.
 - Write prd.md under .lcs/docs/<yyyymmdd-HHMMSS>-<slug-work-item>/prd.md. Do not create versioned copies.
 - Provide clear Acceptance Criteria and Test Strategy (unit/integration/e2e where applicable).
@@ -31,29 +33,39 @@ Use this template when writing prd.md. Keep concise and implementation-focused.
 
 # PRD: <work-name>
 
-## Objective
-<what is the goal>
+## Problem Statement & Objective
+- Problem Statement: <what is the problem from user perspective>
+- Objective: <what is the goal, how to solve it>
 
-## Background
-<why we are doing this, context>
+## Background & Solution
+- Background: <why we are doing this, context>
+- Solution: <the proposed solution from user perspective>
 
 ## Source Context
 <links to explore.md, debug.md, or other sources>
 
-## Scope
-<what is included>
+## Scope & User Stories
+<what is included in this scope>
 
-## Non-Goals
-<what is excluded>
+### User Stories
+Provide a detailed, numbered list of user stories in this format:
+1. As an <actor>, I want a <feature>, so that <benefit>
+2. As an <actor>, I want a <feature>, so that <benefit>
+
+## Non-Goals / Out of Scope
+<what is excluded / out of scope>
 
 ## Requirements
 <functional requirements checklist>
 
-## Technical Approach
-<architecture, libraries, database changes, APIs>
+## Technical Approach & Implementation Decisions
+- Deep Modules Design: <major modules to build/modify, interfaces to introduce, how they isolate logic>
+- Technical decisions: <architecture, libraries, database changes, APIs, specific interactions, schema changes>
+
+*Note: Do NOT include specific file paths or code snippets in this section to prevent them from becoming outdated quickly. Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it here and note briefly that it came from a prototype. Trim to decision-rich parts only.*
 
 ## Affected Areas / Files
-<files and modules that need edits>
+<files and modules that need edits. CRITICAL for LCS token-optimization flow!>
 
 ## Security Considerations
 <vulnerabilities, authentication, authz>
@@ -68,7 +80,8 @@ Use this template when writing prd.md. Keep concise and implementation-focused.
 - AC 1: <detail>
 - AC 2: <detail>
 
-## Test Strategy
+## Test Strategy & Testing Decisions
+- Testing decisions: <what makes a good test (only test external behavior, not implementation details), modules to test, prior art in the codebase>
 - Unit: <spec>
 - Integration: <spec>
 - E2E: <spec>
