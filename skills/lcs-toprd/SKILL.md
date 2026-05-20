@@ -20,7 +20,7 @@ Behavior checklist
 - Write prd.md under .lcs/docs/<yyyymmdd-HHMMSS>-<slug-work-item>/prd.md. Do not create versioned copies.
 - Provide clear Acceptance Criteria and Test Strategy (unit/integration/e2e where applicable).
 - Add Review Notes with last reviewed/summary/changes applied.
-- End with Handoff recommending aix-prd-reviewer.
+- End with Handoff recommending lcs-prd-reviewer.
 
 Prompt templates
 - Starter: "Create PRD for <work-name> based on explore.md"
@@ -79,7 +79,7 @@ Use this template when writing prd.md. Keep concise and implementation-focused.
 - Changes Applied: <list of changes>
 
 ## Handoff
-Next recommended skill: aix-prd-reviewer
+Next recommended skill: lcs-prd-reviewer
 Next file to read: .lcs/docs/<yyyymmdd-HHMMSS>-<slug-work-item>/prd.md
 Current phase: prd
 Current confidence: <low/medium/high>
