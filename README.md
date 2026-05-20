@@ -10,6 +10,7 @@ Overview
 - `lcs-task-slicer`: split a reviewed PRD into actionable, session-sized tasks. Agent writes output to `.lcs/docs/<timestamp>-<slug-work-item>/task/task-###.md`. See `skills/lcs-task-slicer/SKILL.md` for spec.
 - `lcs-task-executer`: execute the selected task plan and update status to done. See `skills/lcs-task-executer/SKILL.md` for spec.
 - `lcs-doc-finalizer`: finalize and wrap completed work into canonical documentation (map.md and doc.md) under `.lcs/docs/reff/<timestamp>-<slug-work-item>/`. See `skills/lcs-doc-finalizer/SKILL.md` for spec.
+- `lcs-onboarding`: generate developer-friendly onboarding documentation (`onboarding.md` and `onboarding-map.md`) under `.lcs/docs/`. See `skills/lcs-onboarding/SKILL.md` for spec.
 
 Install (recommended)
 Run single command to add skills into a target repo (packager will place files under `.agents/skills`):
@@ -38,6 +39,7 @@ Test-Path .\agents\skills\lcs-prd-reviewer\SKILL.md
 Test-Path .\agents\skills\lcs-task-slicer\SKILL.md
 Test-Path .\agents\skills\lcs-task-executer\SKILL.md
 Test-Path .\agents\skills\lcs-doc-finalizer\SKILL.md
+Test-Path .\agents\skills\lcs-onboarding\SKILL.md
 ```
 
 Bash (copy-paste):
@@ -48,6 +50,7 @@ Bash (copy-paste):
 [ -f .agents/skills/lcs-task-slicer/SKILL.md ] && echo "slicer ok"
 [ -f .agents/skills/lcs-task-executer/SKILL.md ] && echo "executer ok"
 [ -f .agents/skills/lcs-doc-finalizer/SKILL.md ] && echo "finalizer ok"
+[ -f .agents/skills/lcs-onboarding/SKILL.md ] && echo "onboarding ok"
 ```
 
 Usage after install
