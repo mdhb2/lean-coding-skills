@@ -15,6 +15,14 @@ PowerShell / Bash (copy-paste):
 npx skills add https://github.com/mdhb2/lean-coding-skills -a opencode -y
 ```
 
+Update
+To update the skills to the latest version, run:
+
+PowerShell / Bash (copy-paste):
+```
+npx skills update -y
+```
+
 Verification
 After install, confirm skill present in target repo:
 
