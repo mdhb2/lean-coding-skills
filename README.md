@@ -4,7 +4,8 @@ Collection of small, markdown-first AI skills for lean, focused coding workflows
 
 Overview
 - Skills are packaged under `skills/` as self-contained folders. Each skill is Markdown-first and compatible with Claude/Anthropic style skill loaders. No runtime code or API keys required in the skill files.
-- `lcs-explore`: interactive explore flow. Agent/runtime performs iterative question loop and persists results to `.lcs/docs/<timestamp>-<slug>/explore.md`. See `skills/lcs-explore/SKILL.md` for spec.
+- `lcs-explore`: interactive explore flow. Agent/runtime performs iterative question loop and persists results to `.lcs/docs/<timestamp>-<slug-work-item>/explore.md`. See `skills/lcs-explore/SKILL.md` for spec.
+- `lcs-toprd`: lean, implementation-focused PRD writer. Agent/runtime creates developer-ready specifications under `.lcs/docs/<timestamp>-<slug-work-item>/prd.md` to limit code reads. See `skills/lcs-toprd/SKILL.md` for spec.
 
 Install (recommended)
 Run single command to add skills into a target repo (packager will place files under `.agents/skills`):
@@ -20,15 +21,17 @@ After install, confirm skill present in target repo:
 PowerShell (copy-paste):
 ```
 Test-Path .\agents\skills\lcs-explore\SKILL.md
+Test-Path .\agents\skills\lcs-toprd\SKILL.md
 ```
 
 Bash (copy-paste):
 ```
-[ -f .agents/skills/lcs-explore/SKILL.md ] && echo ok
+[ -f .agents/skills/lcs-explore/SKILL.md ] && echo "explore ok"
+[ -f .agents/skills/lcs-toprd/SKILL.md ] && echo "toprd ok"
 ```
 
 Usage after install
-- Agent/runtime that supports Claude/Anthropic style skills should load `.agents/skills/lcs-explore` and follow the `SKILL.md` instructions to run interactive explore sessions.
+- Agent/runtime that supports Claude/Anthropic style skills should load `.agents/skills/lcs-explore` or `.agents/skills/lcs-toprd` and follow the `SKILL.md` instructions to run interactive sessions.
 
 Notes
 - Skills are markdown-only. No runtime, no API keys, no Node scripts included in the published skill.
