@@ -48,6 +48,11 @@ Behavioral guidelines to enforce high-quality coding, exceptional documentation,
 ## 6. Skill Creation Standards (.agents/skills/)
 **Highly targeted triggers. Progressive disclosure. Seamless reuse.**
 
+### Folder Naming Convention
+* **Pattern:** `lcs-<kebab-case-name>` — prefix `lcs-` + lowercase words separated by hyphens.
+* **Rule:** The folder name on disk MUST exactly match the `name:` field in SKILL.md frontmatter.
+* **Rule:** All cross-references (Handoff blocks, README links) MUST use the exact folder/name — no typos, no alternate spellings.
+
 ### Anatomy of a Skill
 ```
 skill-name/
