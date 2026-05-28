@@ -13,7 +13,7 @@ Collection of small, markdown-first AI skills for lean, focused coding workflows
 | `lcs-toprd` | Lean, implementation-focused PRD writer |
 | `lcs-prd-reviewer` | Review, harden, and security-check an existing PRD |
 | `lcs-tosrs` | Transform PRD into deterministic Lean SRS and test contract |
-| `lcs-task-slicer` | Split a reviewed PRD into actionable, session-sized tasks |
+| `lcs-task-slicer` | Split a PRD or SRS into actionable, session-sized tasks |
 | `lcs-task-executer` | Execute a task plan and update status to done |
 | `lcs-doc-finalizer` | Finalize and wrap completed work into canonical docs |
 | `lcs-debug` | Focused bug investigation and fix planning |
