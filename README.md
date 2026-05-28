@@ -19,7 +19,15 @@ Run single command to add skills into a target repo (packager will place files u
 
 PowerShell / Bash (copy-paste):
 ```
+# via official packager (if available)
 npx skills add https://github.com/mdhb2/lean-coding-skills -a opencode -y
+
+# local installer for Claude Code skills (uses node script in repo)
+# install via npx (will download node runtime if not present)
+npx --yes ./scripts/claude-skills.js add https://github.com/mdhb2/lean-coding-skills -y
+
+# or, once published to npm as @mdhb2/claude-skills use:
+# npx @mdhb2/claude-skills add https://github.com/mdhb2/lean-coding-skills -y
 ```
 
 Update

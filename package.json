@@ -1,0 +1,29 @@
+{
+  "name": "@mdhb2/claude-skills",
+  "version": "0.1.0",
+  "description": "Installer CLI to copy LCS skills into .agents/skills so Claude Code can detect them",
+  "main": "scripts/claude-skills.js",
+  "bin": {
+    "claude-skills": "scripts/claude-skills.js"
+  },
+  "files": [
+    "scripts/",
+    "skills/"
+  ],
+  "keywords": [
+    "claude",
+    "skills",
+    "installer",
+    "lcs"
+  ],
+  "author": "Md Habibi",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mdhb2/lean-coding-skills.git"
+  },
+  "scripts": {
+    "test": "node --version && exit 0",
+    "prepare": "chmod +x scripts/claude-skills.js || true"
+  }
+}
