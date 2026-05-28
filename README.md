@@ -19,15 +19,22 @@ Run single command to add skills into a target repo (packager will place files u
 
 PowerShell / Bash (copy-paste):
 ```
-# via official packager (if available)
+# Official packager (if available)
 npx skills add https://github.com/mdhb2/lean-coding-skills -a opencode -y
 
-# local installer for Claude Code skills (uses node script in repo)
-# install via npx (will download node runtime if not present)
-npx --yes ./scripts/claude-skills.js add https://github.com/mdhb2/lean-coding-skills -y
+# Local npx installer (this repo). Installs skills into current repo .agents/skills
+npx --yes ./scripts/claude-skills.js install-local
 
-# or, once published to npm as @mdhb2/claude-skills use:
-# npx @mdhb2/claude-skills add https://github.com/mdhb2/lean-coding-skills -y
+# Remote-target install: clone target repo, copy skills into .agents/skills, commit locally in the clone
+# Source defaults to this package's skills (use -s to override). --push will push commit (requires auth).
+# Example (use this package as source, no push):
+npx --yes ./scripts/claude-skills.js add-target https://github.com/owner/target-repo -s this -y
+
+# Example (use remote source repo, request push):
+npx --yes ./scripts/claude-skills.js add-target https://github.com/owner/target-repo -s https://github.com/mdhb2/lean-coding-skills -y --push
+
+# Once published to npm as @mdhb2/claude-skills you can run the same commands via npx:
+# npx @mdhb2/claude-skills add-target https://github.com/owner/target-repo -s this -y
 ```
 
 Update

@@ -1,6 +1,9 @@
 #!/usr/bin/env node
-// Small installer CLI for LCS skills to make them runnable via npx
-// Usage (local): npx --yes ./scripts/claude-skills.js add <git-url> [-y]
+// Installer CLI for LCS skills. Supports installing into remote target repo.
+// Usage examples:
+//  npx --yes ./scripts/claude-skills.js add-target https://github.com/owner/target-repo -s https://github.com/mdhb2/lean-coding-skills -y
+//  npx --yes ./scripts/claude-skills.js add-target https://github.com/owner/target-repo -s local -y --push
+//  npx --yes ./scripts/claude-skills.js install-local
 
 const { execSync } = require('child_process');
 const fs = require('fs');
@@ -10,20 +13,23 @@ const os = require('os');
 function log(...args) { console.log(...args); }
 function die(msg) { console.error(msg); process.exit(1); }
 
-function copyRecursiveSync(src, dest) {
+function copyRecursiveSync(src, dest, overwrite = true) {
   const stat = fs.statSync(src);
   if (stat.isDirectory()) {
     if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
     for (const name of fs.readdirSync(src)) {
-      copyRecursiveSync(path.join(src, name), path.join(dest, name));
+      const s = path.join(src, name);
+      const d = path.join(dest, name);
+      copyRecursiveSync(s, d, overwrite);
     }
   } else {
+    if (fs.existsSync(dest) && !overwrite) return;
     fs.copyFileSync(src, dest);
   }
 }
 
-function ensureAgentsDir() {
-  const target = path.join(process.cwd(), '.agents', 'skills');
+function ensureAgentsDir(baseDir) {
+  const target = path.join(baseDir, '.agents', 'skills');
   if (!fs.existsSync(target)) fs.mkdirSync(target, { recursive: true });
   return target;
 }
@@ -37,53 +43,95 @@ function cloneRepo(url, tmpDir) {
   }
 }
 
-function addCommand(url, yes) {
-  if (!url) die('missing git url. Usage: add <git-url> [-y]');
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'claude-skills-'));
-  cloneRepo(url, tmp);
-  const skillsSrc = path.join(tmp, 'skills');
-  if (!fs.existsSync(skillsSrc)) die('No skills/ folder found in repo root.');
-  const target = ensureAgentsDir();
-  for (const name of fs.readdirSync(skillsSrc)) {
-    const srcPath = path.join(skillsSrc, name);
-    const destPath = path.join(target, name);
-    log('Copying', name, '->', destPath);
-    copyRecursiveSync(srcPath, destPath);
+function gitCommitAndMaybePush(repoDir, message, doPush) {
+  try {
+    execSync('git add .', { cwd: repoDir, stdio: 'inherit' });
+    execSync(`git commit -m "${message.replace(/"/g, '\\"')}" || true`, { cwd: repoDir, stdio: 'inherit' });
+    if (doPush) {
+      execSync('git push', { cwd: repoDir, stdio: 'inherit' });
+    }
+  } catch (err) {
+    die('git commit/push failed. Check credentials and remote access.');
   }
-  // cleanup
-  try { fs.rmSync(tmp, { recursive: true, force: true }); } catch (e) {}
-  log('Done. Skills installed to .agents/skills');
-  if (!yes) log('Run: git add .agents/skills && git commit -m "chore: add skills" to persist changes');
 }
 
 function installLocal() {
   const src = path.join(process.cwd(), 'skills');
   if (!fs.existsSync(src)) die('No skills/ folder in current directory.');
-  const target = ensureAgentsDir();
+  const target = ensureAgentsDir(process.cwd());
   for (const name of fs.readdirSync(src)) {
     const srcPath = path.join(src, name);
     const destPath = path.join(target, name);
     log('Copying', name, '->', destPath);
-    copyRecursiveSync(srcPath, destPath);
+    copyRecursiveSync(srcPath, destPath, true);
   }
   log('Done. Skills copied to .agents/skills');
 }
 
-function updateCommand(url, yes) {
-  // same as add for now (overwrite)
-  addCommand(url, yes);
+function addTargetCommand(targetRepoUrl, options) {
+  if (!targetRepoUrl) die('missing target repo url. Usage: add-target <target-repo-url> [-s <source> | local] [-y] [--push]');
+  const tmpTarget = fs.mkdtempSync(path.join(os.tmpdir(), 'claude-target-'));
+  cloneRepo(targetRepoUrl, tmpTarget);
+  // determine source
+  let source = options.source;
+  let sourceTmp = null;
+  let sourcePath = null;
+  if (!source || source === 'this') {
+    // use this package's skills folder
+    const repoRoot = path.resolve(__dirname, '..');
+    const localSkills = path.join(repoRoot, 'skills');
+    if (!fs.existsSync(localSkills)) die('This package has no skills/ folder to use as source.');
+    sourcePath = localSkills;
+  } else if (source === 'local') {
+    // use CWD skills
+    const localSkills = path.join(process.cwd(), 'skills');
+    if (!fs.existsSync(localSkills)) die('No skills/ folder in current working directory.');
+    sourcePath = localSkills;
+  } else if (source.startsWith('http') || source.endsWith('.git')) {
+    sourceTmp = fs.mkdtempSync(path.join(os.tmpdir(), 'claude-source-'));
+    cloneRepo(source, sourceTmp);
+    const possible = path.join(sourceTmp, 'skills');
+    if (!fs.existsSync(possible)) die('Source repo has no skills/ folder.');
+    sourcePath = possible;
+  } else {
+    die('Unsupported source argument. Use "this" (default), "local", or a git URL.');
+  }
+
+  // copy skills into target repo .agents/skills
+  const targetAgents = ensureAgentsDir(tmpTarget);
+  for (const name of fs.readdirSync(sourcePath)) {
+    const s = path.join(sourcePath, name);
+    const d = path.join(targetAgents, name);
+    log('Copying', name, '->', d);
+    copyRecursiveSync(s, d, true);
+  }
+
+  const commitMsg = `chore: add lcs skills from ${options.source || 'this-package'}`;
+  gitCommitAndMaybePush(tmpTarget, commitMsg, options.push);
+
+  // cleanup source tmp if used
+  if (sourceTmp) {
+    try { fs.rmSync(sourceTmp, { recursive: true, force: true }); } catch (e) {}
+  }
+
+  log('Done. Skills installed into target repo at', tmpTarget);
+  log('If you want changes pushed to remote, rerun with --push after verifying local clone.');
+  log('To persist locally: copy .agents/skills from the temp dir into your workspace or run with --push to push to remote.');
 }
 
 function help() {
   console.log(`claude-skills installer
 
 Usage:
-  add <git-url> [-y]      Clone repo and copy skills/* into .agents/skills/
-  update <git-url> [-y]   Same as add (overwrite)
-  install-local            Copy local ./skills into .agents/skills/
+  add-target <target-repo-url> [-s <source>|local|this] [-y] [--push]
+    Clone target repo, copy skills into .agents/skills, commit. --push optionally pushes commit (requires credentials).
+
+  install-local
+    Copy local ./skills into .agents/skills in current working directory.
 
 Examples:
-  npx --yes ./scripts/claude-skills.js add https://github.com/mdhb2/lean-coding-skills -y
+  npx --yes ./scripts/claude-skills.js add-target https://github.com/owner/target-repo -s this -y
+  npx --yes ./scripts/claude-skills.js add-target https://github.com/owner/target-repo -s https://github.com/mdhb2/lean-coding-skills -y --push
   npx --yes ./scripts/claude-skills.js install-local
 `);
 }
@@ -92,16 +140,22 @@ async function main() {
   const argv = process.argv.slice(2);
   if (argv.length === 0) return help();
   const cmd = argv[0];
-  if (cmd === 'add') {
-    const url = argv[1];
-    const yes = argv.includes('-y') || argv.includes('--yes');
-    addCommand(url, yes);
-    return;
-  }
-  if (cmd === 'update') {
-    const url = argv[1];
-    const yes = argv.includes('-y') || argv.includes('--yes');
-    updateCommand(url, yes);
+  if (cmd === 'add-target') {
+    const target = argv[1];
+    const opts = {
+      source: null,
+      push: false,
+      yes: argv.includes('-y') || argv.includes('--yes')
+    };
+    for (let i = 2; i < argv.length; i++) {
+      const a = argv[i];
+      if (a === '-s' || a === '--source') {
+        opts.source = argv[++i];
+      } else if (a === '--push') {
+        opts.push = true;
+      }
+    }
+    addTargetCommand(target, opts);
     return;
   }
   if (cmd === 'install-local') {
