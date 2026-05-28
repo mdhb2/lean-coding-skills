@@ -13,7 +13,7 @@
 - Powershell 5.1 / Bash shell for command executions.
 
 ### Installation
-Cloning the project and ensuring `.agents/skills` or local directory contains these custom skills:
+Cloning the project and ensuring `.claude/skills` or local directory contains these custom skills:
 ```bash
 # Skills should be loaded into your agent runtime path
 ```

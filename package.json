@@ -1,7 +1,7 @@
 {
   "name": "@mdhb2/claude-skills",
   "version": "0.1.0",
-  "description": "Installer CLI to copy LCS skills into .agents/skills so Claude Code can detect them",
+  "description": "Installer CLI to copy LCS skills into .claude/skills so Claude Code can detect them",
   "main": "scripts/claude-skills.js",
   "bin": {
     "claude-skills": "scripts/claude-skills.js"

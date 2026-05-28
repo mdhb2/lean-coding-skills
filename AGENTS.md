@@ -45,7 +45,7 @@ Behavioral guidelines to enforce high-quality coding, exceptional documentation,
 
 ---
 
-## 6. Skill Creation Standards (.agents/skills/)
+## 6. Skill Creation Standards (.claude/skills/)
 **Highly targeted triggers. Progressive disclosure. Seamless reuse.**
 
 ### Folder Naming Convention
