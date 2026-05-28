@@ -1,5 +1,8 @@
 # Lean Coding Skills
 
+![LCS](/assets/images/lcs-cover.png)
+
+
 Collection of small, markdown-first AI skills for lean, focused coding workflows.
 
 Overview
