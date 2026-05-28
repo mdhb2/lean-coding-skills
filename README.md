@@ -2,7 +2,6 @@
 
 ![LCS](/assets/images/lcs-cover.png)
 
-
 Collection of small, markdown-first AI skills for lean, focused coding workflows.
 
 Overview
@@ -63,3 +62,52 @@ Notes
 - Skills are markdown-only. No runtime, no API keys, no Node scripts included in the published skill.
 - Persistence (writing `.lcs/docs/*` and `.lcs/state.md`) is the responsibility of the agent/runtime that loads the skill.
 - Repo: https://github.com/mdhb2/lean-coding-skills
+
+
+Claude Code / Local install: make skills detectable and installable
+- Claude Code and similar agent-runtimes expect skills under `.agents/skills/<skill-name>/SKILL.md`.
+- You can install pack into local workspace by copying `skills/` into `.agents/skills/`.
+
+PowerShell (run in repo root):
+```
+New-Item -ItemType Directory -Force .agents\skills
+Copy-Item -Path "skills\*" -Destination ".agents\skills\" -Recurse -Force
+```
+
+Bash (run in repo root):
+```
+mkdir -p .agents/skills && cp -R skills/* .agents/skills/
+```
+
+Quick install scripts
+- scripts/install-skills.ps1: PowerShell installer to copy skills into `.agents/skills`.
+- scripts/install-skills.sh: Bash installer for POSIX shells.
+
+Verification after local install
+- PowerShell:
+```
+Test-Path .\agents\skills\lcs-explore\SKILL.md
+```
+- Bash:
+```
+[ -f .agents/skills/lcs-explore/SKILL.md ] && echo "lcs-explore installed"
+```
+
+Make pack manager friendly
+- Ensure each skill folder contains `SKILL.md` with YAML frontmatter `name` and `description` (already present under `skills/*/SKILL.md`).
+- Optional: add `SKILLPACK.md` or repository README (this file) so packagers can surface list of skills and metadata.
+
+Troubleshooting
+- If Claude Code does not show skills: confirm `.agents/skills` exists and contains subfolders with `SKILL.md`; restart Claude Code/agent runtime; check runtime logs for skill-loader errors.
+- If a skill is not loaded, open `.agents/skills/<skill>/SKILL.md` and ensure YAML frontmatter `name` is unique and valid (kebab-case recommended).
+
+Contributing
+- Add new skill under `skills/<skill-name>/SKILL.md` with frontmatter `name` and `description`.
+- Keep skill directories self-contained and markdown-only.
+
+
+Generated files in this repo
+- scripts/install-skills.ps1
+- scripts/install-skills.sh
+
+
