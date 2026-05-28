@@ -2,7 +2,8 @@
 name: lcs-onboarding
 description: |
   Generate developer-friendly onboarding documentation for an existing running project. Run when user asks to onboard a project, generate early project docs, or summarize the codebase for new engineers. Scans repository, extracts architecture, entrypoints, setup/run/test instructions, and writes lean markdown reports under .lcs/work-items/onboarding.md and .lcs/work-items/onboarding-map.md.
-compatibility: []
+adapters: [claudecode, opencode]
+compatibility: [claudecode, opencode]
 ---
 
 # LCS Onboarding Skill

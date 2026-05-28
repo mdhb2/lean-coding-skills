@@ -28,8 +28,8 @@ function copyRecursiveSync(src, dest, overwrite = true) {
   }
 }
 
-function ensureAgentsDir(baseDir) {
-  const target = path.join(baseDir, '.agents', 'skills');
+function ensureClaudeSkillsDir(baseDir) {
+  const target = path.join(baseDir, '.claude', 'skills');
   if (!fs.existsSync(target)) fs.mkdirSync(target, { recursive: true });
   return target;
 }
@@ -58,14 +58,15 @@ function gitCommitAndMaybePush(repoDir, message, doPush) {
 function installLocal() {
   const src = path.join(process.cwd(), 'skills');
   if (!fs.existsSync(src)) die('No skills/ folder in current directory.');
-  const target = ensureAgentsDir(process.cwd());
+  const target = ensureClaudeSkillsDir(process.cwd());
   for (const name of fs.readdirSync(src)) {
+    if (!fs.statSync(path.join(src, name)).isDirectory()) continue;
     const srcPath = path.join(src, name);
     const destPath = path.join(target, name);
     log('Copying', name, '->', destPath);
     copyRecursiveSync(srcPath, destPath, true);
   }
-  log('Done. Skills copied to .agents/skills');
+  log('Done. Skills copied to .claude/skills');
 }
 
 function addTargetCommand(targetRepoUrl, options) {
@@ -97,11 +98,12 @@ function addTargetCommand(targetRepoUrl, options) {
     die('Unsupported source argument. Use "this" (default), "local", or a git URL.');
   }
 
-  // copy skills into target repo .agents/skills
-  const targetAgents = ensureAgentsDir(tmpTarget);
+  // copy skills into target repo .claude/skills
+  const targetClaudeSkills = ensureClaudeSkillsDir(tmpTarget);
   for (const name of fs.readdirSync(sourcePath)) {
+    if (!fs.statSync(path.join(sourcePath, name)).isDirectory()) continue;
     const s = path.join(sourcePath, name);
-    const d = path.join(targetAgents, name);
+    const d = path.join(targetClaudeSkills, name);
     log('Copying', name, '->', d);
     copyRecursiveSync(s, d, true);
   }
@@ -116,7 +118,7 @@ function addTargetCommand(targetRepoUrl, options) {
 
   log('Done. Skills installed into target repo at', tmpTarget);
   log('If you want changes pushed to remote, rerun with --push after verifying local clone.');
-  log('To persist locally: copy .agents/skills from the temp dir into your workspace or run with --push to push to remote.');
+  log('To persist locally: copy .claude/skills from the temp dir into your workspace or run with --push to push to remote.');
 }
 
 function help() {
@@ -124,10 +126,10 @@ function help() {
 
 Usage:
   add-target <target-repo-url> [-s <source>|local|this] [-y] [--push]
-    Clone target repo, copy skills into .agents/skills, commit. --push optionally pushes commit (requires credentials).
+    Clone target repo, copy skills into .claude/skills, commit. --push optionally pushes commit (requires credentials).
 
   install-local
-    Copy local ./skills into .agents/skills in current working directory.
+    Copy local ./skills into .claude/skills in current working directory.
 
 Examples:
   npx --yes ./scripts/claude-skills.js add-target https://github.com/owner/target-repo -s this -y

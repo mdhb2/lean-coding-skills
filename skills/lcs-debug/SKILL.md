@@ -1,6 +1,8 @@
 ---
 name: lcs-debug
 description: Use this skill whenever the user needs a focused bug investigation. Trigger on phrases about bugs, failing tests, errors, regressions, or unexpected behavior. Ask questions one at a time to identify the bug, and write the investigation results and fix plan in .lcs/work-items/<timestamp>-<slug-work-item>/debug.md before planning any fixes.
+adapters: [claudecode, opencode]
+compatibility: [claudecode, opencode]
 ---
 
 # LCS Debug Skill
