@@ -11,15 +11,15 @@ All runtime artifacts live under:
 ### Skill-Specific Exception: `lcs-doc-finalizer`
 When active skill is `lcs-doc-finalizer`, documentation outputs use dedicated docs subtree:
 ```
-.lcs/work-items/docs/<timestamp>-<slug-work-item>/
+.lcs/docs/<timestamp>-<slug-work-item>/
 ```
 Index file for this subtree:
 ```
-.lcs/work-items/docs/docs-index.md
+.lcs/docs/docs-index.md
 ```
 Archive target for finalized source artifacts:
 ```
-.lcs/work-items/docs/archive/<timestamp>-<slug-work-item>/
+.lcs/archive/<timestamp>-<slug-work-item>/
 ```
 This exception overrides generic docs/archive path assumptions in other rules.
 

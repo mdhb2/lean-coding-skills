@@ -55,9 +55,9 @@ Ringkas, wajib diikuti oleh semua skill dan agent.
 
 8.1) Pengecualian khusus lcs-doc-finalizer
 - Untuk skill `lcs-doc-finalizer`, path final wajib:
-  - output docs: .lcs/work-items/docs/<timestamp>-<slug-work-item>/
-  - archive source: .lcs/work-items/docs/archive/<timestamp>-<slug-work-item>/
-  - index: .lcs/work-items/docs/docs-index.md
+  - output docs: .lcs/docs/<timestamp>-<slug-work-item>/
+  - archive source: .lcs/archive/<timestamp>-<slug-work-item>/
+  - index: .lcs/docs/docs-index.md
 - Aturan ini override asumsi path generik lain terkait docs/archive.
 
 9) Migrasi dan backward-compat
