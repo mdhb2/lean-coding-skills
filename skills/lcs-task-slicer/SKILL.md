@@ -2,6 +2,7 @@
 name: lcs-task-slicer
 description: Use this skill whenever the user asks to split a reviewed PRD into executable tasks. Trigger on "slice prd", "break down prd", "create tasks", or similar. Produce small, dependency-aware tracer-bullet vertical slices. Classify tasks into AFK (autonomous) or HITL (requires human input). Present the proposed breakdown to the user for feedback before writing tasks. Write each task into its own file task-###.md under .lcs/work-items/<timestamp>-<slug-work-item>/task/.
 adapters: [claudecode, opencode]
+compatibility: [claudecode, opencode]
 ---
 
 # LCS Task Slicer Skill

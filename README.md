@@ -15,27 +15,14 @@ Overview
 - `lcs-onboarding`: generate developer-friendly onboarding documentation (`onboarding.md` and `onboarding-map.md`) under `.lcs/docs/`. See `skills/lcs-onboarding/SKILL.md` for spec.
 
 Install (recommended)
-Run single command to add skills into a target repo (packager will place files under `.agents/skills`):
 
-PowerShell / Bash (copy-paste):
+Single command (packager):
 ```
-# Official packager (if available)
-npx skills add https://github.com/mdhb2/lean-coding-skills -a opencode -y
-
-# Local npx installer (this repo). Installs skills into current repo .agents/skills
-npx --yes ./scripts/claude-skills.js install-local
-
-# Remote-target install: clone target repo, copy skills into .agents/skills, commit locally in the clone
-# Source defaults to this package's skills (use -s to override). --push will push commit (requires auth).
-# Example (use this package as source, no push):
-npx --yes ./scripts/claude-skills.js add-target https://github.com/owner/target-repo -s this -y
-
-# Example (use remote source repo, request push):
-npx --yes ./scripts/claude-skills.js add-target https://github.com/owner/target-repo -s https://github.com/mdhb2/lean-coding-skills -y --push
-
-# Once published to npm as @mdhb2/claude-skills you can run the same commands via npx:
-# npx @mdhb2/claude-skills add-target https://github.com/owner/target-repo -s this -y
+# installs and registers skills for Claude Code adapter
+npx skills add https://github.com/mdhb2/lean-coding-skills -a claudecode -y
 ```
+
+After install, restart Claude Code/agent runtime so it reloads `.agents/skills`.
 
 Update
 To update the skills to the latest version, run:

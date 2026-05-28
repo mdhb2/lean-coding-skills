@@ -2,6 +2,7 @@
 name: lcs-explore
 description: Use this skill whenever the user needs to explore, brainstorm, clarify, or shape a coding idea before a PRD or implementation. Trigger on requests mentioning explore, brainstorm, evaluate options, compare trade-offs, feasibility, or ask for recommended direction. Use this skill even when the user does not explicitly ask for a PRD but wants options or trade-off analysis.
 adapters: [claudecode, opencode]
+compatibility: [claudecode, opencode]
 ---
 
 LCS Explore Skill

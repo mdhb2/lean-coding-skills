@@ -2,6 +2,7 @@
 name: lcs-toprd
 description: Use this skill whenever the user asks to produce a lean, implementation-focused PRD from exploration, debug notes, or direct requirements. Trigger on requests to "create PRD", "write PRD", "plan feature", or when user asks for acceptance criteria, test strategy, or technical approach. Prefer concise, developer-ready PRDs that include Affected Areas / Files to limit code reads.
 adapters: [claudecode, opencode]
+compatibility: [claudecode, opencode]
 ---
 
 LCS ToPRD Skill

@@ -2,6 +2,7 @@
 name: lcs-task-executer
 description: Use this skill whenever the user asks to implement, execute, or continue a specific task from sliced tasks. Trigger on "Eksekusi TASK-###", "Eksekusi task-###.md", "continue TASK-###", "implement TASK-###". Always read .lcs/state.md first, check dependencies, analyze and recommend Normal vs TDD mode, confirm with user, and update task status and .lcs/state.md when done.
 adapters: [claudecode, opencode]
+compatibility: [claudecode, opencode]
 ---
 
 # LCS Task Executer Skill
