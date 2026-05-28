@@ -30,7 +30,17 @@ function copyRecursiveSync(src, dest, overwrite = true) {
 
 function ensureClaudeSkillsDir(baseDir) {
   const target = path.join(baseDir, '.claude', 'skills');
+  const legacy = path.join(baseDir, '.agents', 'skills');
   if (!fs.existsSync(target)) fs.mkdirSync(target, { recursive: true });
+  // If legacy exists and target is empty, migrate automatically
+  try {
+    if (fs.existsSync(legacy) && fs.existsSync(target) && fs.readdirSync(target).length === 0) {
+      copyRecursiveSync(legacy, target, true);
+      log('Migrated skills from .agents/skills → .claude/skills');
+    }
+  } catch (e) {
+    // non-fatal migration failure
+  }
   return target;
 }
 
