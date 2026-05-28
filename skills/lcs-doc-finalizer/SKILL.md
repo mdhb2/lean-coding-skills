@@ -125,7 +125,7 @@ Suggested next command: Buat PR dengan pesan yang direkomendasikan
 
 ---
 
-## Output Template: doc-index.md
+## Output Template: docs-index.md
 This file contains the table of contents of all generated documentation references.
 
 ```markdown
