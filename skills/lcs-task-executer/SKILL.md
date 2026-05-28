@@ -15,8 +15,8 @@ Trigger
 - Activate when the user requests to "Eksekusi TASK-###", "Eksekusi task-###.md", "continue TASK-###", or "implement TASK-###".
 
 Behavior checklist
-1. Read `.lcs/state.md` first to identify the active work-item directory: `.lcs/docs/<timestamp>-<slug-work-item>/`.
-2. Locate and read the target task file `.lcs/docs/<timestamp>-<slug-work-item>/task/task-###.md`.
+1. Read `.lcs/state.md` first to identify the active work-item directory: `.lcs/work-items/<timestamp>-<slug-work-item>/`. 
+2. Locate and read the target task file `.lcs/work-items/<timestamp>-<slug-work-item>/task/task-###.md`. 
 3. Check task dependencies listed in `Depends on`. If they are not `done` (or not met), update the task status to `blocked`, report the blocker, and stop.
 4. Analyze task requirements and recommend development mode:
    - **TDD Mode Criteria**: Logic-heavy, complex state transitions, algorithm/data transformations, high-risk code, or tasks explicitly requiring testing.
@@ -33,7 +33,7 @@ Behavior checklist
    - **Step C: Incremental Vertical Slices**: Loop writing one failing test and minimal implementation for each remaining behavior. Do not write all tests first.
    - **Step D: Refactor**: Extract duplication, deepen modules (keep interfaces small/simple), and apply SOLID principles. *Never refactor while test is RED*.
 7. Once task is fully executed and verified:
-   - Update `Status: done` inside the `.lcs/docs/<timestamp>-<slug-work-item>/task/task-###.md` file.
+   - Update `Status: done` inside the `.lcs/work-items/<timestamp>-<slug-work-item>/task/task-###.md` file.
 8. Update `.lcs/state.md` with:
    - `current_phase: execution`
    - `last_session_note: Executed TASK-###: <task-name> successfully`
@@ -49,7 +49,7 @@ Handoff example:
 
 ## Handoff
 Next recommended skill: lcs-task-executer
-Next file to read: .lcs/docs/<timestamp>-<slug-work-item>/task/task-###.md
+Next file to read: .lcs/work-items/<timestamp>-<slug-work-item>/task/task-###.md
 Current phase: execution
 Current confidence: high
 Blocking questions: None

@@ -10,7 +10,7 @@ Shared Coding Contract
 
 Purpose
 - Clarify user intent, brainstorm technical options, ask iterative questions until PRD readiness or blocker found.
-- Persist results under .lcs/docs/<yyyymmdd-HHMMSS>-<slug-work-item>/explore.md
+- Persist results under .lcs/work-items/<yyyymmdd-HHMMSS>-<slug-work-item>/explore.md
 - Do not create PRD, tasks, or code.
 
 Trigger
@@ -21,7 +21,7 @@ Behavior checklist
 - Ask exactly one short question at a time until either: ready for PRD or blocker discovered.
 - After each user response produce a short recommendation (1–3 lines).
 - Do not create PRD, tasks, or code.
-- Persist file: .lcs/docs/<yyyymmdd-HHMMSS>-<slug-work-item>/explore.md
+- Persist file: .lcs/work-items/<yyyymmdd-HHMMSS>-<slug-work-item>/explore.md
 - Update .lcs/state.md with:
   - current_phase: explore
   - current_work: <yyyymmdd-HHMMSS>-<slug-work-item>
@@ -60,7 +60,7 @@ Human-friendly:
 
 ## Handoff
 Next recommended skill: lcs-toprd
-Next file to read: .lcs/docs/<timestamp>-<slug-work-item>/explore.md
+Next file to read: .lcs/work-items/<timestamp>-<slug-work-item>/explore.md
 Current phase: explore
 Current confidence: <low/medium/high>
 Blocking questions: <list or None>

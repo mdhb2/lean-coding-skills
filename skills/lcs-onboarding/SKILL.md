@@ -1,7 +1,7 @@
 ---
 name: lcs-onboarding
 description: |
-  Generate developer-friendly onboarding documentation for an existing running project. Run when user asks to onboard a project, generate early project docs, or summarize the codebase for new engineers. Scans repository, extracts architecture, entrypoints, setup/run/test instructions, and writes lean markdown reports under .lcs/docs/onboarding.md and .lcs/docs/onboarding-map.md.
+  Generate developer-friendly onboarding documentation for an existing running project. Run when user asks to onboard a project, generate early project docs, or summarize the codebase for new engineers. Scans repository, extracts architecture, entrypoints, setup/run/test instructions, and writes lean markdown reports under .lcs/work-items/onboarding.md and .lcs/work-items/onboarding-map.md.
 compatibility: []
 ---
 
@@ -9,12 +9,12 @@ compatibility: []
 
 Shared Coding Contract
 - Refer to Shared Coding Workflow Contract in `../lcs-shared/contract.md` for folder conventions, Handoff format, and token optimization.
-- Target outputs are saved directly to `.lcs/docs/onboarding.md` and `.lcs/docs/onboarding-map.md`.
+- Target outputs are saved directly to `.lcs/work-items/onboarding.md` and `.lcs/work-items/onboarding-map.md`. 
 
 Purpose
 - Automate initial onboarding documentation for an existing project.
 - Scan repository structure, analyze configuration files, identify entry points, setup commands, and testing patterns.
-- Produce a single high-quality overview document at `.lcs/docs/onboarding.md` and a structural map document at `.lcs/docs/onboarding-map.md`.
+- Produce a single high-quality overview document at `.lcs/work-items/onboarding.md` and a structural map document at `.lcs/work-items/onboarding-map.md`.
 
 Trigger
 - Activate when user requests "onboard project", "generate project docs", "buat dokumentasi onboarding", "summarize codebase", "lcs-onboarding", or similar.
@@ -24,16 +24,16 @@ Behavior Checklist
 2. Identify technology stack, language, main framework, and entrypoints.
 3. Discover local setup commands, run commands, build commands, and test commands.
 4. Extract primary environment variables or configuration options.
-5. Create `.lcs/docs/` directory if it does not exist.
-6. Write the unified onboarding report to `.lcs/docs/onboarding.md` matching the Output Template.
-7. Write the structural map report to `.lcs/docs/onboarding-map.md` listing impacted or key files, their functions, and system relations.
+5. Create `.lcs/work-items/` directory if it does not exist.
+6. Write the unified onboarding report to `.lcs/work-items/onboarding.md` matching the Output Template.
+7. Write the structural map report to `.lcs/work-items/onboarding-map.md` listing impacted or key files, their functions, and system relations.
 8. Update `.lcs/state.md` with:
    - `current_phase: onboarding`
-   - `last_session_note: Generated onboarding documentation at .lcs/docs/onboarding.md and onboarding-map.md`
+   - `last_session_note: Generated onboarding documentation at .lcs/work-items/onboarding.md and onboarding-map.md`
    - `timestamp: <current-ISO-timestamp>`
 9. End with the canonical Handoff section.
 
-Output Template 1: .lcs/docs/onboarding.md
+Output Template 1: .lcs/work-items/onboarding.md
 Must be written in English.
 
 # Project Onboarding: <Project Name>
@@ -82,7 +82,7 @@ Must be written in English.
 
 ---
 
-Output Template 2: .lcs/docs/onboarding-map.md
+Output Template 2: .lcs/work-items/onboarding-map.md
 This file maps the key files and components in the project. Must be written in English.
 
 # Codebase Map: <Project Name>
@@ -110,7 +110,7 @@ This section lists only the existing files that are key to the architecture.
 
 ## Handoff
 Next recommended skill: lcs-explore
-Next file to read: .lcs/docs/onboarding.md
+Next file to read: .lcs/work-items/onboarding.md
 Current phase: onboarding
 Current confidence: high
 Blocking questions: None

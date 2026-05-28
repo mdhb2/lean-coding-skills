@@ -16,7 +16,7 @@ Trigger
 - Activate when user requests to "review prd", "audit prd", "harden prd", "security review of prd", or when completing the PRD generation phase.
 
 Behavior checklist
-- Read `.lcs/state.md` to identify the active work-item directory: `.lcs/docs/<timestamp>-<slug-work-item>/`.
+- Read `.lcs/state.md` to identify the active work-item directory: `.lcs/work-items/<timestamp>-<slug-work-item>/`. 
 - Read `prd.md` inside that active directory.
 - Review it for gaps: ambiguous acceptance criteria, missing tests, security, performance, and missing Affected Areas / Files.
 - Create or update `prd-enhanced.md` in the same directory with the fully hardened specifications.
@@ -85,7 +85,7 @@ Must be exact structure as prd.md:
 
 ## Handoff
 Next recommended skill: lcs-task-slicer
-Next file to read: .lcs/docs/<timestamp>-<slug-work-item>/prd-enhanced.md
+Next file to read: .lcs/work-items/<timestamp>-<slug-work-item>/prd-enhanced.md
 Current phase: prd_review
 Current confidence: high
 Blocking questions: None

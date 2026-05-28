@@ -1,6 +1,6 @@
 ---
 name: lcs-doc-finalizer
-description: Use this skill whenever the user asks to finalize completed work into canonical documentation. Trigger on "finalize documentation", "prepare final-doc", "lcs-doc-finalizer", "selesaikan dokumentasi". Ensure all tasks are marked done, generate map.md and doc.md under .lcs/docs/reff/<timestamp>-<slug-work-item>/, recommend git commit and PR description, move source artifacts under .lcs/docs/<timestamp>-<slug-work-item>/ to .lcs/docs/reff/archive/ and delete source folder.
+description: Use this skill whenever the user asks to finalize completed work into canonical documentation. Trigger on "finalize documentation", "prepare final-doc", "lcs-doc-finalizer", "selesaikan dokumentasi". Ensure all tasks are marked done, generate map.md and doc.md under .lcs/work-items/docs/<timestamp>-<slug-work-item>/, recommend git commit and PR description, move source artifacts under .lcs/work-items/<timestamp>-<slug-work-item>/ to .lcs/work-items/docs/archive/ and delete source folder.
 ---
 
 # LCS Doc Finalizer Skill
@@ -10,7 +10,7 @@ Shared Coding Contract
 
 Purpose
 - Consolidate completed work into high-quality documentation.
-- Save documentation under `.lcs/docs/reff/<timestamp>-<slug-work-item>/` as two separate files:
+- Save documentation under `.lcs/work-items/docs/<timestamp>-<slug-work-item>/` as two separate files:
   1. `map.md` (adapted from `aido-map` context map structure)
   2. `doc.md` (adapted from `aix-doc-finalizer` final-doc structure)
 
@@ -18,20 +18,20 @@ Trigger
 - Activate when the user requests to "finalize documentation", "prepare final-doc", "lcs-doc-finalizer", "selesaikan dokumentasi", or similar.
 
 Behavior checklist
-1. Read `.lcs/state.md` to identify the active work-item directory: `.lcs/docs/<timestamp>-<slug-work-item>/`.
-2. Scan the task folder `.lcs/docs/<timestamp>-<slug-work-item>/task/` and read all task files (`task-###.md`).
+1. Read `.lcs/state.md` to identify the active work-item directory: `.lcs/work-items/<timestamp>-<slug-work-item>/`.
+2. Scan the task folder `.lcs/work-items/<timestamp>-<slug-work-item>/task/` and read all task files (`task-###.md`).
 3. Verify all task files are marked `Status: done`.
    - If any task is NOT done (e.g., `pending` or `blocked`), alert the user, list the incomplete tasks, and ask if they wish to proceed anyway or continue executing tasks first.
-4. Read `.lcs/docs/<timestamp>-<slug-work-item>/prd-enhanced.md` (fallback to `prd.md` if enhanced version is missing) and `explore.md` to capture context.
-5. Create the documentation directory `.lcs/docs/reff/<timestamp>-<slug-work-item>/` if it does not exist.
-6. Generate `.lcs/docs/reff/<timestamp>-<slug-work-item>/map.md` mapping the exact files changed or created during this work-item.
-7. Generate `.lcs/docs/reff/<timestamp>-<slug-work-item>/doc.md` consolidating the functional changes, verification steps, git commit recommendations, and PR description.
+4. Read `.lcs/work-items/<timestamp>-<slug-work-item>/prd-enhanced.md` (fallback to `prd.md` if enhanced version is missing) and `explore.md` to capture context.
+5. Create the documentation directory `.lcs/work-items/docs/<timestamp>-<slug-work-item>/` if it does not exist.
+6. Generate `.lcs/work-items/docs/<timestamp>-<slug-work-item>/map.md` mapping the exact files changed or created during this work-item.
+7. Generate `.lcs/work-items/docs/<timestamp>-<slug-work-item>/doc.md` consolidating the functional changes, verification steps, git commit recommendations, and PR description.
 8. Update `.lcs/state.md` with:
    - `current_phase: finalization`
    - `timestamp: <current-ISO-timestamp>`
    - `last_session_note: Finalized documentation for <slug-work-item>`
-9. Move all source artifacts under .lcs/docs/<timestamp>-<slug-work-item>/ to .lcs/docs/reff/archive/<timestamp>-<slug-work-item>/, then delete source folder .lcs/docs/<timestamp>-<slug-work-item>/ completely.
-10. Generate or update `./lcs/docs/reff/reff-index.md` by scanning all subdirectory items under `.lcs/docs/reff/` and listing their `doc.md` and `map.md` with timestamps and descriptions extracted from `map.md` Description or `doc.md` Objective in a clean table.
+9. Move all source artifacts under .lcs/work-items/<timestamp>-<slug-work-item>/ to .lcs/work-items/docs/archive/<timestamp>-<slug-work-item>/, then delete source folder .lcs/work-items/<timestamp>-<slug-work-item>/ completely.
+10. Generate or update `./lcs/work-items/docs/reff-index.md` by scanning all subdirectory items under `.lcs/work-items/docs/` and listing their `doc.md` and `map.md` with timestamps and descriptions extracted from `map.md` Description or `doc.md` Objective in a clean table.
 11. End with a Handoff section.
 
 Prompt templates
@@ -109,7 +109,7 @@ This file acts as the canonical feature specification and PR summary. It must be
 
 ## Handoff
 Next recommended skill: none (workflow complete)
-Next file to read: .lcs/docs/reff/<timestamp>-<slug-work-item>/doc.md
+Next file to read: .lcs/work-items/docs/<timestamp>-<slug-work-item>/doc.md
 Current phase: complete
 Current confidence: high
 Blocking questions: None

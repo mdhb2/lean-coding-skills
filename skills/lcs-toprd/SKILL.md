@@ -19,7 +19,7 @@ Behavior checklist
 - Explore the repo to understand the current state of the codebase, if you haven't already. Use the project's domain glossary vocabulary throughout the PRD, and respect any ADRs in the area you're touching.
 - Sketch out the major modules you will need to build or modify to complete the implementation. Actively look for opportunities to extract deep modules that can be tested in isolation. A deep module encapsulates a lot of functionality in a simple, testable interface which rarely changes.
 - Ensure PRD uses Affected Areas / Files to limit later code reads.
-- Write prd.md under .lcs/docs/<yyyymmdd-HHMMSS>-<slug-work-item>/prd.md. Do not create versioned copies.
+- Write prd.md under .lcs/work-items/<yyyymmdd-HHMMSS>-<slug-work-item>/prd.md. Do not create versioned copies.
 - Provide clear Acceptance Criteria and Test Strategy (unit/integration/e2e where applicable).
 - Add Review Notes with last reviewed/summary/changes applied.
 - End with Handoff recommending lcs-prd-reviewer.
@@ -93,7 +93,7 @@ Provide a detailed, numbered list of user stories in this format:
 
 ## Handoff
 Next recommended skill: lcs-prd-reviewer
-Next file to read: .lcs/docs/<yyyymmdd-HHMMSS>-<slug-work-item>/prd.md
+Next file to read: .lcs/work-items/<yyyymmdd-HHMMSS>-<slug-work-item>/prd.md
 Current phase: prd
 Current confidence: <low/medium/high>
 Blocking questions: <list or None>

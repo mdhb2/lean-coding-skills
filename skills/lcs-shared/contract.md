@@ -5,7 +5,7 @@ This file defines canonical artifact format, folder conventions, Handoff section
 ## Folder Convention
 All runtime artifacts live under:
 ```
-.lcs/docs/<timestamp>-<slug-work-item>/
+.lcs/work-items/<timestamp>-<slug-work-item>/
 ```
 
 ## Artifact Files

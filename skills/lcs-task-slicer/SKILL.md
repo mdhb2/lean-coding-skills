@@ -1,6 +1,6 @@
 ---
 name: lcs-task-slicer
-description: Use this skill whenever the user asks to split a reviewed PRD into executable tasks. Trigger on "slice prd", "break down prd", "create tasks", or similar. Produce small, dependency-aware tracer-bullet vertical slices. Classify tasks into AFK (autonomous) or HITL (requires human input). Present the proposed breakdown to the user for feedback before writing tasks. Write each task into its own file task-###.md under .lcs/docs/<timestamp>-<slug-work-item>/task/.
+description: Use this skill whenever the user asks to split a reviewed PRD into executable tasks. Trigger on "slice prd", "break down prd", "create tasks", or similar. Produce small, dependency-aware tracer-bullet vertical slices. Classify tasks into AFK (autonomous) or HITL (requires human input). Present the proposed breakdown to the user for feedback before writing tasks. Write each task into its own file task-###.md under .lcs/work-items/<timestamp>-<slug-work-item>/task/.
 ---
 
 # LCS Task Slicer Skill
@@ -9,7 +9,7 @@ Shared Coding Contract
 - Refer to Shared Coding Workflow Contract in `../lcs-shared/contract.md` for folder conventions, Handoff format, and token optimization.
 
 Purpose
-- Convert `prd-enhanced.md` (or `prd.md`) into individual executable task files (`task-001.md`, `task-002.md`, etc.) under `.lcs/docs/<timestamp>-<slug-work-item>/task/`.
+- Convert `prd-enhanced.md` (or `prd.md`) into individual executable task files (`task-001.md`, `task-002.md`, etc.) under `.lcs/work-items/<timestamp>-<slug-work-item>/task/`.
 - Ensure tasks are small, dependency-aware, and session-friendly (<2 hours human time or one agent session).
 
 Trigger
@@ -18,7 +18,7 @@ Trigger
 Behavior Checklist
 
 1. **Gather Context**:
-   - Read `.lcs/state.md` to identify the active work-item directory: `.lcs/docs/<timestamp>-<slug-work-item>/`.
+   - Read `.lcs/state.md` to identify the active work-item directory: `.lcs/work-items/<timestamp>-<slug-work-item>/`. 
    - Read `prd-enhanced.md` (fallback to `prd.md` if enhanced version is missing).
    - Verify PRD has clear acceptance criteria and test strategy. If missing or weak, suggest running `lcs-prd-reviewer` first.
 
@@ -43,8 +43,8 @@ Behavior Checklist
    - Iterate and refine based on feedback until the user approves.
 
 4. **Create Task Files**:
-   - Create the output directory: `.lcs/docs/<timestamp>-<slug-work-item>/task/` if it does not exist.
-   - Write each approved task into `.lcs/docs/<timestamp>-<slug-work-item>/task/task-###.md` (sequential 3-digit number starting at `001`).
+   - Create the output directory: `.lcs/work-items/<timestamp>-<slug-work-item>/task/` if it does not exist.
+   - Write each approved task into `.lcs/work-items/<timestamp>-<slug-work-item>/task/task-###.md` (sequential 3-digit number starting at `001`).
 
 5. **Update State & Handoff**:
    - Update `.lcs/state.md` with:
@@ -81,7 +81,7 @@ Each `task-###.md` must adhere to this exact structure:
 
 ## Handoff
 Next recommended skill: lcs-task-executer
-Next file to read: .lcs/docs/<timestamp>-<slug-work-item>/task/task-###.md
+Next file to read: .lcs/work-items/<timestamp>-<slug-work-item>/task/task-###.md
 Current phase: tasks
 Current confidence: high
 Blocking questions: None
