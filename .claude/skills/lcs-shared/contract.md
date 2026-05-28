@@ -28,9 +28,13 @@ Create only when relevant:
 - explore.md
 - debug.md
 - prd.md
+- prd-enhanced.md
 - tasks.md
+- task/task-###.md
 - state.md
 - final-doc.md
+- map.md  (lcs-doc-finalizer output only, under .lcs/docs/<timestamp>-<slug>/)
+- doc.md  (lcs-doc-finalizer output only, under .lcs/docs/<timestamp>-<slug>/)
 
 ## Handoff
 Must appear at bottom of every artifact:

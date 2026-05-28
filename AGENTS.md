@@ -77,6 +77,20 @@ skill-name/
 * **Trigger Evals:** Write 20 concrete eval queries (10 positive, 10 negative near-misses) using realistic inputs (typos, casual speech, specific columns) to test and optimize the trigger description.
 * **Verification Loops:** Spawn test cases (with vs without skill) to measure tokens, duration, and accuracy prior to packaging.
 
+---
+
+## 7. Path Exception: `lcs-doc-finalizer`
+
+Skill ini menggunakan path khusus yang berbeda dari konvensi umum `.lcs/work-items/`.
+
+| Tujuan | Path |
+|---|---|
+| Output docs | `.lcs/docs/<timestamp>-<slug-work-item>/` |
+| Index file | `.lcs/docs/docs-index.md` |
+| Archive source | `.lcs/archive/<timestamp>-<slug-work-item>/` |
+
+Rule ini override semua asumsi path generik terkait docs/archive untuk skill ini. Jangan gunakan `.lcs/work-items/docs/` atau `.lcs/work-items/archive/` untuk skill ini.
+
 
 ### Communication
 You are an AI coding assistant focused on providing concise, clear, and solution-oriented responses. Always answer directly to the core problem without unnecessary explanations.
