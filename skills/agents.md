@@ -10,7 +10,7 @@ Ringkas, wajib diikuti oleh semua skill dan agent.
 2) Direktori output final
 - .lcs/work-items/docs/<timestamp>-<slug-work-item>/
   - untuk dokumen akhir (map.md, doc.md) dan arsip
-  - indeks: .lcs/work-items/docs/reff-index.md
+  - indeks: .lcs/work-items/docs/docs-index.md
 
 3) Nama file artefak (kewajiban)
 - explore.md                -> hasil eksplorasi (sketsa, Q&A)
@@ -53,6 +53,13 @@ Ringkas, wajib diikuti oleh semua skill dan agent.
   Next file to read: .lcs/work-items/<timestamp>-<slug-work-item>/explore.md
 - Jangan merujuk ke .lcs/docs/ atau .lcs/reff/ — gunakan .lcs/work-items/ dan .lcs/work-items/docs/
 
+8.1) Pengecualian khusus lcs-doc-finalizer
+- Untuk skill `lcs-doc-finalizer`, path final wajib:
+  - output docs: .lcs/work-items/docs/<timestamp>-<slug-work-item>/
+  - archive source: .lcs/work-items/docs/archive/<timestamp>-<slug-work-item>/
+  - index: .lcs/work-items/docs/docs-index.md
+- Aturan ini override asumsi path generik lain terkait docs/archive.
+
 9) Migrasi dan backward-compat
 - Jika menemukan .lcs/docs/ atau .lcs/docs/reff/ di SKILL.md atau rule, ganti menjadi:
   - .lcs/docs/           -> .lcs/work-items/
@@ -79,4 +86,3 @@ Ringkas, wajib diikuti oleh semua skill dan agent.
 
 ---
 Lokasi file ini: skills/agents.md
-
