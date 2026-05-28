@@ -8,14 +8,15 @@ Collection of small, markdown-first AI skills for lean, focused coding workflows
 
 | Skill | Purpose |
 |-------|---------|
+| `lcs-onboarding` | Generate developer-friendly onboarding documentation |
 | `lcs-explore` | Interactive explore flow for brainstorming and shaping ideas |
 | `lcs-toprd` | Lean, implementation-focused PRD writer |
 | `lcs-prd-reviewer` | Review, harden, and security-check an existing PRD |
+| `lcs-tosrs` | Transform PRD into deterministic Lean SRS and test contract |
 | `lcs-task-slicer` | Split a reviewed PRD into actionable, session-sized tasks |
 | `lcs-task-executer` | Execute a task plan and update status to done |
 | `lcs-doc-finalizer` | Finalize and wrap completed work into canonical docs |
 | `lcs-debug` | Focused bug investigation and fix planning |
-| `lcs-onboarding` | Generate developer-friendly onboarding documentation |
 
 ## Install
 
@@ -38,6 +39,7 @@ After install, confirm skills are present:
 ```
 Test-Path .claude\skills\lcs-explore\SKILL.md
 Test-Path .claude\skills\lcs-toprd\SKILL.md
+Test-Path .claude\skills\lcs-tosrs\SKILL.md
 ```
 
 ## Troubleshooting
