@@ -23,6 +23,17 @@ Archive target for finalized source artifacts:
 ```
 This exception overrides generic docs/archive path assumptions in other rules.
 
+### Skill-Specific Exception: `lcs-codebase-doc`
+When active skill is `lcs-codebase-doc`, repository documentation outputs use:
+```
+.lcs/codebase/
+```
+Project intent documents are read from:
+```
+.lcs/docs/
+```
+This exception overrides generic runtime artifact path assumptions for codebase mapping and repository documentation outputs.
+
 ## Artifact Files
 Create only when relevant:
 - explore.md

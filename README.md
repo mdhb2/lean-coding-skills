@@ -17,6 +17,7 @@ Collection of small, markdown-first AI skills for lean, focused coding workflows
 | `lcs-task-executer` | Execute a task plan and update status to done |
 | `lcs-doc-finalizer` | Finalize and wrap completed work into canonical docs |
 | `lcs-debug` | Focused bug investigation and fix planning |
+| `lcs-codebase-doc` | Map and document existing repositories into verified onboarding docs |
 
 ## Install
 
@@ -40,6 +41,7 @@ After install, confirm skills are present:
 Test-Path .claude\skills\lcs-explore\SKILL.md
 Test-Path .claude\skills\lcs-toprd\SKILL.md
 Test-Path .claude\skills\lcs-tosrs\SKILL.md
+Test-Path .claude\skills\lcs-codebase-doc\SKILL.md
 ```
 
 ## Troubleshooting

@@ -51,7 +51,8 @@ Ringkas, wajib diikuti oleh semua skill dan agent.
 8) Referensi dalam SKILL.md
 - Semua SKILL.md harus merujuk ke path absolut contoh di atas, misal:
   Next file to read: .lcs/work-items/<timestamp>-<slug-work-item>/explore.md
-- Jangan merujuk ke .lcs/docs/ atau .lcs/reff/ — gunakan .lcs/work-items/ dan .lcs/work-items/docs/
+- Jangan merujuk ke .lcs/docs/ atau .lcs/reff/ — gunakan .lcs/work-items/ dan .lcs/work-items/docs/.
+- Exception: skill `lcs-codebase-doc` boleh dan wajib merujuk `.lcs/docs/` sebagai sumber intent.
 
 8.1) Pengecualian khusus lcs-doc-finalizer
 - Untuk skill `lcs-doc-finalizer`, path final wajib:
@@ -60,11 +61,18 @@ Ringkas, wajib diikuti oleh semua skill dan agent.
   - index: .lcs/docs/docs-index.md
 - Aturan ini override asumsi path generik lain terkait docs/archive.
 
+8.2) Pengecualian khusus lcs-codebase-doc
+- Untuk skill `lcs-codebase-doc`, path wajib:
+  - output dokumentasi codebase: .lcs/codebase/
+  - sumber dokumen intent proyek: .lcs/docs/
+- Aturan ini override asumsi path artifact runtime generik untuk workflow mapping/dokumentasi repository.
+
 9) Migrasi dan backward-compat
 - Jika menemukan .lcs/docs/ atau .lcs/docs/reff/ di SKILL.md atau rule, ganti menjadi:
-  - .lcs/docs/           -> .lcs/work-items/
-  - .lcs/docs/reff/      -> .lcs/work-items/docs/
+- .lcs/docs/           -> .lcs/work-items/
+- .lcs/docs/reff/      -> .lcs/work-items/docs/
 - Jangan ubah isi artefak yang sudah diproduksi tanpa konfirmasi.
+- Catatan: pengecualian ini tidak berlaku untuk skill `lcs-codebase-doc` karena memang menggunakan `.lcs/docs/` sebagai sumber intent.
 
 10) Contoh lengkap
 - Work item sementara: .lcs/work-items/20260519-203300-shopping-cart/

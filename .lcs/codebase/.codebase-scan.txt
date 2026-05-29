@@ -1,0 +1,141 @@
+PROJECT ROOT SUMMARY
+- root: D:\WEBDEV\Ai-Playground\lean-coding-skills
+- total_files_scanned: 59
+
+LANGUAGES
+- JSON: files=3, approx_loc=43
+- JavaScript: files=1, approx_loc=180
+- PowerShell: files=1, approx_loc=17
+- Python: files=1, approx_loc=233
+- Shell: files=1, approx_loc=15
+- YAML: files=1, approx_loc=4
+
+MANIFESTS
+- package.json
+
+ENTRYPOINT CANDIDATES
+- README.md
+
+DIRECTORY STRUCTURE
+- skills: 24 files
+- .claude: 14 files
+- .codegraph: 6 files
+- .lcs: 5 files
+- assets: 3 files
+- scripts: 3 files
+- AGENTS.md: 1 files
+- README.md: 1 files
+- TODO.md: 1 files
+- package.json: 1 files
+
+LARGEST FILES
+- assets/images/lcs-cover.png: 1918701 bytes
+- assets/images/lcs-cover-3.png: 1800132 bytes
+- assets/images/lcs-cover-2.png: 1728947 bytes
+- .codegraph/codegraph.db-wal: 383192 bytes
+- .codegraph/codegraph.db: 180224 bytes
+- .codegraph/codegraph.db-shm: 32768 bytes
+- skills/lcs-codebase-doc/scripts/scan.py: 8580 bytes
+- skills/lcs-doc-finalizer/SKILL.md: 6870 bytes
+- .claude/skills/lcs-doc-finalizer/SKILL.md: 6865 bytes
+- scripts/claude-skills.js: 6644 bytes
+- AGENTS.md: 6521 bytes
+- .claude/skills/lcs-tosrs/SKILL.md: 6387 bytes
+- skills/lcs-tosrs/SKILL.md: 6387 bytes
+- .lcs/codebase/.codebase-scan.txt: 0 bytes
+- skills/lcs-codebase-doc/SKILL.md: 5657 bytes
+- .claude/skills/lcs-toprd/SKILL.md: 4687 bytes
+- skills/lcs-toprd/SKILL.md: 4687 bytes
+- .claude/skills/lcs-task-slicer/SKILL.md: 4460 bytes
+- skills/lcs-task-slicer/SKILL.md: 4460 bytes
+- .claude/skills/lcs-onboarding/SKILL.md: 4253 bytes
+
+CI/CD PIPELINES
+
+CONTAINERS & ORCHESTRATION
+
+SECURITY & COMPLIANCE
+
+ENVIRONMENT CONFIG
+
+TESTING & QUALITY
+
+PERFORMANCE & BENCHMARKS
+
+TODO/FIXME/HACK MARKERS
+- .lcs/codebase/.codebase-scan.txt:28: - TODO.md: 1 files
+- .lcs/codebase/.codebase-scan.txt:65: TODO/FIXME/HACK MARKERS
+- .lcs/codebase/.codebase-scan.txt:66: - skills/lcs-codebase-doc/SKILL.md:25: - Use `[TODO]` when evidence is missing.
+- .lcs/codebase/.codebase-scan.txt:67: - skills/lcs-codebase-doc/SKILL.md:47: 5. If `.lcs/docs/` missing or no relevant docs, mark `[TODO]` or `[ASK USER]` where needed.
+- .lcs/codebase/.codebase-scan.txt:68: - skills/lcs-codebase-doc/SKILL.md:68: - TODO/FIXME/HACK markers
+- .lcs/codebase/.codebase-scan.txt:69: - skills/lcs-codebase-doc/SKILL.md:87: 3. Replace unsupported claims with `[TODO]` or remove them.
+- .lcs/codebase/.codebase-scan.txt:70: - skills/lcs-codebase-doc/SKILL.md:99: 4. For non-focus docs, keep sections and mark unresolved parts as `[TODO]`.
+- .lcs/codebase/.codebase-scan.txt:71: - skills/lcs-codebase-doc/assets/templates/ARCHITECTURE.md:5: [TODO]
+- .lcs/codebase/.codebase-scan.txt:72: - skills/lcs-codebase-doc/assets/templates/ARCHITECTURE.md:7: [TODO]
+- .lcs/codebase/.codebase-scan.txt:73: - skills/lcs-codebase-doc/assets/templates/ARCHITECTURE.md:9: [TODO]
+- .lcs/codebase/.codebase-scan.txt:74: - skills/lcs-codebase-doc/assets/templates/ARCHITECTURE.md:11: [TODO]
+- .lcs/codebase/.codebase-scan.txt:75: - skills/lcs-codebase-doc/assets/templates/ARCHITECTURE.md:13: [TODO]
+- .lcs/codebase/.codebase-scan.txt:76: - skills/lcs-codebase-doc/assets/templates/ARCHITECTURE.md:15: [TODO]
+- .lcs/codebase/.codebase-scan.txt:77: - skills/lcs-codebase-doc/assets/templates/ARCHITECTURE.md:17: [TODO]
+- .lcs/codebase/.codebase-scan.txt:78: - skills/lcs-codebase-doc/assets/templates/ARCHITECTURE.md:19: [TODO]
+- .lcs/codebase/.codebase-scan.txt:79: - skills/lcs-codebase-doc/assets/templates/ARCHITECTURE.md:21: [TODO]
+- .lcs/codebase/.codebase-scan.txt:80: - skills/lcs-codebase-doc/assets/templates/ARCHITECTURE.md:23: - [TODO]
+- .lcs/codebase/.codebase-scan.txt:81: - skills/lcs-codebase-doc/assets/templates/CONCERNS.md:5: [TODO]
+- .lcs/codebase/.codebase-scan.txt:82: - skills/lcs-codebase-doc/assets/templates/CONCERNS.md:7: [TODO]
+- .lcs/codebase/.codebase-scan.txt:83: - skills/lcs-codebase-doc/assets/templates/CONCERNS.md:9: [TODO]
+- .lcs/codebase/.codebase-scan.txt:84: - skills/lcs-codebase-doc/assets/templates/CONCERNS.md:11: [TODO]
+- .lcs/codebase/.codebase-scan.txt:85: - skills/lcs-codebase-doc/assets/templates/CONCERNS.md:13: [TODO]
+- .lcs/codebase/.codebase-scan.txt:86: - skills/lcs-codebase-doc/assets/templates/CONCERNS.md:15: [TODO]
+- .lcs/codebase/.codebase-scan.txt:87: - skills/lcs-codebase-doc/assets/templates/CONCERNS.md:17: [TODO]
+- .lcs/codebase/.codebase-scan.txt:88: - skills/lcs-codebase-doc/assets/templates/CONCERNS.md:19: [TODO]
+- .lcs/codebase/.codebase-scan.txt:89: - skills/lcs-codebase-doc/assets/templates/CONCERNS.md:23: [TODO]
+- .lcs/codebase/.codebase-scan.txt:90: - skills/lcs-codebase-doc/assets/templates/CONCERNS.md:25: - [TODO]
+- .lcs/codebase/.codebase-scan.txt:91: - skills/lcs-codebase-doc/assets/templates/CONVENTIONS.md:5: [TODO]
+- .lcs/codebase/.codebase-scan.txt:92: - skills/lcs-codebase-doc/assets/templates/CONVENTIONS.md:7: [TODO]
+- .lcs/codebase/.codebase-scan.txt:93: - skills/lcs-codebase-doc/assets/templates/CONVENTIONS.md:9: [TODO]
+- .lcs/codebase/.codebase-scan.txt:94: - skills/lcs-codebase-doc/assets/templates/CONVENTIONS.md:11: [TODO]
+- .lcs/codebase/.codebase-scan.txt:95: - skills/lcs-codebase-doc/assets/templates/CONVENTIONS.md:13: [TODO]
+- .lcs/codebase/.codebase-scan.txt:96: - skills/lcs-codebase-doc/assets/templates/CONVENTIONS.md:15: [TODO]
+- .lcs/codebase/.codebase-scan.txt:97: - skills/lcs-codebase-doc/assets/templates/CONVENTIONS.md:17: [TODO]
+- .lcs/codebase/.codebase-scan.txt:98: - skills/lcs-codebase-doc/assets/templates/CONVENTIONS.md:19: [TODO]
+- .lcs/codebase/.codebase-scan.txt:99: - skills/lcs-codebase-doc/assets/templates/CONVENTIONS.md:21: [TODO]
+- .lcs/codebase/.codebase-scan.txt:100: - skills/lcs-codebase-doc/assets/templates/CONVENTIONS.md:23: - [TODO]
+- .lcs/codebase/.codebase-scan.txt:101: - skills/lcs-codebase-doc/assets/templates/INTEGRATIONS.md:5: [TODO]
+- .lcs/codebase/.codebase-scan.txt:102: - skills/lcs-codebase-doc/assets/templates/INTEGRATIONS.md:7: [TODO]
+- .lcs/codebase/.codebase-scan.txt:103: - skills/lcs-codebase-doc/assets/templates/INTEGRATIONS.md:9: [TODO]
+- .lcs/codebase/.codebase-scan.txt:104: - skills/lcs-codebase-doc/assets/templates/INTEGRATIONS.md:11: [TODO]
+- .lcs/codebase/.codebase-scan.txt:105: - skills/lcs-codebase-doc/assets/templates/INTEGRATIONS.md:13: [TODO]
+- .lcs/codebase/.codebase-scan.txt:106: - skills/lcs-codebase-doc/assets/templates/INTEGRATIONS.md:15: [TODO]
+- .lcs/codebase/.codebase-scan.txt:107: - skills/lcs-codebase-doc/assets/templates/INTEGRATIONS.md:17: [TODO]
+- .lcs/codebase/.codebase-scan.txt:108: - skills/lcs-codebase-doc/assets/templates/INTEGRATIONS.md:19: [TODO]
+- .lcs/codebase/.codebase-scan.txt:109: - skills/lcs-codebase-doc/assets/templates/INTEGRATIONS.md:23: [TODO]
+- .lcs/codebase/.codebase-scan.txt:110: - skills/lcs-codebase-doc/assets/templates/INTEGRATIONS.md:25: - [TODO]
+- .lcs/codebase/.codebase-scan.txt:111: - skills/lcs-codebase-doc/assets/templates/STACK.md:5: [TODO]
+- .lcs/codebase/.codebase-scan.txt:112: - skills/lcs-codebase-doc/assets/templates/STACK.md:7: [TODO]
+- .lcs/codebase/.codebase-scan.txt:113: - skills/lcs-codebase-doc/assets/templates/STACK.md:9: [TODO]
+
+GIT HIGH-CHURN FILES
+- README.md: 16 touches
+- skills/lcs-doc-finalizer/SKILL.md: 9 touches
+- skills/lcs-toprd/SKILL.md: 8 touches
+- skills/lcs-explore/SKILL.md: 7 touches
+- skills/lcs-task-slicer/SKILL.md: 6 touches
+- AGENTS.md: 5 touches
+- skills/lcs-task-executer/SKILL.md: 5 touches
+- .claude/skills/lcs-doc-finalizer/SKILL.md: 4 touches
+- .claude/skills/lcs-shared/contract.md: 4 touches
+- scripts/claude-skills.js: 4 touches
+- skills/lcs-prd-reviewer/SKILL.md: 4 touches
+- skills/agents.md: 3 touches
+- skills/lcs-shared/contract.md: 3 touches
+- skills/lcs-debug/SKILL.md: 3 touches
+- skills/lcs-onboarding/SKILL.md: 3 touches
+- .lcs/docs/onboarding.md: 2 touches
+- package.json: 2 touches
+- .agents/skills/agents.md: 2 touches
+- scripts/install-skills.ps1: 2 touches
+- scripts/install-skills.sh: 2 touches
+
+NOTES
+- Deterministic scan using Python standard library only.
+- Secret values are not extracted; only paths and metadata are reported.
