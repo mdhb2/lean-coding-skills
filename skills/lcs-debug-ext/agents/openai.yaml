@@ -1,0 +1,4 @@
+display_name: LCS Debug Ext
+short_description: Diagnose bugs and produce evidence-based debug reports and patch proposals.
+icon: stethoscope
+color: "#2563eb"

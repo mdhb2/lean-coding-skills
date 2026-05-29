@@ -1,0 +1,23 @@
+{
+  "skill_name": "lcs-debug-ext",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "This test is failing after my last change. Please investigate and create a debug report with a patch proposal only. Do not edit source or test files.",
+      "expected_output": "Creates .lcs/work-items/<timestamp>-<slug-work-item>-debug-ext/debug.md with evidence, reproduction status, ranked hypotheses, no applied changes, patch proposal, regression-test options, cleanup checklist, post-mortem, and Handoff.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "The /api/orders endpoint returns 500 in staging. I have a stack trace and logs. Diagnose why it is failing and propose a fix, but do not apply any code changes.",
+      "expected_output": "Inspects provided evidence, identifies or requests a lightweight feedback loop, avoids unsupported root-cause claims, and writes debug.md under a -debug-ext work item folder.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "The app sometimes hangs after deploy, maybe flaky. Investigate lightly and make a report. Do not run expensive stress loops unless I ask.",
+      "expected_output": "Uses optional lightweight repeated checks only, records reproduction confidence, includes ranked hypotheses, instrumentation suggestions with debug prefix cleanup, and offers regression/smoke-test options.",
+      "files": []
+    }
+  ]
+}
