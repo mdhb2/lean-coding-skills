@@ -50,6 +50,15 @@ Rules for every doc:
 ## Phase 2: Investigate
 Use `.lcs/codebase/.codebase-scan.txt` and direct inspection.
 
+Scope rules for investigation:
+
+- Inspect project source, configs, and manifests only.
+- Ignore hidden directories (`.*`) except `.lcs`.
+- Within `.lcs`, read only `.lcs/docs/` as intent source.
+- Root dot-files are allowed (for example `.env.example`, `.gitlab-ci.yml`).
+- Do not inspect `.github/`.
+- Do not inspect `skills/`, `vendor/`, or generated/dependency/build/cache folders.
+
 - Primary questions and validations: `references/inquiry-checkpoints.md`
 - Ambiguous stack detection: `references/stack-detection.md`
 
@@ -112,3 +121,4 @@ If user asks for a subset (for example: architecture only, testing and concerns,
 - Use git history for churn signals when available.
 - Never expose secrets; document variable names only from `.env.example`, `.env.sample`, `.env.template`, or equivalents.
 - If repo too large, prioritize manifests, entry points, core source dirs, test setup, CI/CD, and integration boundaries.
+- If CI/security evidence lives only under skipped hidden directories (for example `.github/`), mark related items as `[TODO]`.

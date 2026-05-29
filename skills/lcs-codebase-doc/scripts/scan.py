@@ -7,7 +7,8 @@ from collections import Counter, defaultdict
 
 IGNORE_DIRS = {
     ".git", "node_modules", "vendor", "dist", "build", ".next", "out", "coverage",
-    "generated", "__pycache__", ".venv", "venv", "target", ".gradle", ".idea", ".vscode", ".cache"
+    "generated", "__pycache__", ".venv", "venv", "target", ".gradle", ".idea", ".vscode", ".cache",
+    "tmp", "temp", "logs", "bin", "obj", "skills"
 }
 
 LANG_BY_EXT = {
@@ -58,9 +59,24 @@ def scan_repo(root):
 
     todo_re = re.compile(r"\b(TODO|FIXME|HACK)\b", re.IGNORECASE)
 
+    lcs_docs_root = os.path.join(root, ".lcs", "docs")
+
     for dirpath, dirnames, filenames in os.walk(root):
         parts = safe_rel(dirpath, root).split("/") if safe_rel(dirpath, root) != "." else []
-        dirnames[:] = [d for d in dirnames if d not in IGNORE_DIRS]
+
+        filtered_dirnames = []
+        for d in dirnames:
+            if d in IGNORE_DIRS:
+                continue
+            if d.startswith(".") and d != ".lcs":
+                continue
+            candidate = os.path.join(dirpath, d)
+            if os.path.isdir(os.path.join(root, ".lcs")) and candidate.startswith(os.path.join(root, ".lcs")):
+                if candidate != os.path.join(root, ".lcs") and not candidate.startswith(lcs_docs_root):
+                    continue
+            filtered_dirnames.append(d)
+        dirnames[:] = filtered_dirnames
+
         if is_ignored(parts):
             continue
 
@@ -86,7 +102,7 @@ def scan_repo(root):
             if lower in {"dockerfile", "docker-compose.yml", "docker-compose.yaml", "kustomization.yaml"} or "helm" in rel.lower() or "/k8s/" in rel.lower() or "/kubernetes/" in rel.lower():
                 containers.append(rel)
 
-            if ".github/workflows/" in rel.lower() or lower in {".gitlab-ci.yml", "azure-pipelines.yml", "jenkinsfile", "buildkite.yml", "circleci/config.yml"}:
+            if lower in {".gitlab-ci.yml", "azure-pipelines.yml", "jenkinsfile", "buildkite.yml", "circleci/config.yml"}:
                 ci.append(rel)
 
             if lower in {".env.example", ".env.sample", ".env.template"}:
@@ -95,7 +111,7 @@ def scan_repo(root):
             if lower in {"eslint.config.js", ".eslintrc", ".eslintrc.json", ".prettierrc", "ruff.toml", "pyrightconfig.json", "mypy.ini", "tsconfig.json"}:
                 quality.append(rel)
 
-            if lower in {"semgrep.yml", "bandit.yml", "safety-policy.yml", "dependabot.yml", "codeql.yml", "trivy.yaml"} or rel.lower() in {".github/dependabot.yml", ".github/dependabot.yaml"}:
+            if lower in {"semgrep.yml", "bandit.yml", "safety-policy.yml", "dependabot.yml", "codeql.yml", "trivy.yaml"}:
                 security.append(rel)
 
             if "benchmark" in lower or lower in {"k6.js", "locustfile.py", "wrk.lua"}:
@@ -137,7 +153,26 @@ def git_churn(root):
     try:
         cmd = ["git", "log", "--name-only", "--pretty=format:", "-n", "300"]
         out = subprocess.check_output(cmd, cwd=root, stderr=subprocess.DEVNULL, text=True)
-        c = Counter([x.strip() for x in out.splitlines() if x.strip()])
+        c = Counter()
+        for raw in out.splitlines():
+            rel = raw.strip().replace("\\", "/")
+            if not rel:
+                continue
+
+            parts = rel.split("/")
+
+            if parts[0] == ".github":
+                continue
+            if parts[0].startswith(".") and parts[0] != ".lcs":
+                continue
+            if any(part in IGNORE_DIRS for part in parts):
+                continue
+
+            if parts[0] == ".lcs":
+                if len(parts) < 2 or parts[1] != "docs":
+                    continue
+
+            c[rel] += 1
         return c.most_common(20)
     except Exception:
         return []
