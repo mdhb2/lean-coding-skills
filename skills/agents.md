@@ -67,12 +67,24 @@ Ringkas, wajib diikuti oleh semua skill dan agent.
   - sumber dokumen intent proyek: .lcs/docs/
 - Aturan ini override asumsi path artifact runtime generik untuk workflow mapping/dokumentasi repository.
 
+8.3) Pengecualian khusus lcs-self-improvement
+- Untuk skill `lcs-self-improvement`, path output wajib:
+  - analysis reports: .lcs/docs/self-improvements/<timestamp>-analysis.md
+  - state tracking: .lcs/docs/self-improvements/state.json
+  - index/navigation: .lcs/docs/self-improvements/index.md
+  - legacy archive: .lcs/docs/self-improvements/archive-legacy.md (jika ada migrasi)
+- Timestamp format: YYYYMMDDHHmmss (14 digit, contoh: 20260529134257)
+- Setiap run menghasilkan file baru untuk maintain history
+- State.json tracks recommendation lifecycle (pending/applied/rejected)
+- Skill ini bersifat report-only (diagnosis dan rekomendasi), tidak menerapkan perubahan otomatis
+- Aturan ini override asumsi path artifact runtime generik dan larangan referensi `.lcs/docs/` untuk output skill ini
+
 9) Migrasi dan backward-compat
 - Jika menemukan .lcs/docs/ atau .lcs/docs/reff/ di SKILL.md atau rule, ganti menjadi:
 - .lcs/docs/           -> .lcs/work-items/
 - .lcs/docs/reff/      -> .lcs/work-items/docs/
 - Jangan ubah isi artefak yang sudah diproduksi tanpa konfirmasi.
-- Catatan: pengecualian ini tidak berlaku untuk skill `lcs-codebase-doc` karena memang menggunakan `.lcs/docs/` sebagai sumber intent.
+- Catatan: pengecualian ini tidak berlaku untuk skill `lcs-codebase-doc` karena memang menggunakan `.lcs/docs/` sebagai sumber intent, dan tidak berlaku untuk skill `lcs-self-improvement` karena output wajibnya adalah `.lcs/docs/self-improvements/<timestamp>-analysis.md` (timestamped structure).
 
 10) Contoh lengkap
 - Work item sementara: .lcs/work-items/20260519-203300-shopping-cart/

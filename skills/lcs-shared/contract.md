@@ -34,6 +34,14 @@ Project intent documents are read from:
 ```
 This exception overrides generic runtime artifact path assumptions for codebase mapping and repository documentation outputs.
 
+### Skill-Specific Exception: `lcs-self-improvement`
+When active skill is `lcs-self-improvement`, diagnostic output uses single report path:
+```
+.lcs/docs/self-improvements.md
+```
+This report is diagnostic-only and does not apply changes automatically.
+This exception overrides generic runtime artifact path assumptions for self-improvement analysis output.
+
 ## Artifact Files
 Create only when relevant:
 - explore.md

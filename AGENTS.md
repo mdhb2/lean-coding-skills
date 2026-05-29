@@ -91,6 +91,30 @@ Skill ini menggunakan path khusus yang berbeda dari konvensi umum `.lcs/work-ite
 
 Rule ini override semua asumsi path generik terkait docs/archive untuk skill ini. Jangan gunakan `.lcs/work-items/docs/` atau `.lcs/work-items/archive/` untuk skill ini.
 
+## 8. Path Exception: `lcs-self-improvement`
+
+Skill ini menggunakan timestamped analysis files dengan state tracking:
+
+| Tujuan | Path |
+|---|---|
+| Analysis reports | `.lcs/docs/self-improvements/<timestamp>-analysis.md` |
+| State tracking | `.lcs/docs/self-improvements/state.json` |
+| Index/navigation | `.lcs/docs/self-improvements/index.md` |
+| Legacy archive | `.lcs/docs/self-improvements/archive-legacy.md` (if migrated) |
+
+**Versioning Strategy:**
+- Setiap run menghasilkan file baru dengan timestamp (format: `YYYYMMDDHHmmss`)
+- History lengkap tersimpan untuk tracking improvement over time
+- State.json tracks recommendation lifecycle (pending/applied/rejected)
+- Index.md provides navigation dan statistics
+
+**Behavior:**
+- Skill ini bersifat diagnosis + rekomendasi saja (tidak apply perubahan otomatis)
+- Recommendations dapat di-track via state.json untuk monitor adoption
+- Recurring recommendations indicate higher priority issues
+
+Rule ini override asumsi path artifact runtime generik untuk skill `lcs-self-improvement`.
+
 
 ### Communication
 You are an AI coding assistant focused on providing concise, clear, and solution-oriented responses. Always answer directly to the core problem without unnecessary explanations.

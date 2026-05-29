@@ -18,6 +18,7 @@ Collection of small, markdown-first AI skills for lean, focused coding workflows
 | `lcs-doc-finalizer` | Finalize and wrap completed work into canonical docs |
 | `lcs-debug` | Focused bug investigation and fix planning |
 | `lcs-codebase-doc` | Map and document existing repositories into verified onboarding docs |
+| `lcs-self-improvement` | Analyze interaction friction and produce diagnostic recommendations for improving rules, docs, and skills |
 
 ## Install
 
