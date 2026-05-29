@@ -1,4 +1,4 @@
 display_name: LCS Codebase Doc
-description: Map and document an existing codebase into verified onboarding docs.
+description: Map and document an existing codebase into verified onboarding docs. Requires numeric mode selection (1/2/3) before execution.
 icon: folder-tree
 color: slate

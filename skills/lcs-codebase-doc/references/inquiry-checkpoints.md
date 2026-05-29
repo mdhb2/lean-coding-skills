@@ -2,6 +2,11 @@
 
 Use this file to investigate and validate every generated doc.
 
+## Validation by execution mode
+- Mode `1` (`Quick Update`): Validate only sections impacted by latest changes, but preserve section structure and evidence quality.
+- Mode `2` (`Standard Refresh`): Validate all sections across all seven docs with full evidence pass.
+- Mode `3` (`Rebuild Docs`): Validate full document completeness, section coverage, and evidence for every non-trivial claim.
+
 ## STACK
 - Required questions: What languages, runtimes, frameworks, package managers, and production/development dependencies exist?
 - Evidence expectation: manifests, lockfiles, build configs, runtime configs, scan output.

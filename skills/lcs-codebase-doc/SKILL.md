@@ -7,6 +7,25 @@ description: use this skill when the user explicitly asks to map, document, insp
 
 Map existing repositories into evidence-based docs for onboarding, architecture discovery, technical review, and long-term maintainability.
 
+## Mode selection (required before execution)
+Before any scan or documentation step, ask user to choose exactly one mode by number only:
+
+1. `Quick Update`
+   - Focus on latest changes and update only impacted sections in existing docs.
+2. `Standard Refresh`
+   - Run full scoped scan and refresh all existing docs in place.
+3. `Rebuild Docs`
+   - Recreate content for all seven docs from scratch in `.lcs/codebase/`.
+
+Rules:
+
+- Do not start Phase 1 before user selects `1`, `2`, or `3`.
+- Accept numeric input only.
+- If input is invalid, ask one more time with the same three options.
+- After valid input, print `Selected mode: <name>` and continue.
+- If docs already exist in `.lcs/codebase/`, never overwrite full files in mode `1` or mode `2`; update sections in place.
+- Full-file regeneration is allowed only in mode `3`.
+
 ## Output contract
 Before finishing, ensure exactly these files exist under `.lcs/codebase/`:
 
@@ -28,6 +47,7 @@ Rules for every doc:
 - Never guess or invent architecture.
 
 ## Workflow checklist
+- [ ] Mode selection: Ask and confirm `1|2|3`, then print selected mode
 - [ ] Phase 1: Create `.lcs/codebase/`, run scan, read intent documents from `.lcs/docs/`
 - [ ] Phase 2: Investigate each documentation area
 - [ ] Phase 3: Populate all seven docs in `.lcs/codebase/`
