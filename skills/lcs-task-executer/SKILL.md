@@ -57,3 +57,13 @@ Current confidence: high
 Blocking questions: None
 Risks to carry forward: None
 Suggested next command: Eksekusi TASK-002
+
+## Chain of Truth Level
+
+Level: Very Strict
+
+This skill follows the LCS Chain of Truth protocol at the declared level.
+
+---
+
+> **Deprecated name.** This skill name (`lcs-task-executer`) is kept for backward compatibility. Prefer `lcs-task-executor` for new workflows.

@@ -90,3 +90,9 @@ Blocking questions: None
 Risks to carry forward: <risks>
 Suggested next command: Eksekusi task-###.md
 ```
+
+## Chain of Truth Level
+
+Level: Strict
+
+This skill follows the LCS Chain of Truth protocol at the declared level.

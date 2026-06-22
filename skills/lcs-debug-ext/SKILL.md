@@ -212,3 +212,9 @@ Suggested next command: <command>
 - Read `references/report-template.md` before writing the final report.
 - Read `references/patch-proposal-format.md` before writing the patch proposal.
 - Use `scripts/hitl-loop.template.sh` only when automated reproduction is unavailable and manual observation is useful.
+
+## Chain of Truth Level
+
+Level: Very Strict
+
+This skill follows the LCS Chain of Truth protocol at the declared level.

@@ -347,3 +347,9 @@ Input: "AGENTS.md|Add validation rule|AGENTS.md section 4"
 SHA256: "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6..."
 ID: "a1b2c3d4e5f6g7h8"
 ```
+
+## Chain of Truth Level
+
+Level: Standard
+
+This skill follows the LCS Chain of Truth protocol at the declared level.

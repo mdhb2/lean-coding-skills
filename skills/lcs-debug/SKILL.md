@@ -36,3 +36,9 @@ Current confidence: <low/medium/high>
 Blocking questions: <list or None>
 Risks to carry forward: <risks>
 Suggested next command: Buat PRD dari debug.md
+
+## Chain of Truth Level
+
+Level: Standard
+
+This skill follows the LCS Chain of Truth protocol at the declared level.

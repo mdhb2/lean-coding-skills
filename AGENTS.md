@@ -155,3 +155,34 @@ At the end of every conversation, always provide a clear next-step prompt such a
 “Would you like me to explain this in more detail?”
 “Would you like me to help debug or optimize this code?”
 “Would you like an example implementation for this solution?”
+
+## 9. Chain of Truth Protocol
+**Auditable evidence over hidden reasoning.**
+
+LCS uses Chain of Truth as a cross-skill protocol. Every skill that produces an artifact must expose auditable evidence — not internal chain-of-thought reasoning.
+
+### Core Rule
+Do not expose hidden chain-of-thought.
+Expose chain-of-truth: sources checked, assumptions, actions taken, verification results, and risks.
+
+### Protocol Flow
+```text
+Source → Assumption → Plan → Action → Verification → Report
+```
+
+### Levels
+- **Light** — exploratory/conversational skills (lcs-explore)
+- **Standard** — planning/documentation skills (lcs-toprd, lcs-onboarding, lcs-debug)
+- **Strict** — contracts, reviews, finalization (lcs-prd-reviewer, lcs-tosrs, lcs-task-slicer, lcs-doc-finalizer)
+- **Very Strict** — code changes, debugging, implementation (lcs-task-executor, lcs-task-executer, lcs-debug-ext)
+
+### Report Placement
+Chain of Truth Report must appear before the Handoff section in every artifact that uses this protocol.
+
+### Verification Rule
+Verify where available. For markdown-only repos: check file existence, grep for content, run `git diff --check`. Do not claim verification passed unless it was actually performed.
+
+### Future Skills Rule
+Every new skill created after this protocol is established must declare a Chain of Truth level in its `SKILL.md`.
+
+See: `.claude/skills/lcs-chain-of-truth/SKILL.md` for the full protocol.

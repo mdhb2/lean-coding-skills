@@ -1,11 +1,11 @@
 ---
-name: lcs-task-executer
+name: lcs-task-executor
 description: Use this skill whenever the user asks to implement, execute, or continue a specific task from sliced tasks. Trigger on "Eksekusi TASK-###", "Eksekusi task-###.md", "continue TASK-###", "implement TASK-###". Always read .lcs/state.md first, check dependencies, analyze and recommend Normal vs TDD mode, confirm with user, and update task status and .lcs/state.md when done.
 adapters: [claudecode, opencode]
 compatibility: [claudecode, opencode]
 ---
 
-# LCS Task Executer Skill
+# LCS Task Executor Skill
 
 Shared Coding Contract
 - Refer to Shared Coding Workflow Contract in `../lcs-shared/contract.md` for folder conventions, Handoff format, and token optimization.
@@ -57,3 +57,10 @@ Current confidence: high
 Blocking questions: None
 Risks to carry forward: None
 Suggested next command: Eksekusi TASK-002
+
+## Chain of Truth Level
+
+Level: Very Strict
+
+This skill follows the LCS Chain of Truth protocol at the declared level.
+Implementation tasks require explicit sources, assumption status, plan before action, surgical changes, verification command or manual check, and proof of result.

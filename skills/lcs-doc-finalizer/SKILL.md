@@ -43,8 +43,8 @@ Behavior checklist
 11. End with a Handoff section.
 
 Prompt templates
-- Starter: "Complete the documentation for <work-name>"
-- Explicit override: "Complete the documentation even if some tasks are not done yet"
+- Starter: "Selesaikan dokumentasi untuk <work-name>"
+- Explicit override: "Selesaikan dokumentasi meskipun ada task yang belum selesai"
 
 ---
 
@@ -145,3 +145,9 @@ This file contains the table of contents of all generated documentation referenc
 |-----------|-----------|-------------|-----|---------------|
 | <timestamp> | <slug-work-item> | <one-line summary extracted from map.md Description> | [Map](./<timestamp>-<slug-work-item>/map.md) | [Doc](./<timestamp>-<slug-work-item>/doc.md) |
 ```
+
+## Chain of Truth Level
+
+Level: Strict
+
+This skill follows the LCS Chain of Truth protocol at the declared level.

@@ -142,3 +142,9 @@ If user asks for a subset (for example: architecture only, testing and concerns,
 - Never expose secrets; document variable names only from `.env.example`, `.env.sample`, `.env.template`, or equivalents.
 - If repo too large, prioritize manifests, entry points, core source dirs, test setup, CI/CD, and integration boundaries.
 - If CI/security evidence lives only under skipped hidden directories (for example `.github/`), mark related items as `[TODO]`.
+
+## Chain of Truth Level
+
+Level: Standard
+
+This skill follows the LCS Chain of Truth protocol at the declared level.

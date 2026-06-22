@@ -14,12 +14,45 @@ Collection of small, markdown-first AI skills for lean, focused coding workflows
 | `lcs-prd-reviewer` | Review, harden, and security-check an existing PRD |
 | `lcs-tosrs` | Transform PRD into deterministic Lean SRS and test contract |
 | `lcs-task-slicer` | Split a PRD or SRS into actionable, session-sized tasks |
-| `lcs-task-executer` | Execute a task plan and update status to done |
+| `lcs-task-executer` | Execute a task plan and update status to done *(legacy name — prefer `lcs-task-executor`)* |
 | `lcs-doc-finalizer` | Finalize and wrap completed work into canonical docs |
 | `lcs-debug` | Focused bug investigation and fix planning |
 | `lcs-debug-ext` | Evidence-based debug reports and patch proposals without applying code changes |
 | `lcs-codebase-doc` | Map and document existing repositories into verified onboarding docs |
 | `lcs-self-improvement` | Analyze interaction friction and produce diagnostic recommendations for improving rules, docs, and skills |
+| `lcs-chain-of-truth` | Chain of Truth meta-skill — auditable evidence protocol for all LCS skills |
+| `lcs-task-executor` | Execute a task plan with Chain of Truth verification (canonical spelling) |
+
+## Chain of Truth
+
+LCS uses Chain of Truth as a cross-skill protocol for auditable, evidence-backed AI workflows.
+
+### Workflow
+```text
+lcs-explore (Light)
+↓
+lcs-toprd (Standard)
+↓
+lcs-prd-reviewer (Strict)
+↓
+lcs-tosrs (Strict)
+↓
+lcs-task-slicer (Strict)
+↓
+lcs-task-executor (Very Strict)
+```
+
+### Level Summary
+| Level | Used By |
+|---|---|
+| Light | lcs-explore |
+| Standard | lcs-toprd, lcs-onboarding, lcs-debug |
+| Strict | lcs-prd-reviewer, lcs-tosrs, lcs-task-slicer, lcs-doc-finalizer |
+| Very Strict | lcs-task-executor, lcs-task-executer (legacy) |
+
+### Executor Naming
+- **Canonical**: `lcs-task-executor` — use for new workflows
+- **Legacy**: `lcs-task-executer` — still works; kept for backward compatibility
 
 ## Install
 

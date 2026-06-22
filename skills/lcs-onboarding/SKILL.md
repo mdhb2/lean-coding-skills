@@ -117,3 +117,9 @@ Current confidence: high
 Blocking questions: None
 Risks to carry forward: None
 Suggested next command: Explore feature atau buat PRD
+
+## Chain of Truth Level
+
+Level: Standard
+
+This skill follows the LCS Chain of Truth protocol at the declared level.

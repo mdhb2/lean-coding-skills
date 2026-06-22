@@ -306,3 +306,9 @@ Blocking questions: <list or None>
 Risks to carry forward: <short>
 Suggested next command: Slice srs.md into task/task-###.md with strict requirement references
 ```
+
+## Chain of Truth Level
+
+Level: Strict
+
+This skill follows the LCS Chain of Truth protocol at the declared level.

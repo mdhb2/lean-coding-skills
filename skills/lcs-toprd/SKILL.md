@@ -101,3 +101,9 @@ Current confidence: <low/medium/high>
 Blocking questions: <list or None>
 Risks to carry forward: <summary>
 Suggested next command: Review and fix prd.md
+
+## Chain of Truth Level
+
+Level: Standard
+
+This skill follows the LCS Chain of Truth protocol at the declared level.
