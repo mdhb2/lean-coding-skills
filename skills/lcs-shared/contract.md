@@ -60,9 +60,41 @@ Create only when relevant:
 - explore.md
 - debug.md
 - prd.md
+- prd-enhanced.md
+- srs.md
+- tests.md
+- api.md
+- db.md
+- traceability.md
+- task-coverage.md
 - tasks.md
 - state.md
 - final-doc.md
+
+## Requirement Preservation Rule
+
+Every user-provided instruction, explicit constraint, or requirement bullet must receive a stable `SRC-###` identifier in the PRD phase. Once assigned, downstream skills must preserve the `SRC-###` unless the requirement is intentionally removed and documented with a reason.
+
+- Use `P0` for must-not-drop requirements that define correctness, safety, security, compatibility, or explicit user constraints.
+- Use `P1` for important requirements that should be implemented unless scope changes.
+- Use `P2` for nice-to-have guidance, preferences, or low-risk refinements.
+- P0 requirements must not be summarized away. They must appear in downstream traceability either as covered or explicitly unresolved.
+- If an artifact has a Source Requirement Ledger, downstream skills must preserve every listed `SRC-###` or block with a clear gap report.
+
+## Source of Truth Bundle
+
+Downstream skills must not ignore enhanced upstream artifacts. Read available artifacts in this order unless a skill-specific rule is stricter:
+
+1. `.lcs/state.md` to locate the active work item.
+2. `prd-enhanced.md` if present. This is the authoritative PRD.
+3. `prd.md` as baseline fallback and source ledger baseline.
+4. `source-ledger.md` if present for legacy/source-only workflows.
+5. `srs.md` if present for deterministic requirement decomposition.
+6. `tests.md` if present for test coverage mapping.
+7. `api.md` and `db.md` if present for implementation contracts.
+8. `traceability.md` if present for ID mapping.
+
+If `prd-enhanced.md` exists but was not read, stop and report a source conflict. Do not proceed from `prd.md` alone when enhanced PRD exists.
 
 ## Handoff
 Must appear at bottom of every artifact:
@@ -75,6 +107,9 @@ Current phase:
 Current confidence:
 Blocking questions:
 Risks to carry forward:
+Source of Truth Bundle:
+Must Preserve IDs:
+Unresolved IDs:
 Suggested next command:
 ```
 
@@ -104,3 +139,18 @@ Verify where available. For markdown-only repos: check file existence, grep for 
 3. Use Affected Areas / Files from PRD to narrow code inspection.
 4. Executor focuses on one task at a time.
 5. Update canonical files rather than create versions.
+
+## Traceability Validation
+
+Use the bundled validator after SRS generation, task slicing, and execution when artifacts exist.
+
+- On win32: run `powershell -ExecutionPolicy Bypass -File .\skills\lcs-shared\scripts\validate-traceability.ps1 -WorkItemPath <path>`.
+- On non-win32: run `python3 ./skills/lcs-shared/scripts/validate-traceability.py --work-item <path>`.
+- If Python is not installed on non-win32, stop and ask the user to install Python 3 before validation.
+
+Validation checks:
+- all `SRC-###` IDs are preserved from `prd.md` to `prd-enhanced.md` when enhanced PRD exists
+- every `AC-###` has a `TEST-###` mapping when `tests.md` exists
+- every `AC-###` and `FR-###` has task coverage when task files exist
+- every task has Source coverage
+- `## Chain of Truth Report` appears before `## Handoff`

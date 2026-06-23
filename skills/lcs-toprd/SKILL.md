@@ -21,10 +21,12 @@ Behavior checklist
 - Explore the repo to understand the current state of the codebase, if you haven't already. Use the project's domain glossary vocabulary throughout the PRD, and respect any ADRs in the area you're touching.
 - Sketch out the major modules you will need to build or modify to complete the implementation. Actively look for opportunities to extract deep modules that can be tested in isolation. A deep module encapsulates a lot of functionality in a simple, testable interface which rarely changes.
 - Ensure PRD uses Affected Areas / Files to limit later code reads.
+- Extract every user instruction, explicit constraint, and requirement bullet from explore.md, debug.md, and direct user input into SRC-### rows in the Source Requirement Ledger. Do not collapse P0 requirements into summaries.
 - Write prd.md under .lcs/work-items/<yyyymmdd-HHMMSS>-<slug-work-item>/prd.md. Do not create versioned copies.
 - Provide clear Acceptance Criteria and Test Strategy (unit/integration/e2e where applicable).
+- Add ## Source Requirement Ledger section with SRC-### IDs, P0/P1/P2 priorities, origin, and description.
 - Add Review Notes with last reviewed/summary/changes applied.
-- End with Handoff recommending lcs-prd-reviewer.
+- End with Handoff recommending lcs-prd-reviewer, including Source of Truth Bundle, Must Preserve IDs, and Unresolved IDs.
 
 Prompt templates
 - Starter: "Create PRD for <work-name> based on explore.md"
@@ -53,6 +55,15 @@ Use this template when writing prd.md. Keep concise and implementation-focused.
 Provide a detailed, numbered list of user stories in this format:
 1. As an <actor>, I want a <feature>, so that <benefit>
 2. As an <actor>, I want a <feature>, so that <benefit>
+
+## Source Requirement Ledger
+
+Every original user-provided instruction, explicit constraint, and requirement bullet must be represented here. Preserve exact user intent; do not collapse P0 requirements into summaries.
+
+| SRC ID | Priority | Origin | Description |
+|---|---|---|---|
+| SRC-001 | P0 | user instruction | <exact instruction or faithful atomic paraphrase> |
+| SRC-002 | P1 | user instruction | <exact instruction or faithful atomic paraphrase> |
 
 ## Non-Goals / Out of Scope
 <what is excluded / out of scope>
@@ -125,6 +136,9 @@ Current phase: prd
 Current confidence: <low/medium/high>
 Blocking questions: <list or None>
 Risks to carry forward: <summary>
+Source of Truth Bundle: .lcs/state.md, explore.md or debug.md, prd.md
+Must Preserve IDs: SRC-001, SRC-002, ...
+Unresolved IDs: <list or None>
 Suggested next command: Review and fix prd.md
 
 ## Chain of Truth Level

@@ -11,7 +11,7 @@ Shared Coding Contract
 - Refer to Shared Coding Workflow Contract in `../lcs-shared/contract.md` for folder conventions, Handoff format, and token optimization.
 
 Purpose
-- Convert `prd-enhanced.md` (or `prd.md`) into individual executable task files (`task-001.md`, `task-002.md`, etc.) under `.lcs/work-items/<timestamp>-<slug-work-item>/task/`.
+- Convert `srs.md` when present, otherwise `prd-enhanced.md` (or `prd.md`), into individual executable task files (`task-001.md`, `task-002.md`, etc.) under `.lcs/work-items/<timestamp>-<slug-work-item>/task/`.
 - Ensure tasks are small, dependency-aware, and session-friendly (<2 hours human time or one agent session).
 
 Trigger
@@ -20,9 +20,17 @@ Trigger
 Behavior Checklist
 
 1. **Gather Context**:
-   - Read `.lcs/state.md` to identify the active work-item directory: `.lcs/work-items/<timestamp>-<slug-work-item>/`. 
-   - Read `prd-enhanced.md` (fallback to `prd.md` if enhanced version is missing).
-   - Verify PRD has clear acceptance criteria and test strategy. If missing or weak, suggest running `lcs-prd-reviewer` first.
+    - Read `.lcs/state.md` to identify the active work-item directory: `.lcs/work-items/<timestamp>-<slug-work-item>/`. 
+    - Read source bundle:
+      - `prd-enhanced.md` (fallback to `prd.md` if enhanced version is missing)
+      - `srs.md` if present
+      - `tests.md` if present
+      - `api.md` if present
+      - `db.md` if present
+      - `traceability.md` if present
+    - If `prd-enhanced.md` exists but was not read, stop and report a source conflict.
+    - If `srs.md` exists, use SRS IDs (`FR-###`, `BR-###`, `VR-###`, `EC-###`, `AC-###`) as the primary task slicing source instead of PRD prose.
+    - Verify PRD has clear acceptance criteria and test strategy. If missing or weak, suggest running `lcs-prd-reviewer` first.
 
 2. **Draft Tracer-Bullet Vertical Slices**:
    - Break the plan into **tracer bullet** tasks. Each task must be a thin vertical slice cutting through all integration layers end-to-end (schema, API, UI, tests), NOT a horizontal slice of one layer.
@@ -45,14 +53,20 @@ Behavior Checklist
    - Iterate and refine based on feedback until the user approves.
 
 4. **Create Task Files**:
-   - Create the output directory: `.lcs/work-items/<timestamp>-<slug-work-item>/task/` if it does not exist.
-   - Write each approved task into `.lcs/work-items/<timestamp>-<slug-work-item>/task/task-###.md` (sequential 3-digit number starting at `001`).
+    - Create the output directory: `.lcs/work-items/<timestamp>-<slug-work-item>/task/` if it does not exist.
+    - Write each approved task into `.lcs/work-items/<timestamp>-<slug-work-item>/task/task-###.md` (sequential 3-digit number starting at `001`).
+    - Every task must include Source coverage: Source IDs, Requirement IDs, Acceptance Criteria IDs, and Test IDs. If a task cannot map to upstream IDs, do not write it as executable; mark it as a slicing gap.
 
-5. **Update State & Handoff**:
-   - Update `.lcs/state.md` with:
-     - `current_phase: tasks`
-     - `timestamp: <current-ISO-timestamp>`
-   - Output the structured task list summary.
+5. **Generate Task Coverage Matrix**:
+    - Create or update `.lcs/work-items/<timestamp>-<slug-work-item>/task-coverage.md`.
+    - Map every `SRC-###`, `FR-###`, `BR-###`, `VR-###`, `EC-###`, `AC-###`, and `TEST-###` to at least one task where applicable.
+    - Flag uncovered IDs under `## Gaps`.
+
+6. **Update State & Handoff**:
+    - Update `.lcs/state.md` with:
+      - `current_phase: tasks`
+      - `timestamp: <current-ISO-timestamp>`
+    - Output the structured task list summary.
     - End with a Handoff pointing to the next logical step (e.g. `lcs-task-executor` and `task-001.md`).
 
 Prompt Templates
@@ -68,6 +82,11 @@ Each `task-###.md` must adhere to this exact structure:
 * **Status**: pending
 * **Type**: <AFK / HITL>
 * **Depends on**: <TASK-### or None>
+* **Source coverage**:
+  - Sources: SRC-001, SRC-002
+  - Requirements: FR-001, BR-001
+  - Acceptance Criteria: AC-001, AC-002
+  - Tests: TEST-001, TEST-002
 * **Priority**: <high/medium/low>
 * **Scope**: <vertical slice behavior, avoiding extremely stale specific details unless from verified prototypes>
 * **Files likely touched**:
@@ -111,7 +130,27 @@ Current phase: tasks
 Current confidence: high
 Blocking questions: None
 Risks to carry forward: <risks>
+Source of Truth Bundle: .lcs/state.md, prd-enhanced.md if present, prd.md, srs.md if present, tests.md if present, api.md if present, db.md if present, traceability.md if present, task-coverage.md
+Must Preserve IDs: SRC-001, FR-001, AC-001, TEST-001, ...
+Unresolved IDs: <list or None>
 Suggested next command: Eksekusi task-###.md
+```
+
+Task Coverage Matrix template:
+
+```markdown
+# Task Coverage Matrix
+
+| ID | Type | Covered By | Status |
+|---|---|---|---|
+| SRC-001 | source | TASK-001 | covered |
+| FR-001 | requirement | TASK-001 | covered |
+| AC-001 | acceptance | TASK-001 | covered |
+| TEST-001 | test | TASK-001 | covered |
+
+## Gaps
+
+- <ID>: <reason>
 ```
 
 ## Chain of Truth Level

@@ -23,11 +23,12 @@ Behavior checklist
 - Review it for gaps: ambiguous acceptance criteria, missing tests, security, performance, and missing Affected Areas / Files.
 - Create or update `prd-enhanced.md` in the same directory with the fully hardened specifications.
 - Keep the original `prd.md` intact, but write all improvements and hardenings directly to `prd-enhanced.md`.
+- Add `## Preservation Check`. Prove every `SRC-###` from `prd.md` still exists in `prd-enhanced.md`. If a requirement is removed, list it under `## Intentionally Removed` with reason. If a requirement was silently dropped, restore it before finishing.
 - Update `Review Notes` section in `prd-enhanced.md` with:
   - Last Reviewed: <timestamp>
   - Summary: <summary of revisions/gaps found>
   - Changes Applied: <improvements written into prd-enhanced.md>
-- End with Handoff section pointing to the next logical step (e.g., `lcs-task-slicer` or task slicing command).
+- End with Handoff section pointing to the next logical step (e.g., `lcs-task-slicer` or task slicing command), including Source of Truth Bundle, Must Preserve IDs, and Unresolved IDs.
 
 Prompt templates
 - Starter: "Review prd.md dan perbaiki menjadi prd-enhanced.md agar siap di-slice"
@@ -75,6 +76,21 @@ Must be exact structure as prd.md:
 - AC 1: <detail>
 - AC 2: <detail>
 
+## Preservation Check
+
+| SRC ID | Status | Notes |
+|---|---|---|
+| SRC-001 | preserved | <where/how it appears in enhanced PRD> |
+| SRC-002 | enhanced | <what changed while preserving intent> |
+
+## Intentionally Removed
+
+Only list requirements removed after explicit scope decision or contradiction resolution.
+
+| SRC ID | Reason |
+|---|---|
+| <SRC-### or None> | <reason> |
+
 ## Test Strategy
 - Unit: <spec>
 - Integration: <spec>
@@ -116,6 +132,9 @@ Current phase: prd_review
 Current confidence: high
 Blocking questions: None
 Risks to carry forward: <risks>
+Source of Truth Bundle: .lcs/state.md, prd.md, prd-enhanced.md
+Must Preserve IDs: SRC-001, SRC-002, ...
+Unresolved IDs: <list or None>
 Suggested next command: Slice prd-enhanced.md menjadi tasks.md
 
 ## Chain of Truth Level

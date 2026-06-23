@@ -11,7 +11,7 @@ Shared Coding Contract
 - Refer to Shared Coding Workflow Contract in `../lcs-shared/contract.md` for folder conventions, Handoff format, and token optimization.
 
 Purpose
-- Transform `prd.md` into deterministic Lean SRS artifacts optimized for AI implementation and QA.
+- Transform `prd-enhanced.md` when present, otherwise `prd.md`, into deterministic Lean SRS artifacts optimized for AI implementation and QA.
 - Reduce ambiguity, hallucination, and inconsistent implementation.
 - Keep output lightweight, markdown-first, traceable, and implementation-ready.
 
@@ -34,12 +34,18 @@ Input and output location
 
 Behavior checklist
 1. Read `.lcs/state.md` first when continuing existing work.
-2. Locate active work-item folder and `prd.md`.
-3. Extract from PRD:
+2. Read source bundle in order:
+   1. `.lcs/state.md`
+   2. `prd-enhanced.md` if present
+   3. `prd.md` as baseline fallback and ledger baseline
+   4. `source-ledger.md` if present
+   If `prd-enhanced.md` exists but was not read, stop and report a source conflict. Do not generate SRS from `prd.md` alone when enhanced PRD exists.
+3. Extract from the authoritative PRD and Source Requirement Ledger:
    - features
    - business goals
    - user roles
    - business rules
+   - `SRC-###` source IDs and priorities
 4. Generate deterministic requirement sets:
    - functional requirements
    - validation rules
@@ -47,8 +53,9 @@ Behavior checklist
    - acceptance criteria
 5. Draft API contract details when API behavior exists.
 6. Draft DB impact details when schema/persistence changes exist.
-7. Build traceability mapping across requirement families and tests.
-8. Produce stable markdown output with repeated structure.
+7. Build traceability mapping across source IDs, requirement families, acceptance criteria, and tests.
+8. Generate `traceability.md` mapping `SRC-* -> REQ/FR/BR/VR/EC -> AC-* -> TEST-*`.
+9. Produce stable markdown output with repeated structure.
 
 Requirement design rules
 - Every requirement must be atomic, deterministic, testable, and implementation-oriented.
@@ -281,10 +288,25 @@ Expected:
 ```
 
 Traceability rules
+- Every `SRC-###` from the Source Requirement Ledger must map to at least one downstream ID or appear under unresolved sources with reason.
 - Every FR must map to at least one AC.
 - Every AC must map to at least one TEST.
 - Requirement Traceability section must include cross-reference matrix:
-  - FR -> BR/VR/EC/API/DB/AC/TEST
+  - SRC -> FR/BR/VR/EC/API/DB/AC/TEST
+
+traceability.md required content
+```md
+# Traceability Matrix
+
+| SRC ID | FR | BR | VR | EC | API | DB | AC | TEST | Status |
+|---|---|---|---|---|---|---|---|---|---|
+| SRC-001 | FR-001 | - | - | - | - | - | AC-001 | TEST-001 | covered |
+| SRC-002 | FR-002 | BR-001 | - | - | - | - | AC-002 | TEST-002 | covered |
+
+## Unresolved Sources
+
+- SRC-003: <reason not yet decomposed>
+```
 
 Writing style
 - Concise.
@@ -328,6 +350,9 @@ Current phase: tasks
 Current confidence: <low/medium/high>
 Blocking questions: <list or None>
 Risks to carry forward: <short>
+Source of Truth Bundle: .lcs/state.md, prd-enhanced.md if present, prd.md, source-ledger.md if present, srs.md, tests.md, traceability.md
+Must Preserve IDs: SRC-001, SRC-002, FR-001, AC-001, TEST-001, ...
+Unresolved IDs: <list or None>
 Suggested next command: Slice srs.md into task/task-###.md with strict requirement references
 ```
 
