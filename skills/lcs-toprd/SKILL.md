@@ -11,7 +11,7 @@ Shared Coding Contract
 - Refer to Shared Coding Workflow Contract in `../lcs-shared/contract.md` for folder conventions, Handoff format, and token optimization.
 
 Purpose
-- Create or update prd.md. Keep practical for coding. Include security, performance, acceptance criteria, test strategy. Do NOT interview the user â€” just synthesize what you already know.
+- Create or update prd.md. Keep practical for coding. Include security, performance, acceptance criteria, test strategy. Do NOT interview the user - just synthesize what you already know.
 
 Trigger
 - Activate when user requests to "create PRD", "write PRD", "plan feature", or when user asks for acceptance criteria, test strategy, or technical approach.

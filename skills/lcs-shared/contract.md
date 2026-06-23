@@ -53,7 +53,7 @@ When active skill is `lcs-onboarding`, outputs use flat singleton paths (no time
 .lcs/work-items/onboarding.md
 .lcs/work-items/onboarding-map.md
 ```
-These are project-level singletons â€” overwritten on each run. This exception overrides the timestamped folder convention for onboarding output.
+These are project-level singletons - overwritten on each run. This exception overrides the timestamped folder convention for onboarding output.
 
 ## Artifact Files
 Create only when relevant:

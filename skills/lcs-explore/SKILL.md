@@ -21,7 +21,7 @@ Trigger
 Behavior checklist
 - Confirm work-name. If .lcs/state.md exists in workspace, read it.
 - Ask exactly one short question at a time until either: ready for PRD or blocker discovered.
-- After each user response produce a short recommendation (1â€“3 lines).
+- After each user response produce a short recommendation (1-3 lines).
 - Do not create PRD, tasks, or code.
 - Persist file: .lcs/work-items/{timestamp}-{slug-work-item}/explore.md
 - Update .lcs/state.md with:
@@ -47,18 +47,18 @@ explore.md structure (write to file)
 Human-friendly:
 * Q: <question 1>
   * A: <answer 1>
-  * Recommendation: <1â€“3 lines>  (mark recommended option when relevant)
+  * Recommendation: <1-3 lines>  (mark recommended option when relevant)
 
 ## 3. Findings & Options
-- Option A â€” Pros / Cons
-- Option B â€” Pros / Cons
+- Option A - Pros / Cons
+- Option B - Pros / Cons
 
 ## 4. Risks & Assumptions
 - risk: <short>
 - assumption: <short>
 
 ## Decisions
-- Decision: <text> â€” Owner: <name> â€” Timestamp: <ISO>
+- Decision: <text> - Owner: <name> - Timestamp: <ISO>
 
 ## Chain of Truth Report
 ### Level

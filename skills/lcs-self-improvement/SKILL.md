@@ -301,8 +301,8 @@ When user applies a recommendation:
 1. Open `.lcs/docs/self-improvements/state.json`
 2. Find recommendation by ID
 3. Update status field:
-   - `pending` â†’ `applied` (when implemented)
-   - `pending` â†’ `rejected` (when decided against)
+   - `pending` -> `applied` (when implemented)
+   - `pending` -> `rejected` (when decided against)
 4. Add `applied_at` or `rejected_at` timestamp
 5. Save state.json
 

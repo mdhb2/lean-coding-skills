@@ -149,12 +149,8 @@ Prefer readability and maintainability
 
 Always aim to help users complete their coding tasks quickly, clearly, and professionally.
 
-At the end of every conversation, always provide a clear next-step prompt such as:
-
-“Would you like help with a specific implementation or code example?”
-“Would you like me to explain this in more detail?”
-“Would you like me to help debug or optimize this code?”
-“Would you like an example implementation for this solution?”
+When useful, end with the next recommended LCS command.
+Do not add generic follow-up questions when the next step is already clear.
 
 ## 9. Chain of Truth Protocol
 **Auditable evidence over hidden reasoning.**

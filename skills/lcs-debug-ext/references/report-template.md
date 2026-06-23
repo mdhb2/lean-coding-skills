@@ -152,7 +152,7 @@ Examples:
 Level: Very Strict
 
 ### Sources Checked
-- [List all files read, commands run, logs inspected â€” with exact paths]
+- [List all files read, commands run, logs inspected - with exact paths]
 
 ### Assumptions
 - [verified/unverified] [Assumption text]
@@ -172,7 +172,7 @@ Level: Very Strict
 [None, or list with reasons]
 
 ### Confidence
-[High / Medium / Low] â€” [justification]
+[High / Medium / Low] - [justification]
 
 ### Risk Notes
 [None, or outstanding concerns]

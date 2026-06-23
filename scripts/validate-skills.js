@@ -41,6 +41,11 @@ const WORK_ITEMS_CORRUPTED = '.lcs/work-items/' + '-/';
 const DOCS_CORRUPTED = '.lcs/docs/' + '-/';
 const ARCHIVE_CORRUPTED = '.lcs/archive/' + '-/';
 const ANALYSIS_CORRUPTED = '-' + 'analysis.md';
+const MOJIBAKE_PATTERNS = [
+  '\u00E2\u20AC\u201C',  // â€œ — corrupted en-dash
+  '\u00E2\u20AC\u201D',  // â€" — corrupted em-dash
+  '\u00E2\u2020\u2019',  // â†' — corrupted arrow
+];
 const CORRUPTED_PLACEHOLDERS = [
   WORK_ITEMS_CORRUPTED,
   DOCS_CORRUPTED,
@@ -256,6 +261,13 @@ function checkRepoCorruption() {
 
     if (path.extname(filePath) === '.js' && content.startsWith('#!/usr/bin/env node //')) {
       fail(`${relative} has collapsed Node shebang comment`);
+    }
+
+    for (const moji of MOJIBAKE_PATTERNS) {
+      if (content.includes(moji)) {
+        fail(`${relative} contains mojibake character sequence`);
+        break;
+      }
     }
   }
 }

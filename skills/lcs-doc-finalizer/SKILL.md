@@ -26,8 +26,8 @@ Behavior checklist
    - If any task is NOT done (e.g., `pending` or `blocked`), alert the user, list the incomplete tasks, and ask if they wish to proceed anyway or continue executing tasks first.
 4. Read `.lcs/work-items/{timestamp}-{slug-work-item}/prd-enhanced.md` (fallback to `prd.md` if enhanced version is missing) and `explore.md` to capture context.
 5. Create the following directories if they do not exist:
-   - `.lcs/docs/{timestamp}-{slug-work-item}/` â€” output target for documentation files.
-   - `.lcs/archive/{timestamp}-{slug-work-item}/` â€” archive target for source artifacts.
+   - `.lcs/docs/{timestamp}-{slug-work-item}/` - output target for documentation files.
+   - `.lcs/archive/{timestamp}-{slug-work-item}/` - archive target for source artifacts.
 6. Generate `.lcs/docs/{timestamp}-{slug-work-item}/map.md` mapping the exact files changed or created during this work-item.
 7. Generate `.lcs/docs/{timestamp}-{slug-work-item}/doc.md` consolidating the functional changes, verification steps, git commit recommendations, and PR description.
    - Read all task files from `.lcs/work-items/{timestamp}-{slug-work-item}/task/` folder.

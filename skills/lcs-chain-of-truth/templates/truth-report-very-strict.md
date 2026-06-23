@@ -17,13 +17,13 @@ Very Strict
 3. <Step planned>
 
 ### Actions Taken
-- Command: `<command>` â€” output: `<stdout/stderr captured>`
+- Command: `<command>` - output: `<stdout/stderr captured>`
 - Edited `<file path>`: <exact changes>
 - Created `<file path>`: <content summary>
 
 ### Verification
-- Command: `<test/lint command>` â€” result: `<verbatim output>`
-- Command: `<test/lint command>` â€” result: `<verbatim output>`
+- Command: `<test/lint command>` - result: `<verbatim output>`
+- Command: `<test/lint command>` - result: `<verbatim output>`
 
 ### Proof of Result
 ```

@@ -55,7 +55,7 @@ Level: Standard
 - State.md updated with `current_phase: debug`.
 
 ### Confidence
-<low/medium/high> â€” <brief justification>
+<low/medium/high> - <brief justification>
 
 ## Handoff
 Next recommended skill: lcs-toprd

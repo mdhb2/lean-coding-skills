@@ -20,12 +20,12 @@ Strict
 - Modified `<file path>`: <summary of changes>
 
 ### Traceability
-- FR-001 â†’ AC-001, AC-002 â†’ <implementation>
-- FR-002 â†’ AC-003 â†’ <implementation>
+- FR-001 -> AC-001, AC-002 -> <implementation>
+- FR-002 -> AC-003 -> <implementation>
 
 ### Validation Checklist
 - [x] <AC-001 description>: pass
-- [ ] <AC-002 description>: fail â€” <reason>
+- [ ] <AC-002 description>: fail - <reason>
 
 ### Risk Notes
 - <Unverified items or outstanding concerns>
