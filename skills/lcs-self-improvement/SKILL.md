@@ -348,6 +348,63 @@ SHA256: "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6..."
 ID: "a1b2c3d4e5f6g7h8"
 ```
 
+## Chain of Truth Report
+
+### Level
+Standard
+
+### Sources Checked
+- Current conversation context (when available)
+- Supplied files, folders, and exported logs
+- Project instructions (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, `README.md`)
+- `.lcs/` content and existing skill directories (`skills/`)
+- `references/analysis-checkpoints.md` and `references/improvement-targets.md`
+
+### Assumptions
+- User wants diagnostic-only analysis (no automatic changes)
+- Evidence available is representative of actual friction patterns
+- Legacy `.lcs/docs/self-improvements.md` (if present) should be migrated
+
+### Plan
+1. Phase 1: Collect context and references
+2. Phase 2: Analyze friction, success patterns, and repeated issues
+3. Phase 2.5: Deduplicate recommendations against state.json
+4. Phase 3: Cross-reference existing instructions, docs, rules, skills
+5. Phase 4: Generate timestamped report, state.json, and index.md
+6. Phase 5: Validate output files and explain usage
+
+### Actions Taken
+- Collected available context and references
+- Analyzed friction and success patterns
+- Generated unique recommendation IDs via SHA256
+- Cross-referenced findings against existing project instructions
+- Created `.lcs/docs/self-improvements/{timestamp}-analysis.md`
+- Updated `.lcs/docs/self-improvements/state.json` and `index.md`
+
+### Verification
+- Output files exist: analysis.md, state.json, index.md
+- state.json is valid JSON
+- No instruction/rule/skill files were modified
+- No raw user quotes included (unless explicitly requested)
+- All recommendations have target location or `[ASK USER]`
+
+### Report
+**Confidence**: Low/Medium/High (based on evidence completeness)
+**Nature**: Diagnostic only — no changes were applied automatically
+
+## Handoff
+
+Next recommended skill: manual review
+Next file to read: .lcs/docs/self-improvements/index.md
+Current phase: self_improvement_review
+Current confidence: medium
+Blocking questions: None
+Risks to carry forward: Recommendations may be incomplete if evidence was limited; recurring items may indicate higher priority issues
+Source of Truth Bundle: .lcs/docs/self-improvements/{timestamp}-analysis.md, .lcs/docs/self-improvements/state.json, .lcs/docs/self-improvements/index.md
+Must Preserve IDs: None
+Unresolved IDs: None
+Suggested next command: Review self-improvement recommendations and decide which ones to apply
+
 ## Chain of Truth Level
 
 Level: Standard
