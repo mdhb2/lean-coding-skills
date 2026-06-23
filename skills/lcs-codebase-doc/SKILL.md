@@ -190,14 +190,23 @@ Strict
 ## Handoff
 
 Next recommended skill: lcs-doc-finalizer
-Next file to read: .lcs/codebase/overview.md
+
+Next file to read: .lcs/codebase/CHAIN-OF-TRUTH.md
+
 Current phase: codebase_documentation
+
 Current confidence: medium
+
 Blocking questions: None
+
 Risks to carry forward: Unvalidated claims marked as `[TODO]`; missing intent docs may reduce accuracy
-Source of Truth Bundle: .lcs/state.md, .lcs/codebase/overview.md, .lcs/codebase/modules.md, .lcs/codebase/routes.md, .lcs/codebase/data-model.md, .lcs/codebase/dependencies.md, .lcs/codebase/testing.md, .lcs/codebase/risks.md
+
+Source of Truth Bundle: .lcs/state.md, .lcs/codebase/STACK.md, .lcs/codebase/STRUCTURE.md, .lcs/codebase/ARCHITECTURE.md, .lcs/codebase/CONVENTIONS.md, .lcs/codebase/INTEGRATIONS.md, .lcs/codebase/TESTING.md, .lcs/codebase/CONCERNS.md, .lcs/codebase/CHAIN-OF-TRUTH.md
+
 Must Preserve IDs: None
+
 Unresolved IDs: None
+
 Suggested next command: Finalize codebase documentation
 
 ## Chain of Truth Level
