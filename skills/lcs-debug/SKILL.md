@@ -28,6 +28,35 @@ Behavior checklist
 - End with Handoff section.
 
 Handoff example:
+
+## Chain of Truth Report
+Level: Standard
+
+### Sources Checked
+- `.lcs/state.md` (if present)
+- User-provided repro steps, logs, error messages
+
+### Assumptions
+- [unverified by default] Reported behavior is reproducible.
+- [unverified by default] Recent commits listed by user are relevant.
+
+### Plan Before Action
+1. Read state.md to identify active work item.
+2. Ask clarifying questions one at a time.
+3. Write hypotheses and investigation plan to debug.md.
+4. Update state.md.
+
+### Actions Taken
+- <Questions asked and answers recorded>
+- <debug.md written at declared path>
+
+### Verification
+- Confirmed debug.md exists at `.lcs/work-items/<timestamp>-<slug>/debug.md`.
+- State.md updated with `current_phase: debug`.
+
+### Confidence
+<low/medium/high> — <brief justification>
+
 ## Handoff
 Next recommended skill: lcs-toprd
 Next file to read: .lcs/work-items/<timestamp>-<slug-work-item>/debug.md

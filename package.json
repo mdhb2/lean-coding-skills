@@ -23,7 +23,7 @@
     "url": "git+https://github.com/mdhb2/lean-coding-skills.git"
   },
   "scripts": {
-    "test": "node --version && exit 0",
+    "test": "node scripts/validate-skills.js",
     "prepare": "chmod +x scripts/claude-skills.js || true"
   }
 }

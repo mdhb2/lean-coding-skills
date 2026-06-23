@@ -5,7 +5,7 @@
 //  npx --yes ./scripts/claude-skills.js add-target https://github.com/owner/target-repo -s local -y --push
 //  npx --yes ./scripts/claude-skills.js install-local
 
-const { execSync } = require('child_process');
+const { execSync, execFileSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
@@ -47,7 +47,7 @@ function ensureClaudeSkillsDir(baseDir) {
 function cloneRepo(url, tmpDir) {
   try {
     log('Cloning', url, 'to', tmpDir);
-    execSync(`git clone --depth=1 ${url} "${tmpDir}"`, { stdio: 'inherit' });
+    execFileSync('git', ['clone', '--depth=1', url, tmpDir], { stdio: 'inherit' });
   } catch (err) {
     die('git clone failed. Ensure git is installed and URL is valid.');
   }
@@ -55,10 +55,14 @@ function cloneRepo(url, tmpDir) {
 
 function gitCommitAndMaybePush(repoDir, message, doPush) {
   try {
-    execSync('git add .', { cwd: repoDir, stdio: 'inherit' });
-    execSync(`git commit -m "${message.replace(/"/g, '\\"')}" || true`, { cwd: repoDir, stdio: 'inherit' });
+    execFileSync('git', ['add', '.'], { cwd: repoDir, stdio: 'inherit' });
+    try {
+      execFileSync('git', ['commit', '-m', message], { cwd: repoDir, stdio: 'inherit' });
+    } catch (e) {
+      // nothing to commit is non-fatal
+    }
     if (doPush) {
-      execSync('git push', { cwd: repoDir, stdio: 'inherit' });
+      execFileSync('git', ['push'], { cwd: repoDir, stdio: 'inherit' });
     }
   } catch (err) {
     die('git commit/push failed. Check credentials and remote access.');

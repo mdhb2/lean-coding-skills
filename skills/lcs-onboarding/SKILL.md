@@ -109,6 +109,34 @@ This section lists only the existing files that are key to the architecture.
 
 ---
 
+## Chain of Truth Report
+Level: Standard
+
+### Sources Checked
+- Repository configuration files (package.json, README, etc.)
+- `.lcs/state.md` if present
+
+### Assumptions
+- [unverified by default] Repository follows standard project layout.
+- [unverified by default] Listed setup commands are current.
+
+### Plan Before Action
+1. Scan repository structure.
+2. Extract stack, entrypoints, setup/run/test commands.
+3. Write onboarding.md and onboarding-map.md.
+4. Update state.md.
+
+### Actions Taken
+- <Files read and scanned>
+- <Files written>
+
+### Verification
+- Confirmed output files exist at declared paths.
+- Manual review: key sections populated, no [TODO] left without reason.
+
+### Confidence
+<high/medium/low> — <brief justification>
+
 ## Handoff
 Next recommended skill: lcs-explore
 Next file to read: .lcs/work-items/onboarding.md

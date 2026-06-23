@@ -47,6 +47,14 @@ Supporting files:
 This report is diagnostic-only and does not apply changes automatically.
 This exception overrides generic runtime artifact path assumptions for self-improvement analysis output.
 
+### Skill-Specific Exception: `lcs-onboarding`
+When active skill is `lcs-onboarding`, outputs use flat singleton paths (no timestamp or slug folder):
+```
+.lcs/work-items/onboarding.md
+.lcs/work-items/onboarding-map.md
+```
+These are project-level singletons — overwritten on each run. This exception overrides the timestamped folder convention for onboarding output.
+
 ## Artifact Files
 Create only when relevant:
 - explore.md

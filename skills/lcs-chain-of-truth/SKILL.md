@@ -96,7 +96,7 @@ Requirements:
 
 ### Level 4 — Very Strict
 
-**Use for**: Code changes, debugging, implementation (lcs-task-executor, lcs-task-executer (legacy), lcs-debug, lcs-debug-ext).
+**Use for**: Code changes, debugging, implementation (lcs-task-executor, lcs-task-executer (legacy), lcs-debug-ext).
 
 Requirements:
 - All Level 3 requirements, plus:
@@ -151,14 +151,14 @@ Each LCS skill declares its Chain of Truth level:
 |---|---|---|
 | `lcs-explore` | Light (1) | Exploratory, conversational, low-stakes |
 | `lcs-toprd` | Standard (2) | Planning artifact, structured output |
-| `lcs-tosrs` | Standard (2) | Spec derivation from PRD |
+| `lcs-tosrs` | Strict (3) | Spec derivation from PRD |
 | `lcs-onboarding` | Standard (2) | Documentation generation |
-| `lcs-task-slicer` | Standard (2) | Task breakdown planning |
+| `lcs-task-slicer` | Strict (3) | Task breakdown planning |
 | `lcs-self-improvement` | Standard (2) | Diagnostic analysis and recommendations |
 | `lcs-prd-reviewer` | Strict (3) | Reviews contracts, flags acceptance criteria |
 | `lcs-doc-finalizer` | Strict (3) | Finalizes and archives canonical docs |
 | `lcs-codebase-doc` | Strict (3) | Codebase mapping and onboarding documentation |
-| `lcs-debug` | Very Strict (4) | Code investigation with direct changes |
+| `lcs-debug` | Standard (2) | Question-asking investigation skill, no code changes applied |
 | `lcs-debug-ext` | Very Strict (4) | Evidence-based debug reports without code changes |
 | `lcs-task-executer` | Very Strict (4) | Code implementation with tests and lint (legacy spelling) |
 | `lcs-task-executor` | Very Strict (4) | Code implementation with tests and lint (canonical spelling) |
@@ -166,10 +166,18 @@ Each LCS skill declares its Chain of Truth level:
 
 ---
 
+## Chain of Truth Level
+
+Level: Meta
+
+This skill defines the LCS Chain of Truth protocol and is not self-applied.
+
+---
+
 ## Handoff
 
 Next recommended skill: lcs-shared
-Next file to read: `.claude/skills/lcs-shared/contract.md`
+Next file to read: `skills/lcs-shared/contract.md`
 Current phase: reference
 Current confidence: high
 Blocking questions: None

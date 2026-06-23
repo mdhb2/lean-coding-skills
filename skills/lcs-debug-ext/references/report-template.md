@@ -148,6 +148,35 @@ Examples:
 ## Limitations
 - [TODO]
 
+## Chain of Truth Report
+Level: Very Strict
+
+### Sources Checked
+- [List all files read, commands run, logs inspected — with exact paths]
+
+### Assumptions
+- [verified/unverified] [Assumption text]
+
+### Plan Before Action
+1. [Step taken before any action]
+
+### Actions Taken
+- [Exact commands run with stdout/stderr captured]
+- [Files written or read]
+
+### Verification
+- [All checks run; results quoted verbatim]
+- [If no test seam: document why and mark [unverified]]
+
+### Blocked Items
+[None, or list with reasons]
+
+### Confidence
+[High / Medium / Low] — [justification]
+
+### Risk Notes
+[None, or outstanding concerns]
+
 ## Handoff
 Next recommended skill: <skill-name>
 Next file to read: .lcs/work-items/<timestamp>-<slug-work-item>-debug-ext/debug.md

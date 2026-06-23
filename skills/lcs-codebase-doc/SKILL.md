@@ -36,6 +36,7 @@ Before finishing, ensure exactly these files exist under `.lcs/codebase/`:
 - `.lcs/codebase/INTEGRATIONS.md`
 - `.lcs/codebase/TESTING.md`
 - `.lcs/codebase/CONCERNS.md`
+- `.lcs/codebase/CHAIN-OF-TRUTH.md` *(Chain of Truth Report — written in Phase 4)*
 
 Rules for every doc:
 
@@ -51,7 +52,7 @@ Rules for every doc:
 - [ ] Phase 1: Create `.lcs/codebase/`, run scan, read intent documents from `.lcs/docs/`
 - [ ] Phase 2: Investigate each documentation area
 - [ ] Phase 3: Populate all seven docs in `.lcs/codebase/`
-- [ ] Phase 4: Validate docs, repair unsupported claims, present findings
+- [ ] Phase 4: Validate docs, repair unsupported claims, write `.lcs/codebase/CHAIN-OF-TRUTH.md`, present findings
 
 ## Phase 1: Scan and read intent
 1. Create output directory using host shell.
@@ -118,6 +119,7 @@ Before final response:
 5. Highlight intent-vs-implementation divergence.
 6. Summarize outputs created under `.lcs/codebase/`.
 7. Clearly report limitations, missing evidence, missing `.lcs/docs/`, or scan failures.
+8. Write `.lcs/codebase/CHAIN-OF-TRUTH.md` with the Chain of Truth Report (Level: Strict) covering sources checked, assumptions, actions taken, verification results, and confidence rating.
 
 ## Focus-area mode
 If user asks for a subset (for example: architecture only, testing and concerns, stack and integrations, security concerns only):
