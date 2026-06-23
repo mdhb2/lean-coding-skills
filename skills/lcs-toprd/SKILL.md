@@ -11,7 +11,7 @@ Shared Coding Contract
 - Refer to Shared Coding Workflow Contract in `../lcs-shared/contract.md` for folder conventions, Handoff format, and token optimization.
 
 Purpose
-- Create or update prd.md. Keep practical for coding. Include security, performance, acceptance criteria, test strategy. Do NOT interview the user — just synthesize what you already know.
+- Create or update prd.md. Keep practical for coding. Include security, performance, acceptance criteria, test strategy. Do NOT interview the user â€” just synthesize what you already know.
 
 Trigger
 - Activate when user requests to "create PRD", "write PRD", "plan feature", or when user asks for acceptance criteria, test strategy, or technical approach.
@@ -22,7 +22,7 @@ Behavior checklist
 - Sketch out the major modules you will need to build or modify to complete the implementation. Actively look for opportunities to extract deep modules that can be tested in isolation. A deep module encapsulates a lot of functionality in a simple, testable interface which rarely changes.
 - Ensure PRD uses Affected Areas / Files to limit later code reads.
 - Extract every user instruction, explicit constraint, and requirement bullet from explore.md, debug.md, and direct user input into SRC-### rows in the Source Requirement Ledger. Do not collapse P0 requirements into summaries.
-- Write prd.md under .lcs/work-items/<yyyymmdd-HHMMSS>-<slug-work-item>/prd.md. Do not create versioned copies.
+- Write prd.md under .lcs/work-items/{timestamp}-{slug-work-item}/prd.md. Do not create versioned copies.
 - Provide clear Acceptance Criteria and Test Strategy (unit/integration/e2e where applicable).
 - Add ## Source Requirement Ledger section with SRC-### IDs, P0/P1/P2 priorities, origin, and description.
 - Add Review Notes with last reviewed/summary/changes applied.
@@ -131,7 +131,7 @@ Standard
 
 ## Handoff
 Next recommended skill: lcs-prd-reviewer
-Next file to read: .lcs/work-items/<yyyymmdd-HHMMSS>-<slug-work-item>/prd.md
+Next file to read: .lcs/work-items/{timestamp}-{slug-work-item}/prd.md
 Current phase: prd
 Current confidence: <low/medium/high>
 Blocking questions: <list or None>

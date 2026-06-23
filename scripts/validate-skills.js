@@ -11,6 +11,7 @@ const SKILLS_DIR = path.join(ROOT, 'skills');
 const CONTRACT_PATH = path.join(SKILLS_DIR, 'lcs-shared', 'contract.md');
 const README_PATH = path.join(ROOT, 'README.md');
 const COT_SKILL_PATH = path.join(SKILLS_DIR, 'lcs-chain-of-truth', 'SKILL.md');
+const PACKAGE_PATH = path.join(ROOT, 'package.json');
 
 // Canonical level mapping sourced from contract.md
 // Update this table when contract.md changes.
@@ -35,6 +36,18 @@ const CANONICAL_LEVELS = {
 const VALID_LEVELS = new Set(['Light', 'Standard', 'Strict', 'Very Strict', 'Meta']);
 const CANONICAL_EXECUTOR = 'lcs-task-executor';
 const LEGACY_EXECUTOR    = 'lcs-task-executer';
+const MINIMAL_SKILL_FILES = new Set(['lcs-shared']);
+const WORK_ITEMS_CORRUPTED = '.lcs/work-items/' + '-/';
+const DOCS_CORRUPTED = '.lcs/docs/' + '-/';
+const ARCHIVE_CORRUPTED = '.lcs/archive/' + '-/';
+const ANALYSIS_CORRUPTED = '-' + 'analysis.md';
+const CORRUPTED_PLACEHOLDERS = [
+  WORK_ITEMS_CORRUPTED,
+  DOCS_CORRUPTED,
+  ARCHIVE_CORRUPTED,
+];
+const SCANNED_EXTENSIONS = new Set(['.md', '.js', '.json', '.py', '.ps1']);
+const SKIPPED_DIRS = new Set(['.git', 'node_modules']);
 
 let errors = [];
 let warnings = [];
@@ -51,6 +64,24 @@ function pass(msg)  { passed++; process.stdout.write('  PASS: ' + msg + '\n'); }
 function readFile(filePath) {
   if (!fs.existsSync(filePath)) return null;
   return fs.readFileSync(filePath, 'utf8');
+}
+
+function walkFiles(dir, out = []) {
+  if (!fs.existsSync(dir)) return out;
+  for (const name of fs.readdirSync(dir)) {
+    const full = path.join(dir, name);
+    const stat = fs.statSync(full);
+    if (stat.isDirectory()) {
+      if (!SKIPPED_DIRS.has(name)) walkFiles(full, out);
+    } else if (SCANNED_EXTENSIONS.has(path.extname(name))) {
+      out.push(full);
+    }
+  }
+  return out;
+}
+
+function rel(filePath) {
+  return path.relative(ROOT, filePath).replace(/\\/g, '/');
 }
 
 /** Parse YAML frontmatter block between opening and closing --- */
@@ -112,6 +143,22 @@ function checkSkills() {
     }
 
     const content = fs.readFileSync(skillMdPath, 'utf8');
+    const lineCount = content.split(/\r?\n/).length;
+
+    if (content.startsWith('--- name:')) {
+      fail(`[${folder}] SKILL.md starts with collapsed frontmatter ('--- name:')`);
+      continue;
+    }
+
+    if (!content.startsWith('---\n') && !content.startsWith('---\r\n')) {
+      fail(`[${folder}] SKILL.md must start with standalone YAML delimiter followed by newline`);
+      continue;
+    }
+
+    if (lineCount < 20 && !MINIMAL_SKILL_FILES.has(folder)) {
+      fail(`[${folder}] SKILL.md has suspiciously low line count (${lineCount}); possible newline collapse`);
+    }
+
     const fm = parseFrontmatter(content);
 
     // Check 1b — valid frontmatter
@@ -184,8 +231,65 @@ function checkSkills() {
 }
 
 // ---------------------------------------------------------------------------
-// Check 6 — canonical executor lcs-task-executor exists
-// Check 7 — legacy lcs-task-executer still exists
+// Check 6 — repo-wide corruption and collapse guards
+// ---------------------------------------------------------------------------
+
+function checkRepoCorruption() {
+  for (const filePath of walkFiles(ROOT)) {
+    const content = readFile(filePath) || '';
+    const relative = rel(filePath);
+
+    for (const placeholder of CORRUPTED_PLACEHOLDERS) {
+      if (content.includes(placeholder)) {
+        fail(`${relative} contains corrupted placeholder '${placeholder}'`);
+      }
+    }
+
+    const analysisPattern = new RegExp('(^|[^A-Za-z0-9}])' + ANALYSIS_CORRUPTED.replace('.', '\\.'));
+    if (analysisPattern.test(content)) {
+      fail(`${relative} contains corrupted placeholder '${ANALYSIS_CORRUPTED}'`);
+    }
+
+    if (path.basename(filePath) === 'SKILL.md' && content.startsWith('--- name:')) {
+      fail(`${relative} starts with collapsed frontmatter ('--- name:')`);
+    }
+
+    if (path.extname(filePath) === '.js' && content.startsWith('#!/usr/bin/env node //')) {
+      fail(`${relative} has collapsed Node shebang comment`);
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Check 7 — package.json test script runs validator
+// ---------------------------------------------------------------------------
+
+function checkPackageTestScript() {
+  const raw = readFile(PACKAGE_PATH);
+  if (!raw) {
+    fail('package.json missing');
+    return;
+  }
+
+  let pkg;
+  try {
+    pkg = JSON.parse(raw);
+  } catch (err) {
+    fail(`package.json is not valid JSON: ${err.message}`);
+    return;
+  }
+
+  const testScript = pkg.scripts && pkg.scripts.test;
+  if (!testScript || !testScript.includes('scripts/validate-skills.js')) {
+    fail('package.json test script must run scripts/validate-skills.js');
+  } else {
+    pass('package.json test script runs scripts/validate-skills.js');
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Check 8 — canonical executor lcs-task-executor exists
+// Check 9 — legacy lcs-task-executer still exists
 // ---------------------------------------------------------------------------
 
 function checkExecutors() {
@@ -215,7 +319,7 @@ function checkExecutors() {
 }
 
 // ---------------------------------------------------------------------------
-// Check 8 — cross-document level consistency spot-check
+// Check 10 — cross-document level consistency spot-check
 // Verifies that README.md, contract.md, and lcs-chain-of-truth/SKILL.md all
 // mention the same set of key skills at the same levels.
 // ---------------------------------------------------------------------------
@@ -269,6 +373,12 @@ console.log('\n=== LCS Skills Validator ===\n');
 
 console.log('--- Skill structure checks ---');
 checkSkills();
+
+console.log('\n--- Repository corruption checks ---');
+checkRepoCorruption();
+
+console.log('\n--- package.json checks ---');
+checkPackageTestScript();
 
 console.log('\n--- Executor checks ---');
 checkExecutors();

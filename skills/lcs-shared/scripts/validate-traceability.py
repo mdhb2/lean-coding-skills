@@ -33,9 +33,18 @@ def check_chain_of_truth_before_handoff(text: str, label: str) -> list[str]:
     return failures
 
 
+def has_test_mapping(ac_id: str, tests: str) -> bool:
+    for line in tests.splitlines():
+        if ac_id in line and re.search(r"TEST-\d{3}", line):
+            return True
+
+    sections = re.split(r"(?=^#{2,3}\s+TEST-\d{3}\b)", tests, flags=re.MULTILINE)
+    return any(ac_id in section and re.search(r"^#{2,3}\s+TEST-\d{3}\b", section, re.MULTILINE) for section in sections)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Validate LCS requirement traceability.")
-    parser.add_argument("--work-item", default="", help="Path to .lcs/work-items/<timestamp>-<slug>")
+    parser.add_argument("--work-item", default="", help="Path to .lcs/work-items/{timestamp}-{slug-work-item}")
     args = parser.parse_args()
 
     work_item = find_work_item(args.work_item)
@@ -76,7 +85,7 @@ def main() -> int:
             failures += check_chain_of_truth_before_handoff(content, fname)
 
     for ac_id in ac_ids:
-        if tests and ac_id not in tests:
+        if tests and not has_test_mapping(ac_id, tests):
             failures.append(f"{ac_id} has no TEST mapping in tests.md")
     if srs and not tests:
         warnings.append("srs.md exists but tests.md is missing; AC-to-TEST validation incomplete.")

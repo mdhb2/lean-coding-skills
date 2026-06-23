@@ -1,14 +1,14 @@
 # LCS Debug Ext Report Template
 
-Use this template for `.lcs/work-items/<timestamp>-<slug-work-item>-debug-ext/debug.md`.
+Use this template for `.lcs/work-items/{timestamp}-{slug-work-item}-debug-ext/debug.md`.
 
 ```markdown
 # LCS Debug Ext Report
 
 ## Scope
 **Generated from:** [current task / supplied files / supplied folders / logs / combined sources]
-**Output directory:** `.lcs/work-items/<timestamp>-<slug-work-item>-debug-ext/`
-**Report path:** `.lcs/work-items/<timestamp>-<slug-work-item>-debug-ext/debug.md`
+**Output directory:** `.lcs/work-items/{timestamp}-{slug-work-item}-debug-ext/`
+**Report path:** `.lcs/work-items/{timestamp}-{slug-work-item}-debug-ext/debug.md`
 **Changes applied:** None
 
 ## Bug Summary
@@ -125,8 +125,8 @@ After:
 
 ## Cleanup Checklist
 - [ ] Remove temporary debug logs using prefix `[DEBUG-lcs-xxxx]`.
-- [ ] Remove throwaway harnesses or move them to `.lcs/work-items/<timestamp>-<slug-work-item>-debug-ext/`.
-- [ ] Confirm no generated debug artifacts are outside `.lcs/work-items/<timestamp>-<slug-work-item>-debug-ext/`.
+- [ ] Remove throwaway harnesses or move them to `.lcs/work-items/{timestamp}-{slug-work-item}-debug-ext/`.
+- [ ] Confirm no generated debug artifacts are outside `.lcs/work-items/{timestamp}-{slug-work-item}-debug-ext/`.
 - [ ] Confirm no source files were modified by this skill.
 
 ## Post-Mortem
@@ -152,7 +152,7 @@ Examples:
 Level: Very Strict
 
 ### Sources Checked
-- [List all files read, commands run, logs inspected — with exact paths]
+- [List all files read, commands run, logs inspected â€” with exact paths]
 
 ### Assumptions
 - [verified/unverified] [Assumption text]
@@ -172,14 +172,14 @@ Level: Very Strict
 [None, or list with reasons]
 
 ### Confidence
-[High / Medium / Low] — [justification]
+[High / Medium / Low] â€” [justification]
 
 ### Risk Notes
 [None, or outstanding concerns]
 
 ## Handoff
 Next recommended skill: <skill-name>
-Next file to read: .lcs/work-items/<timestamp>-<slug-work-item>-debug-ext/debug.md
+Next file to read: .lcs/work-items/{timestamp}-{slug-work-item}-debug-ext/debug.md
 Current phase: debug
 Current confidence: <low/medium/high>
 Blocking questions: <list or None>

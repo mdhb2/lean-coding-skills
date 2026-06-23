@@ -46,6 +46,23 @@ function Check-ChainOfTruth($text, $label) {
     return $failures
 }
 
+function Has-TestMapping($acId, $tests) {
+    foreach ($line in ($tests -split "`r?`n")) {
+        if (($line -match [regex]::Escape($acId)) -and ($line -match 'TEST-\d{3}')) {
+            return $true
+        }
+    }
+
+    $sections = [regex]::Split($tests, '(?m)(?=^#{2,3}\s+TEST-\d{3}\b)')
+    foreach ($section in $sections) {
+        if (($section -match [regex]::Escape($acId)) -and ($section -match '(?m)^#{2,3}\s+TEST-\d{3}\b')) {
+            return $true
+        }
+    }
+
+    return $false
+}
+
 $failures = @()
 $warnings = @()
 
@@ -90,7 +107,7 @@ foreach ($item in @(@{name="prd.md"; text=$prd}, @{name="srs.md"; text=$srs}, @{
 }
 
 foreach ($acId in $acIds) {
-    if ($tests -and ($tests -notmatch [regex]::Escape($acId))) {
+    if ($tests -and -not (Has-TestMapping $acId $tests)) {
         $failures += "$acId has no TEST mapping in tests.md"
     }
 }

@@ -17,8 +17,8 @@ Trigger
 - Activate when the user requests to "Eksekusi TASK-###", "Eksekusi task-###.md", "continue TASK-###", or "implement TASK-###".
 
 Behavior checklist
-1. Read `.lcs/state.md` first to identify the active work-item directory: `.lcs/work-items/<timestamp>-<slug-work-item>/`. 
-2. Locate and read the target task file `.lcs/work-items/<timestamp>-<slug-work-item>/task/task-###.md`. 
+1. Read `.lcs/state.md` first to identify the active work-item directory: `.lcs/work-items/{timestamp}-{slug-work-item}/`.
+2. Locate and read the target task file `.lcs/work-items/{timestamp}-{slug-work-item}/task/task-###.md`.
 3. Read Source coverage from the task file. If Source coverage is missing or empty, update the task status to `blocked`, report `Task lacks Source coverage. Re-run lcs-task-slicer to repair task slicing.`, and stop.
 4. Read every referenced source artifact from Source coverage before implementation:
    - `SRC-###` -> Source Requirement Ledger in `prd-enhanced.md` or `prd.md`
@@ -43,7 +43,7 @@ Behavior checklist
    - **Step D: Refactor**: Extract duplication, deepen modules (keep interfaces small/simple), and apply SOLID principles. *Never refactor while test is RED*.
 9. Once task is fully executed and verified:
    - Update Chain of Truth Report before Handoff with executed Source IDs, AC pass/fail, tests run, and remaining uncovered IDs.
-   - Update `Status: done` inside the `.lcs/work-items/<timestamp>-<slug-work-item>/task/task-###.md` file.
+   - Update `Status: done` inside the `.lcs/work-items/{timestamp}-{slug-work-item}/task/task-###.md` file.
 10. Update `.lcs/state.md` with:
    - `current_phase: execution`
    - `last_session_note: Executed TASK-###: <task-name> successfully`
@@ -63,7 +63,7 @@ Very Strict
 
 ### Sources Checked
 - `.lcs/state.md`
-- `.lcs/work-items/<timestamp>-<slug-work-item>/task/task-###.md`
+- `.lcs/work-items/{timestamp}-{slug-work-item}/task/task-###.md`
 
 ### Assumptions
 - [verified] Task dependencies met.
@@ -97,7 +97,7 @@ Very Strict
 
 ## Handoff
 Next recommended skill: lcs-task-executer
-Next file to read: .lcs/work-items/<timestamp>-<slug-work-item>/task/task-###.md
+Next file to read: .lcs/work-items/{timestamp}-{slug-work-item}/task/task-###.md
 Current phase: execution
 Current confidence: high
 Blocking questions: None

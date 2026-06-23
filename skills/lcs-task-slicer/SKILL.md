@@ -1,6 +1,6 @@
 ---
 name: lcs-task-slicer
-description: Use this skill whenever the user asks to split a reviewed PRD into executable tasks. Trigger on "slice prd", "break down prd", "create tasks", or similar. Produce small, dependency-aware tracer-bullet vertical slices. Classify tasks into AFK (autonomous) or HITL (requires human input). Present the proposed breakdown to the user for feedback before writing tasks. Write each task into its own file task-###.md under .lcs/work-items/<timestamp>-<slug-work-item>/task/.
+description: Use this skill whenever the user asks to split a reviewed PRD into executable tasks. Trigger on "slice prd", "break down prd", "create tasks", or similar. Produce small, dependency-aware tracer-bullet vertical slices. Classify tasks into AFK (autonomous) or HITL (requires human input). Present the proposed breakdown to the user for feedback before writing tasks. Write each task into its own file task-###.md under .lcs/work-items/{timestamp}-{slug-work-item}/task/.
 adapters: [claudecode, opencode]
 compatibility: [claudecode, opencode]
 ---
@@ -11,7 +11,7 @@ Shared Coding Contract
 - Refer to Shared Coding Workflow Contract in `../lcs-shared/contract.md` for folder conventions, Handoff format, and token optimization.
 
 Purpose
-- Convert `srs.md` when present, otherwise `prd-enhanced.md` (or `prd.md`), into individual executable task files (`task-001.md`, `task-002.md`, etc.) under `.lcs/work-items/<timestamp>-<slug-work-item>/task/`.
+- Convert `srs.md` when present, otherwise `prd-enhanced.md` (or `prd.md`), into individual executable task files (`task-001.md`, `task-002.md`, etc.) under `.lcs/work-items/{timestamp}-{slug-work-item}/task/`.
 - Ensure tasks are small, dependency-aware, and session-friendly (<2 hours human time or one agent session).
 
 Trigger
@@ -20,7 +20,7 @@ Trigger
 Behavior Checklist
 
 1. **Gather Context**:
-    - Read `.lcs/state.md` to identify the active work-item directory: `.lcs/work-items/<timestamp>-<slug-work-item>/`. 
+    - Read `.lcs/state.md` to identify the active work-item directory: `.lcs/work-items/{timestamp}-{slug-work-item}/`.
     - Read source bundle:
       - `prd-enhanced.md` (fallback to `prd.md` if enhanced version is missing)
       - `srs.md` if present
@@ -53,12 +53,12 @@ Behavior Checklist
    - Iterate and refine based on feedback until the user approves.
 
 4. **Create Task Files**:
-    - Create the output directory: `.lcs/work-items/<timestamp>-<slug-work-item>/task/` if it does not exist.
-    - Write each approved task into `.lcs/work-items/<timestamp>-<slug-work-item>/task/task-###.md` (sequential 3-digit number starting at `001`).
+    - Create the output directory: `.lcs/work-items/{timestamp}-{slug-work-item}/task/` if it does not exist.
+    - Write each approved task into `.lcs/work-items/{timestamp}-{slug-work-item}/task/task-###.md` (sequential 3-digit number starting at `001`).
     - Every task must include Source coverage: Source IDs, Requirement IDs, Acceptance Criteria IDs, and Test IDs. If a task cannot map to upstream IDs, do not write it as executable; mark it as a slicing gap.
 
 5. **Generate Task Coverage Matrix**:
-    - Create or update `.lcs/work-items/<timestamp>-<slug-work-item>/task-coverage.md`.
+    - Create or update `.lcs/work-items/{timestamp}-{slug-work-item}/task-coverage.md`.
     - Map every `SRC-###`, `FR-###`, `BR-###`, `VR-###`, `EC-###`, `AC-###`, and `TEST-###` to at least one task where applicable.
     - Flag uncovered IDs under `## Gaps`.
 
@@ -106,7 +106,7 @@ Strict
 
 ### Sources Checked
 - `.lcs/state.md`
-- `.lcs/work-items/<timestamp>-<slug-work-item>/prd-enhanced.md`
+- `.lcs/work-items/{timestamp}-{slug-work-item}/prd-enhanced.md`
 
 ### Assumptions
 - <label each [verified] or [unverified]>
@@ -125,7 +125,7 @@ Strict
 
 ## Handoff
 Next recommended skill: lcs-task-executor
-Next file to read: .lcs/work-items/<timestamp>-<slug-work-item>/task/task-###.md
+Next file to read: .lcs/work-items/{timestamp}-{slug-work-item}/task/task-###.md
 Current phase: tasks
 Current confidence: high
 Blocking questions: None

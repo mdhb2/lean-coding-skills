@@ -1,4 +1,4 @@
-﻿# AGENTS.md
+# AGENTS.md
 
 Behavioral guidelines to enforce high-quality coding, exceptional documentation, and rigorous skill-creation standards. Merge with project rules.
 
@@ -85,9 +85,9 @@ Skill ini menggunakan path khusus yang berbeda dari konvensi umum `.lcs/work-ite
 
 | Tujuan | Path |
 |---|---|
-| Output docs | `.lcs/docs/<timestamp>-<slug-work-item>/` |
+| Output docs | `.lcs/docs/{timestamp}-{slug-work-item}/` |
 | Index file | `.lcs/docs/docs-index.md` |
-| Archive source | `.lcs/archive/<timestamp>-<slug-work-item>/` |
+| Archive source | `.lcs/archive/{timestamp}-{slug-work-item}/` |
 
 Rule ini override semua asumsi path generik terkait docs/archive untuk skill ini. Jangan gunakan `.lcs/work-items/docs/` atau `.lcs/work-items/archive/` untuk skill ini.
 
@@ -97,7 +97,7 @@ Skill ini menggunakan timestamped analysis files dengan state tracking:
 
 | Tujuan | Path |
 |---|---|
-| Analysis reports | `.lcs/docs/self-improvements/<timestamp>-analysis.md` |
+| Analysis reports | `.lcs/docs/self-improvements/{timestamp}-analysis.md` |
 | State tracking | `.lcs/docs/self-improvements/state.json` |
 | Index/navigation | `.lcs/docs/self-improvements/index.md` |
 | Legacy archive | `.lcs/docs/self-improvements/archive-legacy.md` (if migrated) |

@@ -18,14 +18,14 @@ Trigger
 - Activate when user requests to "review prd", "audit prd", "harden prd", "security review of prd", or when completing the PRD generation phase.
 
 Behavior checklist
-- Read `.lcs/state.md` to identify the active work-item directory: `.lcs/work-items/<timestamp>-<slug-work-item>/`. 
+- Read `.lcs/state.md` to identify the active work-item directory: `.lcs/work-items/{timestamp}-{slug-work-item}/`.
 - Read `prd.md` inside that active directory.
 - Review it for gaps: ambiguous acceptance criteria, missing tests, security, performance, and missing Affected Areas / Files.
 - Create or update `prd-enhanced.md` in the same directory with the fully hardened specifications.
 - Keep the original `prd.md` intact, but write all improvements and hardenings directly to `prd-enhanced.md`.
 - Add `## Preservation Check`. Prove every `SRC-###` from `prd.md` still exists in `prd-enhanced.md`. If a requirement is removed, list it under `## Intentionally Removed` with reason. If a requirement was silently dropped, restore it before finishing.
 - Update `Review Notes` section in `prd-enhanced.md` with:
-  - Last Reviewed: <timestamp>
+  - Last Reviewed: {timestamp}
   - Summary: <summary of revisions/gaps found>
   - Changes Applied: <improvements written into prd-enhanced.md>
 - End with Handoff section pointing to the next logical step (e.g., `lcs-task-slicer` or task slicing command), including Source of Truth Bundle, Must Preserve IDs, and Unresolved IDs.
@@ -107,7 +107,7 @@ Strict
 
 ### Sources Checked
 - `.lcs/state.md`
-- `.lcs/work-items/<timestamp>-<slug-work-item>/prd.md` lines <range>
+- `.lcs/work-items/{timestamp}-{slug-work-item}/prd.md` lines {range}
 - <additional references>
 
 ### Assumptions
@@ -127,7 +127,7 @@ Strict
 
 ## Handoff
 Next recommended skill: lcs-task-slicer
-Next file to read: .lcs/work-items/<timestamp>-<slug-work-item>/prd-enhanced.md
+Next file to read: .lcs/work-items/{timestamp}-{slug-work-item}/prd-enhanced.md
 Current phase: prd_review
 Current confidence: high
 Blocking questions: None

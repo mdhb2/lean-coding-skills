@@ -1,6 +1,6 @@
 ---
 name: lcs-debug-ext
-description: use this skill when the user asks for report-only debugging, evidence-based diagnosis, or a patch proposal without applying code changes for a bug, failure, error, broken behavior, flaky behavior, or performance regression. trigger especially for prompts like "make a debug report", "diagnose this but do not edit files", "propose a patch only", "investigate this bug without applying changes", or "why is this failing? create a report". do not trigger for general code review, security audit, feature implementation, broad architecture documentation, normal debugging that should update .lcs/work-items/<timestamp>-<slug-work-item>/debug.md, or direct patch application unless the user explicitly asks for report-only diagnosis.
+description: use this skill when the user asks for report-only debugging, evidence-based diagnosis, or a patch proposal without applying code changes for a bug, failure, error, broken behavior, flaky behavior, or performance regression. trigger especially for prompts like "make a debug report", "diagnose this but do not edit files", "propose a patch only", "investigate this bug without applying changes", or "why is this failing? create a report". do not trigger for general code review, security audit, feature implementation, broad architecture documentation, normal debugging that should update .lcs/work-items/{timestamp}-{slug-work-item}/debug.md, or direct patch application unless the user explicitly asks for report-only diagnosis.
 ---
 
 # LCS Debug Ext
@@ -9,8 +9,8 @@ Use this skill to investigate bugs with evidence first, then produce a report an
 
 ## Core Contract
 
-- Create generated artifacts only under `.lcs/work-items/<timestamp>-<slug-work-item>-debug-ext/`.
-- Before finishing, ensure `.lcs/work-items/<timestamp>-<slug-work-item>-debug-ext/debug.md` exists.
+- Create generated artifacts only under `.lcs/work-items/{timestamp}-{slug-work-item}-debug-ext/`.
+- Before finishing, ensure `.lcs/work-items/{timestamp}-{slug-work-item}-debug-ext/debug.md` exists.
 - Do not write generated output to `.lcs/debug/`, `.aix/`, `docs/`, project root, source files, test files, instruction files, or skill files unless the user explicitly asks in a separate follow-up task.
 - Do not modify source code, tests, config, docs, or instructions.
 - Produce only a debug report, evidence summary, reproduction notes, ranked hypotheses, instrumentation suggestions, optional regression-test proposal, and patch proposal.
@@ -40,18 +40,18 @@ If references are provided, inspect them before forming hypotheses. If evidence 
 
 ## Workflow Checklist
 
-- [ ] Phase 1: Collect context and create `.lcs/work-items/<timestamp>-<slug-work-item>-debug-ext/`
+- [ ] Phase 1: Collect context and create `.lcs/work-items/{timestamp}-{slug-work-item}-debug-ext/`
 - [ ] Phase 2: Build or identify a lightweight feedback loop
 - [ ] Phase 3: Reproduce or characterize the failure
 - [ ] Phase 4: Generate ranked falsifiable hypotheses
 - [ ] Phase 5: Propose targeted instrumentation
 - [ ] Phase 6: Produce patch proposal and regression-test options
-- [ ] Phase 7: Generate `.lcs/work-items/<timestamp>-<slug-work-item>-debug-ext/debug.md`
+- [ ] Phase 7: Generate `.lcs/work-items/{timestamp}-{slug-work-item}-debug-ext/debug.md`
 - [ ] Phase 8: Cleanup guidance and post-mortem
 
 ## Phase 1: Collect Context
 
-1. Create the output directory: `.lcs/work-items/<timestamp>-<slug-work-item>-debug-ext/`.
+1. Create the output directory: `.lcs/work-items/{timestamp}-{slug-work-item}-debug-ext/`.
 2. Choose a concise slug from the reported symptom, using lowercase `a-z0-9-`.
 3. Identify available evidence before proposing causes.
 4. Preserve the distinction between user claims, observed output, and code evidence.
@@ -148,7 +148,7 @@ Explain why the option was selected.
 
 ## Phase 7: Generate Report
 
-Use `references/report-template.md` when writing `.lcs/work-items/<timestamp>-<slug-work-item>-debug-ext/debug.md`.
+Use `references/report-template.md` when writing `.lcs/work-items/{timestamp}-{slug-work-item}-debug-ext/debug.md`.
 
 The report must include:
 
@@ -171,7 +171,7 @@ The report must include:
 
 Before finalizing, verify:
 
-- `.lcs/work-items/<timestamp>-<slug-work-item>-debug-ext/debug.md` exists.
+- `.lcs/work-items/{timestamp}-{slug-work-item}-debug-ext/debug.md` exists.
 - No code changes were applied.
 - No source files were modified.
 - Any proposed debug prefix is documented.
@@ -220,7 +220,7 @@ Very Strict
 
 ## Handoff
 Next recommended skill: <skill-name>
-Next file to read: .lcs/work-items/<timestamp>-<slug-work-item>-debug-ext/debug.md
+Next file to read: .lcs/work-items/{timestamp}-{slug-work-item}-debug-ext/debug.md
 Current phase: debug
 Current confidence: <low/medium/high>
 Blocking questions: <list or None>

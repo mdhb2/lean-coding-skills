@@ -4,8 +4,8 @@
 Very Strict
 
 ### Sources Checked
-- `<file path>` lines <range>: <purpose>
-- `<file path>` lines <range>: <purpose>
+- `<file path>` lines {range}: <purpose>
+- `<file path>` lines {range}: <purpose>
 
 ### Assumptions
 - [verified] <assumption description>
@@ -17,13 +17,13 @@ Very Strict
 3. <Step planned>
 
 ### Actions Taken
-- Command: `<command>` — output: `<stdout/stderr captured>`
+- Command: `<command>` â€” output: `<stdout/stderr captured>`
 - Edited `<file path>`: <exact changes>
 - Created `<file path>`: <content summary>
 
 ### Verification
-- Command: `<test/lint command>` — result: `<verbatim output>`
-- Command: `<test/lint command>` — result: `<verbatim output>`
+- Command: `<test/lint command>` â€” result: `<verbatim output>`
+- Command: `<test/lint command>` â€” result: `<verbatim output>`
 
 ### Proof of Result
 ```

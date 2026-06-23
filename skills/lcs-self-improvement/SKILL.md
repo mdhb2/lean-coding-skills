@@ -15,7 +15,7 @@ Use this skill to analyze interaction history and project context, identify fric
 
 1. Do not apply changes automatically.
 2. Do not edit rules, instruction files, or skills as part of this skill run.
-3. Output files use timestamped structure: `.lcs/docs/self-improvements/<timestamp>-analysis.md`.
+3. Output files use timestamped structure: `.lcs/docs/self-improvements/{timestamp}-analysis.md`.
 4. State tracking via `.lcs/docs/self-improvements/state.json`.
 5. Navigation via auto-generated `.lcs/docs/self-improvements/index.md`.
 6. Do not include raw user quotes by default.
@@ -159,7 +159,7 @@ For mapping recommendation types to file targets, read `references/improvement-t
 
 Create timestamped report file and update supporting files:
 
-1. **Main report:** `.lcs/docs/self-improvements/<timestamp>-analysis.md`
+1. **Main report:** `.lcs/docs/self-improvements/{timestamp}-analysis.md`
 2. **State file:** `.lcs/docs/self-improvements/state.json`
 3. **Index file:** `.lcs/docs/self-improvements/index.md`
 
@@ -181,7 +181,7 @@ Include in the report header:
 ```markdown
 # Self-Improvement Analysis
 **Generated:** YYYY-MM-DD HH:mm:ss
-**Timestamp:** <timestamp>
+**Timestamp:** {timestamp}
 **Previous analyses:** X (see index.md)
 **Source scope:** [current conversation | supplied files | combined]
 
@@ -196,7 +196,7 @@ Organize recommendations into sections:
 
 1. **New Recommendations** - Not seen in previous analyses
 2. **Recurring Recommendations** - Appeared in previous analyses
-   - Include note: "Also flagged in analysis <timestamp>"
+   - Include note: "Also flagged in analysis {timestamp}"
    - Include first seen / last seen timestamps
 
 ### State File Structure
@@ -264,7 +264,7 @@ Generate/update `.lcs/docs/self-improvements/index.md`:
 
 Before final response, verify:
 
-1. `.lcs/docs/self-improvements/<timestamp>-analysis.md` exists.
+1. `.lcs/docs/self-improvements/{timestamp}-analysis.md` exists.
 2. `.lcs/docs/self-improvements/state.json` exists and is valid JSON.
 3. `.lcs/docs/self-improvements/index.md` exists and includes latest analysis.
 4. No instruction/rule/skill files were modified by this skill run.
@@ -301,8 +301,8 @@ When user applies a recommendation:
 1. Open `.lcs/docs/self-improvements/state.json`
 2. Find recommendation by ID
 3. Update status field:
-   - `pending` → `applied` (when implemented)
-   - `pending` → `rejected` (when decided against)
+   - `pending` â†’ `applied` (when implemented)
+   - `pending` â†’ `rejected` (when decided against)
 4. Add `applied_at` or `rejected_at` timestamp
 5. Save state.json
 

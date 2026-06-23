@@ -24,7 +24,7 @@ Do not overlap with other skills
 - `lcs-tosrs` owns: `srs.md`, `tests.md`, optional `api.md`, optional `db.md`.
 
 Input and output location
-- Work item folder: `.lcs/work-items/<YYYYMMDD-HHMMSS>-<slug-work-item>/`
+- Work item folder: `.lcs/work-items/{timestamp}-{slug-work-item}/`
 - Preserve existing `prd.md`.
 - Generate or overwrite:
   - `srs.md` (required)
@@ -324,7 +324,7 @@ Strict
 
 ### Sources Checked
 - `.lcs/state.md`
-- `.lcs/work-items/<YYYYMMDD-HHMMSS>-<slug-work-item>/prd.md`
+- `.lcs/work-items/{timestamp}-{slug-work-item}/prd.md`
 - <additional references with line numbers>
 
 ### Assumptions
@@ -345,7 +345,7 @@ Strict
 ## Handoff
 
 Next recommended skill: lcs-task-slicer
-Next file to read: .lcs/work-items/<YYYYMMDD-HHMMSS>-<slug-work-item>/srs.md
+Next file to read: .lcs/work-items/{timestamp}-{slug-work-item}/srs.md
 Current phase: tasks
 Current confidence: <low/medium/high>
 Blocking questions: <list or None>

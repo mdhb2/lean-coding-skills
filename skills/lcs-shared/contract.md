@@ -5,13 +5,13 @@ This file defines canonical artifact format, folder conventions, Handoff section
 ## Folder Convention
 All runtime artifacts live under:
 ```
-.lcs/work-items/<timestamp>-<slug-work-item>/
+.lcs/work-items/{timestamp}-{slug-work-item}/
 ```
 
 ### Skill-Specific Exception: `lcs-doc-finalizer`
 When active skill is `lcs-doc-finalizer`, documentation outputs use dedicated docs subtree:
 ```
-.lcs/docs/<timestamp>-<slug-work-item>/
+.lcs/docs/{timestamp}-{slug-work-item}/
 ```
 Index file for this subtree:
 ```
@@ -19,7 +19,7 @@ Index file for this subtree:
 ```
 Archive target for finalized source artifacts:
 ```
-.lcs/archive/<timestamp>-<slug-work-item>/
+.lcs/archive/{timestamp}-{slug-work-item}/
 ```
 This exception overrides generic docs/archive path assumptions in other rules.
 
@@ -37,7 +37,7 @@ This exception overrides generic runtime artifact path assumptions for codebase 
 ### Skill-Specific Exception: `lcs-self-improvement`
 When active skill is `lcs-self-improvement`, diagnostic output uses timestamped path:
 ```
-.lcs/docs/self-improvements/<timestamp>-analysis.md
+.lcs/docs/self-improvements/{timestamp}-analysis.md
 ```
 Supporting files:
 ```
@@ -53,7 +53,7 @@ When active skill is `lcs-onboarding`, outputs use flat singleton paths (no time
 .lcs/work-items/onboarding.md
 .lcs/work-items/onboarding-map.md
 ```
-These are project-level singletons — overwritten on each run. This exception overrides the timestamped folder convention for onboarding output.
+These are project-level singletons â€” overwritten on each run. This exception overrides the timestamped folder convention for onboarding output.
 
 ## Artifact Files
 Create only when relevant:

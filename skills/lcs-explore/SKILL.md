@@ -12,7 +12,7 @@ Shared Coding Contract
 
 Purpose
 - Clarify user intent, brainstorm technical options, ask iterative questions until PRD readiness or blocker found.
-- Persist results under .lcs/work-items/<yyyymmdd-HHMMSS>-<slug-work-item>/explore.md
+- Persist results under .lcs/work-items/{timestamp}-{slug-work-item}/explore.md
 - Do not create PRD, tasks, or code.
 
 Trigger
@@ -21,12 +21,12 @@ Trigger
 Behavior checklist
 - Confirm work-name. If .lcs/state.md exists in workspace, read it.
 - Ask exactly one short question at a time until either: ready for PRD or blocker discovered.
-- After each user response produce a short recommendation (1–3 lines).
+- After each user response produce a short recommendation (1â€“3 lines).
 - Do not create PRD, tasks, or code.
-- Persist file: .lcs/work-items/<yyyymmdd-HHMMSS>-<slug-work-item>/explore.md
+- Persist file: .lcs/work-items/{timestamp}-{slug-work-item}/explore.md
 - Update .lcs/state.md with:
   - current_phase: explore
-  - current_work: <yyyymmdd-HHMMSS>-<slug-work-item>
+  - current_work: {timestamp}-{slug-work-item}
   - last_session_note: <brief summary>
 - End session with Handoff recommending lcs-toprd.
 
@@ -47,18 +47,18 @@ explore.md structure (write to file)
 Human-friendly:
 * Q: <question 1>
   * A: <answer 1>
-  * Recommendation: <1–3 lines>  (mark recommended option when relevant)
+  * Recommendation: <1â€“3 lines>  (mark recommended option when relevant)
 
 ## 3. Findings & Options
-- Option A — Pros / Cons
-- Option B — Pros / Cons
+- Option A â€” Pros / Cons
+- Option B â€” Pros / Cons
 
 ## 4. Risks & Assumptions
 - risk: <short>
 - assumption: <short>
 
 ## Decisions
-- Decision: <text> — Owner: <name> — Timestamp: <ISO>
+- Decision: <text> â€” Owner: <name> â€” Timestamp: <ISO>
 
 ## Chain of Truth Report
 ### Level
@@ -81,7 +81,7 @@ Light
 
 ## Handoff
 Next recommended skill: lcs-toprd
-Next file to read: .lcs/work-items/<timestamp>-<slug-work-item>/explore.md
+Next file to read: .lcs/work-items/{timestamp}-{slug-work-item}/explore.md
 Current phase: explore
 Current confidence: <low/medium/high>
 Blocking questions: <list or None>

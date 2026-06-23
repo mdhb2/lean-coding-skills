@@ -10,7 +10,7 @@ compatibility: [claudecode, opencode]
 
 Shared Coding Contract
 - Refer to Shared Coding Workflow Contract in `../lcs-shared/contract.md` for folder conventions, Handoff format, and token optimization.
-- Target outputs are saved directly to `.lcs/work-items/onboarding.md` and `.lcs/work-items/onboarding-map.md`. 
+- Target outputs are saved directly to `.lcs/work-items/onboarding.md` and `.lcs/work-items/onboarding-map.md`.
 
 Purpose
 - Automate initial onboarding documentation for an existing project.
