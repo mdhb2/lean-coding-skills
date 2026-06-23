@@ -296,6 +296,30 @@ Writing style
 
 Handoff (mandatory footer in every generated artifact)
 ```md
+## Chain of Truth Report
+### Level
+Strict
+
+### Sources Checked
+- `.lcs/state.md`
+- `.lcs/work-items/<YYYYMMDD-HHMMSS>-<slug-work-item>/prd.md`
+- <additional references with line numbers>
+
+### Assumptions
+- <label each [verified] or [unverified]>
+
+### Plan
+<Enumerated steps>
+
+### Actions Taken
+<Per-step record>
+
+### Verification
+<Automated checks attempted; document every failure>
+
+### Report
+<Explicit pass/fail per acceptance criterion>
+
 ## Handoff
 
 Next recommended skill: lcs-task-slicer

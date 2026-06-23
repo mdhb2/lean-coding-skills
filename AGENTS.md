@@ -172,8 +172,8 @@ Source → Assumption → Plan → Action → Verification → Report
 
 ### Levels
 - **Light** — exploratory/conversational skills (lcs-explore)
-- **Standard** — planning/documentation skills (lcs-toprd, lcs-onboarding, lcs-debug)
-- **Strict** — contracts, reviews, finalization (lcs-prd-reviewer, lcs-tosrs, lcs-task-slicer, lcs-doc-finalizer)
+- **Standard** — planning/documentation skills (lcs-toprd, lcs-onboarding, lcs-debug, lcs-self-improvement)
+- **Strict** — contracts, reviews, finalization (lcs-prd-reviewer, lcs-tosrs, lcs-task-slicer, lcs-doc-finalizer, lcs-codebase-doc)
 - **Very Strict** — code changes, debugging, implementation (lcs-task-executor, lcs-task-executer, lcs-debug-ext)
 
 ### Report Placement

@@ -49,6 +49,44 @@ Prompt templates
 
 Handoff example:
 
+## Chain of Truth Report
+### Level
+Very Strict
+
+### Sources Checked
+- `.lcs/state.md`
+- `.lcs/work-items/<timestamp>-<slug-work-item>/task/task-###.md`
+
+### Assumptions
+- [verified] Task dependencies met.
+- [verified] Chosen mode (Normal/TDD) confirmed with user.
+
+### Plan Before Action
+1. Read state.md and task file.
+2. Check dependencies.
+3. Implement task.
+4. Run validation.
+
+### Actions Taken
+- <Exact commands run with stdout/stderr captured>
+
+### Verification
+- <All test and lint commands run; results quoted verbatim>
+
+### Proof of Result
+```
+<Quoted command outputs>
+```
+
+### Blocked Items
+<None, or list with reasons>
+
+### Confidence
+<high/medium/low>
+
+### Risk Notes
+<None, or outstanding concerns>
+
 ## Handoff
 Next recommended skill: lcs-task-executer
 Next file to read: .lcs/work-items/<timestamp>-<slug-work-item>/task/task-###.md

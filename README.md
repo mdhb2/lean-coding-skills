@@ -46,9 +46,9 @@ lcs-task-executor (Very Strict)
 | Level | Used By |
 |---|---|
 | Light | lcs-explore |
-| Standard | lcs-toprd, lcs-onboarding, lcs-debug |
-| Strict | lcs-prd-reviewer, lcs-tosrs, lcs-task-slicer, lcs-doc-finalizer |
-| Very Strict | lcs-task-executor, lcs-task-executer (legacy) |
+| Standard | lcs-toprd, lcs-onboarding, lcs-debug, lcs-self-improvement |
+| Strict | lcs-prd-reviewer, lcs-tosrs, lcs-task-slicer, lcs-doc-finalizer, lcs-codebase-doc |
+| Very Strict | lcs-task-executor, lcs-task-executer (legacy), lcs-debug-ext |
 
 ### Executor Naming
 - **Canonical**: `lcs-task-executor` — use for new workflows

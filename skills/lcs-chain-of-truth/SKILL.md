@@ -73,7 +73,7 @@ Requirements:
 
 ### Level 2 — Standard
 
-**Use for**: Planning and documentation skills (lcs-toprd, lcs-tosrs, lcs-onboarding, lcs-task-slicer).
+**Use for**: Planning and documentation skills (lcs-toprd, lcs-onboarding, lcs-task-slicer, lcs-self-improvement).
 
 Requirements:
 - Source: all files read, with paths
@@ -85,7 +85,7 @@ Requirements:
 
 ### Level 3 — Strict
 
-**Use for**: Contracts, reviews, finalization (lcs-prd-reviewer, lcs-doc-finalizer).
+**Use for**: Contracts, reviews, finalization (lcs-prd-reviewer, lcs-doc-finalizer, lcs-codebase-doc).
 
 Requirements:
 - All Level 2 requirements, plus:
@@ -96,7 +96,7 @@ Requirements:
 
 ### Level 4 — Very Strict
 
-**Use for**: Code changes, debugging, implementation (lcs-task-executer, lcs-debug).
+**Use for**: Code changes, debugging, implementation (lcs-task-executor, lcs-task-executer (legacy), lcs-debug, lcs-debug-ext).
 
 Requirements:
 - All Level 3 requirements, plus:
@@ -154,10 +154,14 @@ Each LCS skill declares its Chain of Truth level:
 | `lcs-tosrs` | Standard (2) | Spec derivation from PRD |
 | `lcs-onboarding` | Standard (2) | Documentation generation |
 | `lcs-task-slicer` | Standard (2) | Task breakdown planning |
+| `lcs-self-improvement` | Standard (2) | Diagnostic analysis and recommendations |
 | `lcs-prd-reviewer` | Strict (3) | Reviews contracts, flags acceptance criteria |
 | `lcs-doc-finalizer` | Strict (3) | Finalizes and archives canonical docs |
+| `lcs-codebase-doc` | Strict (3) | Codebase mapping and onboarding documentation |
 | `lcs-debug` | Very Strict (4) | Code investigation with direct changes |
-| `lcs-task-executer` | Very Strict (4) | Code implementation with tests and lint |
+| `lcs-debug-ext` | Very Strict (4) | Evidence-based debug reports without code changes |
+| `lcs-task-executer` | Very Strict (4) | Code implementation with tests and lint (legacy spelling) |
+| `lcs-task-executor` | Very Strict (4) | Code implementation with tests and lint (canonical spelling) |
 | `lcs-chain-of-truth` | — | Meta-protocol, not self-applied |
 
 ---

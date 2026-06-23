@@ -93,6 +93,31 @@ Provide a detailed, numbered list of user stories in this format:
 - Summary: <summary of revisions>
 - Changes Applied: <list of changes>
 
+## Chain of Truth Report
+### Level
+Standard
+
+### Sources Checked
+- `.lcs/state.md`
+- `<explore.md or debug.md path>`
+- <additional files read>
+
+### Assumptions
+- <label each [verified] or [unverified]>
+
+### Plan
+1. <Step one>
+2. <Step two>
+
+### Actions Taken
+<Per-step record of what was done>
+
+### Verification
+<Command output or manual review result>
+
+### Report
+<Structured summary with confidence rating>
+
 ## Handoff
 Next recommended skill: lcs-prd-reviewer
 Next file to read: .lcs/work-items/<yyyymmdd-HHMMSS>-<slug-work-item>/prd.md

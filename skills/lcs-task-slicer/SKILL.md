@@ -53,7 +53,7 @@ Behavior Checklist
      - `current_phase: tasks`
      - `timestamp: <current-ISO-timestamp>`
    - Output the structured task list summary.
-   - End with a Handoff pointing to the next logical step (e.g. `lcs-task-executer` and `task-001.md`).
+    - End with a Handoff pointing to the next logical step (e.g. `lcs-task-executor` and `task-001.md`).
 
 Prompt Templates
 - Starter: "Slice prd-enhanced.md menjadi task-###.md"
@@ -81,8 +81,31 @@ Each `task-###.md` must adhere to this exact structure:
 * **Test plan**:
   - <Unit test spec or manual verification steps>
 
+## Chain of Truth Report
+### Level
+Strict
+
+### Sources Checked
+- `.lcs/state.md`
+- `.lcs/work-items/<timestamp>-<slug-work-item>/prd-enhanced.md`
+
+### Assumptions
+- <label each [verified] or [unverified]>
+
+### Plan
+<Enumerated steps>
+
+### Actions Taken
+<Per-step record>
+
+### Verification
+<Automated checks attempted; document every failure>
+
+### Report
+<Explicit pass/fail per acceptance criterion>
+
 ## Handoff
-Next recommended skill: lcs-task-executer
+Next recommended skill: lcs-task-executor
 Next file to read: .lcs/work-items/<timestamp>-<slug-work-item>/task/task-###.md
 Current phase: tasks
 Current confidence: high

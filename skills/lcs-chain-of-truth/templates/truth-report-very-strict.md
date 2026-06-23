@@ -4,24 +4,38 @@
 Very Strict
 
 ### Sources Checked
-<!-- List all sources with exact file paths and line references -->
+- `<file path>` lines <range>: <purpose>
+- `<file path>` lines <range>: <purpose>
 
 ### Assumptions
-<!-- Each assumption must be labeled [verified] or [unverified] -->
+- [verified] <assumption description>
+- [unverified] <assumption description>
 
 ### Plan Before Action
-<!-- Steps planned before execution began -->
+1. <Step planned>
+2. <Step planned>
+3. <Step planned>
 
 ### Actions Taken
-<!-- Files created or modified with exact changes -->
+- Command: `<command>` — output: `<stdout/stderr captured>`
+- Edited `<file path>`: <exact changes>
+- Created `<file path>`: <content summary>
 
 ### Verification
-<!-- Commands run with stdout/stderr captured verbatim -->
+- Command: `<test/lint command>` — result: `<verbatim output>`
+- Command: `<test/lint command>` — result: `<verbatim output>`
 
 ### Proof of Result
 ```
-<!-- Quoted command outputs showing success/failure -->
+<Quoted command outputs showing success/failure>
 ```
 
+### Blocked Items
+- <Item 1>: <reason>
+- <Item 2>: <reason>
+
+### Confidence
+<high/medium/low>
+
 ### Risk Notes
-<!-- Outstanding risks, blocked items, and deferred work -->
+<Outstanding risks, deferred work, or "None">

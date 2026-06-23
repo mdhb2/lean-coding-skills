@@ -145,6 +145,6 @@ If user asks for a subset (for example: architecture only, testing and concerns,
 
 ## Chain of Truth Level
 
-Level: Standard
+Level: Strict
 
 This skill follows the LCS Chain of Truth protocol at the declared level.

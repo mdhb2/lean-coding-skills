@@ -60,6 +60,25 @@ Human-friendly:
 ## Decisions
 - Decision: <text> — Owner: <name> — Timestamp: <ISO>
 
+## Chain of Truth Report
+### Level
+Light
+
+### Sources Checked
+<List file paths read>
+
+### Assumptions
+- <label each [verified] or [unverified]>
+
+### Actions Taken
+<Summary of what was done>
+
+### Verification
+<Manual check result or "not applicable">
+
+### Report
+<1-3 sentence summary>
+
 ## Handoff
 Next recommended skill: lcs-toprd
 Next file to read: .lcs/work-items/<timestamp>-<slug-work-item>/explore.md

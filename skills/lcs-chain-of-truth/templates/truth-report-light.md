@@ -4,10 +4,21 @@
 Light
 
 ### Sources Checked
-<!-- Brief summary of sources consulted -->
+- Source 1: <path and brief description>
+- Source 2: <path and brief description>
 
 ### Assumptions
-<!-- List any assumptions made. If none, state "None." -->
+- Assumption 1: <description>
+- Assumption 2: <description>
 
-### Result Summary
-<!-- 1-3 sentence summary of what was done and the outcome. -->
+### Actions Taken
+<Summary of what was done>
+
+### Verification
+<Manual check result or "not applicable">
+
+### Report
+<1-3 sentence summary of outcome>
+
+### Risks / Notes
+<Outstanding risks or items to flag, or "None">

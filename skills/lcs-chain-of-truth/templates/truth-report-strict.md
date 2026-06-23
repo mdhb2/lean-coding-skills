@@ -4,22 +4,28 @@
 Strict
 
 ### Sources Checked
-<!-- List all sources with exact file paths and line references -->
+- `<file path>` lines <range>: <purpose>
+- `<file path>` lines <range>: <purpose>
 
 ### Assumptions
-<!-- Each assumption must be labeled [verified] or [unverified] -->
+- [verified] <assumption description>
+- [unverified] <assumption description>
 
 ### Plan Followed
-<!-- Steps taken with outcomes -->
+1. <Step one>
+2. <Step two>
 
 ### Actions Taken
-<!-- Files created or modified, with summary of changes -->
+- Created `<file path>`: <summary of changes>
+- Modified `<file path>`: <summary of changes>
 
 ### Traceability
-<!-- How each requirement maps to implementation -->
+- FR-001 → AC-001, AC-002 → <implementation>
+- FR-002 → AC-003 → <implementation>
 
 ### Validation Checklist
-<!-- Per-acceptance-criterion pass/fail -->
+- [x] <AC-001 description>: pass
+- [ ] <AC-002 description>: fail — <reason>
 
 ### Risk Notes
-<!-- Outstanding risks and unverified items -->
+- <Unverified items or outstanding concerns>

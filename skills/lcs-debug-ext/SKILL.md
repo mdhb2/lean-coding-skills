@@ -195,6 +195,29 @@ Possible follow-ups:
 Handoff footer format:
 
 ```markdown
+## Chain of Truth Report
+### Level
+Very Strict
+
+### Sources Checked
+- All inputs, files read, commands run with paths and line numbers
+- <exact line references for all quoted content>
+
+### Assumptions
+- <label each [verified] or [unverified]>
+
+### Plan
+<Enumerated steps>
+
+### Actions Taken
+- <Exact commands run with stdout/stderr captured>
+
+### Verification
+- <All test and lint commands run; results quoted verbatim>
+
+### Report
+<Blocked items listed explicitly; confidence stated as high/medium/low with justification>
+
 ## Handoff
 Next recommended skill: <skill-name>
 Next file to read: .lcs/work-items/<timestamp>-<slug-work-item>-debug-ext/debug.md
