@@ -42,7 +42,7 @@ Workflow checklist
 
 ## Chain of Truth Level
 
-Level: **Strict**
+Level: Strict
 
 This skill verifies that implementation matches specifications. Every claim in the review must cite evidence from artifacts or code.
 
@@ -672,9 +672,3 @@ Must Preserve IDs: <SRC-### list from artifacts>
 Unresolved IDs: <SRC-### list from artifacts>
 
 Suggested next command: Execute fixes from code-review.md
-
-## Chain of Truth Level
-
-Level: Strict
-
-This skill follows the LCS Chain of Truth protocol at the declared level.

@@ -8,20 +8,22 @@ Collection of small, markdown-first AI skills for lean, focused coding workflows
 
 | Skill | Purpose |
 |-------|---------|
-| `lcs-onboarding` | Generate developer-friendly onboarding documentation |
 | `lcs-explore` | Interactive explore flow for brainstorming and shaping ideas |
 | `lcs-toprd` | Lean, implementation-focused PRD writer |
 | `lcs-prd-reviewer` | Review, harden, and security-check an existing PRD |
 | `lcs-tosrs` | Transform PRD into deterministic Lean SRS and test contract |
 | `lcs-task-slicer` | Split a PRD or SRS into actionable, session-sized tasks |
-| `lcs-task-executer` | Execute a task plan and update status to done *(legacy name — prefer `lcs-task-executor`)* |
+| `lcs-task-executor` | Execute a task plan with Chain of Truth verification (canonical) |
+| `lcs-task-executer` | Execute a task plan *(legacy — prefer `lcs-task-executor`)* |
 | `lcs-doc-finalizer` | Finalize and wrap completed work into canonical docs |
 | `lcs-debug` | Focused bug investigation and fix planning |
 | `lcs-debug-ext` | Evidence-based debug reports and patch proposals without applying code changes |
 | `lcs-codebase-doc` | Map and document existing repositories into verified onboarding docs |
-| `lcs-self-improvement` | Analyze interaction friction and produce diagnostic recommendations for improving rules, docs, and skills |
+| `lcs-code-review` | Review implementation against LCS artifacts |
+| `lcs-onboarding` | Generate developer-friendly onboarding documentation |
+| `lcs-self-improvement` | Analyze interaction friction and produce diagnostic recommendations |
 | `lcs-chain-of-truth` | Chain of Truth meta-skill — auditable evidence protocol for all LCS skills |
-| `lcs-task-executor` | Execute a task plan with Chain of Truth verification (canonical spelling) |
+| `lcs-shared` | Shared contract, folder conventions, and token optimization (internal) |
 
 ## Chain of Truth
 
@@ -41,14 +43,15 @@ lcs-task-slicer (Strict)
 ↓
 lcs-task-executor (Very Strict)
 ```
-
 ### Level Summary
+
 | Level | Used By |
 |---|---|
 | Light | lcs-explore |
 | Standard | lcs-toprd, lcs-onboarding, lcs-debug, lcs-self-improvement |
-| Strict | lcs-prd-reviewer, lcs-tosrs, lcs-task-slicer, lcs-doc-finalizer, lcs-codebase-doc |
+| Strict | lcs-prd-reviewer, lcs-tosrs, lcs-task-slicer, lcs-doc-finalizer, lcs-codebase-doc, lcs-code-review |
 | Very Strict | lcs-task-executor, lcs-task-executer (legacy), lcs-debug-ext |
+| Meta | lcs-chain-of-truth (protocol, not self-applied), lcs-shared (internal) |
 
 ### Executor Naming
 - **Canonical**: `lcs-task-executor` — use for new workflows

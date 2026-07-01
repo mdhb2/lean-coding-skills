@@ -26,6 +26,7 @@ const CANONICAL_LEVELS = {
   'lcs-task-slicer':     'Strict',
   'lcs-doc-finalizer':   'Strict',
   'lcs-codebase-doc':    'Strict',
+  'lcs-code-review':     'Strict',
   'lcs-debug-ext':       'Very Strict',
   'lcs-task-executor':   'Very Strict',
   'lcs-task-executer':   'Very Strict',
