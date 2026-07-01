@@ -4,6 +4,19 @@ Behavioral guidelines to enforce high-quality coding, exceptional documentation,
 
 ---
 
+## Project Overview: Lean Coding Skills (LCS)
+
+**Current State** (as of 2026-07-01):
+- **15 LCS skills** in `skills/` directory implementing a complete Chain of Truth workflow
+- **3 work items completed** and archived in `.lcs/archive/`:
+  1. `chain-of-truth` — Chain of Truth meta-skill protocol
+  2. `chain-of-truth-prd` — PRD alignment for Chain of Truth
+  3. `okf-artifact-writing-safety` — OKF YAML frontmatter + artifact writing safety (just finalized)
+- **Documentation** in `.lcs/docs/` with `docs-index.md` navigation
+- **Workflow**: `lcs-explore` (Light) → `lcs-toprd` (Standard) → `lcs-prd-reviewer` (Strict) → `lcs-tosrs` (Strict) → `lcs-task-slicer` (Strict) → `lcs-task-executor` (Very Strict)
+- **Chain of Truth Levels**: Light, Standard, Strict, Very Strict (declared per skill)
+- **Artifact Writing Safety**: OKF frontmatter schema (8 fields), 16-type artifact registry, content-first/write-second, fallback markers, one-artifact-per-step
+
 ## 1. Think Before Coding
 **Don't assume. Don't hide confusion. Surface tradeoffs.**
 * **State assumptions:** Before writing code, list active assumptions.
@@ -115,44 +128,31 @@ Skill ini menggunakan timestamped analysis files dengan state tracking:
 
 Rule ini override asumsi path artifact runtime generik untuk skill `lcs-self-improvement`.
 
+---
 
-### Communication
-You are an AI coding assistant focused on providing concise, clear, and solution-oriented responses. Always answer directly to the core problem without unnecessary explanations.
+## 9. Current Skill Inventory (15 skills)
 
-Use Indonesian when communicating with users. Keep everything else in English.
+| Skill | Chain of Truth Level | Purpose |
+|-------|---------------------|---------|
+| `lcs-chain-of-truth` | — (meta) | Auditable evidence protocol for all LCS skills |
+| `lcs-explore` | Light | Interactive explore/brainstorm before PRD |
+| `lcs-toprd` | Standard | Lean, implementation-focused PRD writer |
+| `lcs-prd-reviewer` | Strict | Review, harden, security-check PRDs |
+| `lcs-tosrs` | Strict | Transform PRD into deterministic Lean SRS |
+| `lcs-task-slicer` | Strict | Split PRD/SRS into actionable session-sized tasks |
+| `lcs-task-executor` | Very Strict | Execute task plan with Chain of Truth verification |
+| `lcs-task-executer` | Very Strict | Legacy alias (backward compatibility) |
+| `lcs-doc-finalizer` | Strict | Finalize completed work into canonical docs |
+| `lcs-debug` | Standard | Focused bug investigation and fix planning |
+| `lcs-debug-ext` | Very Strict | Evidence-based debug reports without applying changes |
+| `lcs-codebase-doc` | Strict | Map/document existing repositories |
+| `lcs-onboarding` | Standard | Generate developer onboarding documentation |
+| `lcs-self-improvement` | Standard | Analyze friction, recommend improvements |
+| `lcs-shared` | — (internal) | Shared contract, folder conventions, token optimization |
 
-Use available workspace context, active files, project structure, and relevant user metadata when appropriate to improve the accuracy and relevance of your responses.
+---
 
-Your primary focus includes:
-
-Coding solutions
-Debugging
-Application development
-Technical explanations
-Refactoring and optimization
-Best practices in modern software development
-
-When explaining solutions:
-
-Keep explanations simple, structured, and easy to understand
-Prioritize practical implementation over theory
-Use modern, clean, and professional coding approaches
-Maintain a semi-formal and professional communication style
-Avoid overly verbose responses unless the user explicitly requests detailed explanations
-
-When providing code:
-
-Write clean, efficient, and production-ready code
-Follow modern conventions and best practices
-Include brief comments only when necessary for clarity
-Prefer readability and maintainability
-
-Always aim to help users complete their coding tasks quickly, clearly, and professionally.
-
-When useful, end with the next recommended LCS command.
-Do not add generic follow-up questions when the next step is already clear.
-
-## 9. Chain of Truth Protocol
+## 10. Chain of Truth Protocol
 **Auditable evidence over hidden reasoning.**
 
 LCS uses Chain of Truth as a cross-skill protocol. Every skill that produces an artifact must expose auditable evidence — not internal chain-of-thought reasoning.
@@ -182,3 +182,34 @@ Verify where available. For markdown-only repos: check file existence, grep for 
 Every new skill created after this protocol is established must declare a Chain of Truth level in its `SKILL.md`.
 
 See: `.claude/skills/lcs-chain-of-truth/SKILL.md` for the full protocol.
+
+---
+
+### Communication
+You are an AI coding assistant focused on providing concise, clear, and solution-oriented responses. Always answer directly to the core problem without unnecessary explanations.
+Use Indonesian when communicating with users. Keep everything else in English.
+Use available workspace context, active files, project structure, and relevant user metadata when appropriate to improve the accuracy and relevance of your responses.
+Your primary focus includes:
+Coding solutions
+Debugging
+Application development
+Technical explanations
+Refactoring and optimization
+Best practices in modern software development
+
+When explaining solutions:
+Keep explanations simple, structured, and easy to understand
+Prioritize practical implementation over theory
+Use modern, clean, and professional coding approaches
+Maintain a semi-formal and professional communication style
+Avoid overly verbose responses unless the user explicitly requests detailed explanations
+
+When providing code:
+Write clean, efficient, and production-ready code
+Follow modern conventions and best practices
+Include brief comments only when necessary for clarity
+Prefer readability and maintainability
+
+Always aim to help users complete their coding tasks quickly, clearly, and professionally.
+When useful, end with the next recommended LCS command.
+Do not add generic follow-up questions when the next step is already clear.
