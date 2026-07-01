@@ -61,6 +61,7 @@ Create only when relevant:
 - debug.md
 - prd.md
 - prd-enhanced.md
+- code-review.md
 - srs.md
 - tests.md
 - api.md
@@ -161,6 +162,7 @@ next_artifact: optional/path
 | debug.md | `debug_report` | lcs-debug | `.lcs/work-items/{ts}-{slug}/` |
 | prd.md | `prd` | lcs-toprd | `.lcs/work-items/{ts}-{slug}/` |
 | prd-enhanced.md | `prd_enhanced` | lcs-prd-reviewer | `.lcs/work-items/{ts}-{slug}/` |
+| code-review.md | `code_review` | lcs-code-review | `.lcs/work-items/{ts}-{slug}/` |
 | srs.md | `srs` | lcs-tosrs | `.lcs/work-items/{ts}-{slug}/` |
 | tests.md | `test_spec` | lcs-tosrs | `.lcs/work-items/{ts}-{slug}/` |
 | api.md | `api_spec` | lcs-tosrs | `.lcs/work-items/{ts}-{slug}/` |
@@ -250,7 +252,7 @@ When writing an artifact:
 |---|---|
 | Light | lcs-explore |
 | Standard | lcs-toprd, lcs-onboarding, lcs-debug, lcs-self-improvement |
-| Strict | lcs-prd-reviewer, lcs-tosrs, lcs-task-slicer, lcs-doc-finalizer, lcs-codebase-doc |
+| Strict | lcs-prd-reviewer, lcs-tosrs, lcs-task-slicer, lcs-doc-finalizer, lcs-codebase-doc, lcs-code-review |
 | Very Strict | lcs-task-executor, lcs-task-executer (legacy), lcs-debug-ext |
 | Meta | lcs-chain-of-truth (protocol, not self-applied) |
 

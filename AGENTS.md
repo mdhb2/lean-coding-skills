@@ -130,25 +130,26 @@ Rule ini override asumsi path artifact runtime generik untuk skill `lcs-self-imp
 
 ---
 
-## 9. Current Skill Inventory (15 skills)
+## 9. Current Skill Inventory (16 skills)
 
 | Skill | Chain of Truth Level | Purpose |
 |-------|---------------------|---------|
 | `lcs-chain-of-truth` | — (meta) | Auditable evidence protocol for all LCS skills |
-| `lcs-explore` | Light | Interactive explore/brainstorm before PRD |
-| `lcs-toprd` | Standard | Lean, implementation-focused PRD writer |
-| `lcs-prd-reviewer` | Strict | Review, harden, security-check PRDs |
-| `lcs-tosrs` | Strict | Transform PRD into deterministic Lean SRS |
-| `lcs-task-slicer` | Strict | Split PRD/SRS into actionable session-sized tasks |
-| `lcs-task-executor` | Very Strict | Execute task plan with Chain of Truth verification |
-| `lcs-task-executer` | Very Strict | Legacy alias (backward compatibility) |
-| `lcs-doc-finalizer` | Strict | Finalize completed work into canonical docs |
+| `lcs-code-review` | Strict | Review implementation against LCS artifacts |
+| `lcs-codebase-doc` | Strict | Map/document existing repositories |
 | `lcs-debug` | Standard | Focused bug investigation and fix planning |
 | `lcs-debug-ext` | Very Strict | Evidence-based debug reports without applying changes |
-| `lcs-codebase-doc` | Strict | Map/document existing repositories |
+| `lcs-doc-finalizer` | Strict | Finalize completed work into canonical docs |
+| `lcs-explore` | Light | Interactive explore/brainstorm before PRD |
 | `lcs-onboarding` | Standard | Generate developer onboarding documentation |
+| `lcs-prd-reviewer` | Strict | Review, harden, security-check PRDs |
 | `lcs-self-improvement` | Standard | Analyze friction, recommend improvements |
 | `lcs-shared` | — (internal) | Shared contract, folder conventions, token optimization |
+| `lcs-task-executer` | Very Strict | Legacy alias (backward compatibility) |
+| `lcs-task-executor` | Very Strict | Execute task plan with Chain of Truth verification |
+| `lcs-task-slicer` | Strict | Split PRD/SRS into actionable session-sized tasks |
+| `lcs-toprd` | Standard | Lean, implementation-focused PRD writer |
+| `lcs-tosrs` | Strict | Transform PRD into deterministic Lean SRS |
 
 ---
 
