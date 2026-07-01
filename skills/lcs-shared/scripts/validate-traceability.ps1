@@ -63,6 +63,120 @@ function Has-TestMapping($acId, $tests) {
     return $false
 }
 
+function Check-ArtifactExistence($workItem) {
+    $failures = @()
+    $indexPath = "$workItem/index.md"
+    if (Test-Path $indexPath) {
+        $indexContent = Read-Text $indexPath
+        $lines = $indexContent -split "`r?`n"
+        foreach ($line in $lines) {
+            if ($line -match '\|.*\[([^\]]+)\]\(([^)]+)\).*\|') {
+                $artifactPath = Join-Path $workItem $matches[2]
+                if (-not (Test-Path $artifactPath)) {
+                    $failures += "index.md lists $($matches[1]) at $($matches[2]) but file does not exist"
+                }
+            }
+        }
+    }
+    return $failures
+}
+
+function Check-FrontmatterFields($path) {
+    $failures = @()
+    $content = Read-Text $path
+    if ($content -match '^---\s*\n(.*?)\n---') {
+        $yaml = $matches[1]
+        $required = @("type", "artifact_type", "status", "source", "timestamp")
+        foreach ($field in $required) {
+            if ($yaml -notmatch "(?m)^$field\s*:") {
+                $failures += "$path missing required frontmatter field: $field"
+            }
+        }
+        if ($yaml -match "(?m)^status\s*:\s*(.+)$") {
+            $status = $matches[1].Trim()
+            if ($status -notmatch '^(draft|review|final)') {
+                $failures += "$path invalid status value: $status (expected draft, review, or final)"
+            }
+        }
+        if ($yaml -match "(?m)^timestamp\s*:\s*(.+)$") {
+            $ts = $matches[1].Trim()
+            if ($ts -notmatch '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+-]\d{2}:\d{2}$') {
+                $failures += "$path invalid timestamp format: $ts (expected ISO 8601)"
+            }
+        }
+    }
+    return $failures
+}
+
+function Check-TaskVerification($taskDir) {
+    $failures = @()
+    if (-not (Test-Path $taskDir)) { return $failures }
+    $taskFiles = Get-ChildItem "$taskDir/task-*.md" | Sort-Object Name
+    foreach ($taskFile in $taskFiles) {
+        $text = Read-Text $taskFile.FullName
+        if ($text -match '\*\*Status\*\*:\s*done') {
+            if ($text -notmatch 'Verif(ication|y)|evidence|Task result') {
+                $failures += "$($taskFile.Name) is done but missing verification or execution evidence"
+            }
+        }
+    }
+    return $failures
+}
+
+function Check-Dependency($taskDir) {
+    $failures = @()
+    if (-not (Test-Path $taskDir)) { return $failures }
+    $taskFiles = Get-ChildItem "$taskDir/task-*.md" | Sort-Object Name
+    $statuses = @{}
+    foreach ($taskFile in $taskFiles) {
+        $text = Read-Text $taskFile.FullName
+        if ($text -match '\*\*Status\*\*:\s*(\w+)') {
+            $statuses[$taskFile.Name] = $matches[1]
+        }
+    }
+    foreach ($taskFile in $taskFiles) {
+        $text = Read-Text $taskFile.FullName
+        if ($text -match '\*\*Depends on\*\*:\s*(.+)') {
+            $deps = $matches[1]
+            foreach ($dep in ($deps -split ',')) {
+                $dep = $dep.Trim()
+                if ($dep -and $statuses[$dep] -and $statuses[$dep] -ne 'done') {
+                    $failures += "$($taskFile.Name) depends on $dep which is not done (status: $($statuses[$dep]))"
+                }
+            }
+        }
+    }
+    return $failures
+}
+
+function Check-ResourcePath($content, $label) {
+    $failures = @()
+    if ($content -match '^---\s*\n(.*?)\n---') {
+        $yaml = $matches[1]
+        if ($yaml -match "(?m)^previous_artifact\s*:\s*(.+)$") {
+            $path = $matches[1].Trim()
+            if ($path -and $path -ne 'optional/path' -and -not (Test-Path $path)) {
+                $failures += "$label: previous_artifact path does not exist: $path"
+            }
+        }
+    }
+    return $failures
+}
+
+function Check-SourcePath($content, $label) {
+    $failures = @()
+    if ($content -match '^---\s*\n(.*?)\n---') {
+        $yaml = $matches[1]
+        if ($yaml -match "(?m)^source\s*:\s*(.+)$") {
+            $source = $matches[1].Trim()
+            if ($source -match '^\.\.[\\/]') {
+                $failures += "$label: source field escapes .lcs/ directory: $source"
+            }
+        }
+    }
+    return $failures
+}
+
 $failures = @()
 $warnings = @()
 
@@ -157,6 +271,23 @@ if ($traceability) {
 } elseif ($srcIds.Count -gt 0) {
     $warnings += "traceability.md missing; SRC downstream mapping not fully enforceable."
 }
+
+# New validation checks (TASK-004)
+$failures += Check-ArtifactExistence $workItem
+
+$artifactNames = @("explore.md", "debug.md", "prd.md", "prd-enhanced.md", "srs.md", "tests.md", "api.md", "db.md", "traceability.md", "task-coverage.md", "final-doc.md", "state.md")
+foreach ($name in $artifactNames) {
+    $path = Join-Path $workItem $name
+    if (Test-Path $path) {
+        $content = Read-Text $path
+        $failures += Check-FrontmatterFields $path
+        $failures += Check-ResourcePath $content $name
+        $failures += Check-SourcePath $content $name
+    }
+}
+
+$failures += Check-TaskVerification "$workItem/task"
+$failures += Check-Dependency "$workItem/task"
 
 foreach ($w in $warnings) { Report "WARN" $w }
 foreach ($f in $failures) { Report "FAIL" $f }

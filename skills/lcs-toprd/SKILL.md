@@ -16,6 +16,11 @@ Purpose
 Trigger
 - Activate when user requests to "create PRD", "write PRD", "plan feature", or when user asks for acceptance criteria, test strategy, or technical approach.
 
+## OKF Frontmatter & Writing Safety
+
+- When creating `prd.md`, include YAML frontmatter following the schema in `../lcs-shared/contract.md`.
+- Follow the Artifact Writing Safety rules in contract.md — generate content first, write one file, verify, stop on failure.
+
 Behavior checklist
 - Read state.md first if continuing. Otherwise locate explore.md or debug.md.
 - Explore the repo to understand the current state of the codebase, if you haven't already. Use the project's domain glossary vocabulary throughout the PRD, and respect any ADRs in the area you're touching.

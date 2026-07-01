@@ -18,6 +18,11 @@ Purpose
 Trigger
 - Activate on user mentioning bug, failing test, error, regression, or unexpected behavior.
 
+## OKF Frontmatter & Writing Safety
+
+- When creating `debug.md`, include YAML frontmatter following the schema in `../lcs-shared/contract.md`.
+- Follow the Artifact Writing Safety rules in contract.md — generate content first, write one file, verify, stop on failure.
+
 Behavior checklist
 - Confirm work item name and read `state.md` if present to identify active work item folder.
 - Ask one question at a time: repro steps, expected vs actual behavior, logs, env, recent commits.

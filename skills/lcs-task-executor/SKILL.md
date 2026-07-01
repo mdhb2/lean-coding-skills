@@ -16,6 +16,12 @@ Purpose
 Trigger
 - Activate when the user requests to "Eksekusi TASK-###", "Eksekusi task-###.md", "continue TASK-###", or "implement TASK-###".
 
+## OKF Frontmatter & Writing Safety
+
+- When creating or updating `task-###.md`, include YAML frontmatter following the schema in `../lcs-shared/contract.md`.
+- After execution, update task status in task file frontmatter and include execution evidence or verification result.
+- Follow the Artifact Writing Safety rules in contract.md — generate content first, write one file, verify, stop on failure.
+
 Behavior checklist
 1. Read `.lcs/state.md` first to identify the active work-item directory: `.lcs/work-items/{timestamp}-{slug-work-item}/`.
 2. Locate and read the target task file `.lcs/work-items/{timestamp}-{slug-work-item}/task/task-###.md`.

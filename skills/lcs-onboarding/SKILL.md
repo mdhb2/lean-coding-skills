@@ -20,6 +20,11 @@ Purpose
 Trigger
 - Activate when user requests "onboard project", "generate project docs", "buat dokumentasi onboarding", "summarize codebase", "lcs-onboarding", or similar.
 
+## OKF Frontmatter & Writing Safety
+
+- When creating `onboarding.md` or `onboarding-map.md`, include YAML frontmatter following the schema in `../lcs-shared/contract.md`. These are singleton artifacts (no timestamp folder) — `source` field references explore.md or direct user input.
+- Follow the Artifact Writing Safety rules in contract.md — generate content first, write one file, verify, stop on failure.
+
 Behavior Checklist
 1. Scan the repository for crucial configuration files (e.g. package.json, requirements.txt, Cargo.toml, go.mod) and readme files.
 2. Identify technology stack, language, main framework, and entrypoints.

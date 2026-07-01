@@ -26,6 +26,11 @@ Rules:
 - If docs already exist in `.lcs/codebase/`, never overwrite full files in mode `1` or mode `2`; update sections in place.
 - Full-file regeneration is allowed only in mode `3`.
 
+## OKF Frontmatter & Writing Safety
+
+- When creating codebase documentation files (`.lcs/codebase/*.md`), include YAML frontmatter following the schema in `../lcs-shared/contract.md` with `artifact_type: codebase_doc`.
+- Follow the Artifact Writing Safety rules in contract.md — generate content first, write one file, verify, stop on failure.
+
 ## Output contract
 Before finishing, ensure exactly these files exist under `.lcs/codebase/`:
 

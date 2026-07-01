@@ -32,6 +32,13 @@ Input and output location
   - `api.md` (optional, only when API changes are relevant)
   - `db.md` (optional, only when DB changes are relevant)
 
+## OKF Frontmatter & Writing Safety
+
+- All 5 output types (srs.md, api.md, db.md, tests.md, traceability.md) MUST include YAML frontmatter following the schema in `../lcs-shared/contract.md`.
+- Follow the Artifact Writing Safety rules in contract.md.
+- **One-file-per-step write strategy**: After generating all SRS content, write one file per step in this order: srs.md → api.md → db.md → tests.md → traceability.md. Do not write more than one file per response.
+- Generate the complete content for all artifacts in planning, then write exactly one file per subsequent response.
+
 Behavior checklist
 1. Read `.lcs/state.md` first when continuing existing work.
 2. Read source bundle in order:

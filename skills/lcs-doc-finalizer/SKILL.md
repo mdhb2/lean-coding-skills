@@ -19,6 +19,11 @@ Purpose
 Trigger
 - Activate when the user requests to "finalize documentation", "prepare final-doc", "lcs-doc-finalizer", "selesaikan dokumentasi", or similar.
 
+## OKF Frontmatter & Writing Safety
+
+- When creating `final-doc.md`, include YAML frontmatter following the schema in `../lcs-shared/contract.md`.
+- Follow the Artifact Writing Safety rules in contract.md — generate content first, write one file, verify, stop on failure.
+
 Behavior checklist
 1. Read `.lcs/state.md` to identify the active work-item directory: `.lcs/work-items/{timestamp}-{slug-work-item}/`.
 2. Scan the task folder `.lcs/work-items/{timestamp}-{slug-work-item}/task/` and read all task files (`task-###.md`).

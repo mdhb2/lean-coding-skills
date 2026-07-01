@@ -18,6 +18,11 @@ Purpose
 Trigger
 - Activate when user mentions explore, brainstorm, clarify, evaluate options, compare trade-offs, feasibility, or asks for recommended direction.
 
+## OKF Frontmatter & Writing Safety
+
+- When creating `explore.md`, include YAML frontmatter following the schema in `../lcs-shared/contract.md`.
+- Follow the Artifact Writing Safety rules in contract.md — generate content first, write one file, verify, stop on failure.
+
 Behavior checklist
 - Confirm work-name. If .lcs/state.md exists in workspace, read it.
 - Ask exactly one short question at a time until either: ready for PRD or blocker discovered.

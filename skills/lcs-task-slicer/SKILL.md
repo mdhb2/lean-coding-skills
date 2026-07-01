@@ -19,6 +19,13 @@ Trigger
 
 Behavior Checklist
 
+## OKF Frontmatter & Writing Safety
+
+- When creating `task-coverage.md` and `task-###.md` files, include YAML frontmatter following the schema in `../lcs-shared/contract.md` with `artifact_type: task` or `artifact_type: task_coverage`.
+- Follow the Artifact Writing Safety rules in contract.md.
+- **One-file-per-task write strategy**: Write task-coverage.md first (one file), then write each task-###.md one at a time. Do not write more than one task file per response.
+- Generate all task content during planning, then write one file per response.
+
 1. **Gather Context**:
     - Read `.lcs/state.md` to identify the active work-item directory: `.lcs/work-items/{timestamp}-{slug-work-item}/`.
     - Read source bundle:

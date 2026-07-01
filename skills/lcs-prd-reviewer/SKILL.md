@@ -17,6 +17,11 @@ Purpose
 Trigger
 - Activate when user requests to "review prd", "audit prd", "harden prd", "security review of prd", or when completing the PRD generation phase.
 
+## OKF Frontmatter & Writing Safety
+
+- When creating `prd-enhanced.md`, include YAML frontmatter following the schema in `../lcs-shared/contract.md`.
+- Follow the Artifact Writing Safety rules in contract.md — generate content first, write one file, verify, stop on failure.
+
 Behavior checklist
 - Read `.lcs/state.md` to identify the active work-item directory: `.lcs/work-items/{timestamp}-{slug-work-item}/`.
 - Read `prd.md` inside that active directory.

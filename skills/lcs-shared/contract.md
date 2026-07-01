@@ -113,6 +113,135 @@ Unresolved IDs:
 Suggested next command:
 ```
 
+## OKF Frontmatter Schema
+
+All LCS artifacts MUST include standard YAML frontmatter at the top of the file, delimited by `---` lines with no blank lines before it.
+
+### Schema
+
+```yaml
+---
+type: artifact
+artifact_type: prd
+status: draft
+source: .lcs/work-items/{timestamp}-{slug}/explore.md
+timestamp: 2026-07-01T09:27:22+07:00
+resource: optional/path/or/url
+previous_artifact: optional/path
+next_artifact: optional/path
+---
+```
+
+### Field Constraints
+
+| Field | Type | Required | Allowed Values | Validation Rules |
+|---|---|---|---|---|
+| `type` | string | required | `artifact` | Must be exactly `artifact` |
+| `artifact_type` | string | required | Must match registry | Must be one of the 16 values in the Artifact Type Registry |
+| `status` | string | required | `draft`, `review`, `final` | If invalid, use `draft (invalid_frontmatter)` |
+| `source` | string | required | Relative path | Must be relative path from repo root; must not escape `.lcs/`; must not be absolute or URL |
+| `timestamp` | string | required | ISO 8601 | Format: `YYYY-MM-DDTHH:mm:ss±hh:mm` — regex: `^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+-]\d{2}:\d{2}$` |
+| `resource` | string | optional | Path, URL, or reference | Validator checks existence if path |
+| `previous_artifact` | string | optional | Relative path | Relative path to preceding artifact |
+| `next_artifact` | string | optional | Relative path | Relative path to next artifact |
+
+### Validation Rules
+
+- Frontmatter is mandatory for all new artifacts from Phase 1 onward.
+- If YAML schema is invalid, report the issue and write with `status: draft (invalid_frontmatter)`.
+- Special YAML characters (colons `:`, quotes `"`, newlines) in values MUST be wrapped in double quotes.
+- Empty/missing fields are treated as invalid — apply `invalid_frontmatter` marker.
+- Timestamp MUST always include timezone offset.
+
+## Artifact Type Registry
+
+| Artifact | `artifact_type` value | Primary Skill | File Location |
+|---|---|---|---|
+| explore.md | `exploration` | lcs-explore | `.lcs/work-items/{ts}-{slug}/` |
+| debug.md | `debug_report` | lcs-debug | `.lcs/work-items/{ts}-{slug}/` |
+| prd.md | `prd` | lcs-toprd | `.lcs/work-items/{ts}-{slug}/` |
+| prd-enhanced.md | `prd_enhanced` | lcs-prd-reviewer | `.lcs/work-items/{ts}-{slug}/` |
+| srs.md | `srs` | lcs-tosrs | `.lcs/work-items/{ts}-{slug}/` |
+| tests.md | `test_spec` | lcs-tosrs | `.lcs/work-items/{ts}-{slug}/` |
+| api.md | `api_spec` | lcs-tosrs | `.lcs/work-items/{ts}-{slug}/` |
+| db.md | `db_spec` | lcs-tosrs | `.lcs/work-items/{ts}-{slug}/` |
+| traceability.md | `traceability` | lcs-tosrs | `.lcs/work-items/{ts}-{slug}/` |
+| task-coverage.md | `task_coverage` | lcs-task-slicer | `.lcs/work-items/{ts}-{slug}/` |
+| tasks.md / task-###.md | `task` | lcs-task-slicer | `.lcs/work-items/{ts}-{slug}/task/` |
+| state.md | `state` | all skills | `.lcs/` |
+| final-doc.md | `final_doc` | lcs-doc-finalizer | `.lcs/docs/{ts}-{slug}/` |
+| index.md | `index` | all skills | `.lcs/work-items/{ts}-{slug}/` |
+| onboarding.md | `onboarding` | lcs-onboarding | `.lcs/work-items/` |
+| onboarding-map.md | `onboarding_map` | lcs-onboarding | `.lcs/work-items/` |
+
+## Artifact Writing Safety
+
+### Content-First / Write-Second
+
+Generate complete artifact content in the planning/thinking stage first. Only after content is finalized, write it to file in a separate step. Never begin writing before content is fully generated.
+
+### File Write Contract
+
+When writing an artifact file, follow this exact 4-step sequence:
+
+1. **Generate**: Produce complete artifact content (including frontmatter) in the current context.
+2. **Write**: Write exactly one target file using the write tool.
+3. **Verify**: Check the tool result — do not claim success unless the tool confirms success.
+4. **Stop on Failure**: If the write tool fails, do not retry in the same step. Move to File Write Fallback.
+
+### File Write Fallback
+
+If the file write tool fails:
+
+1. Output the full artifact content inside a fenced markdown code block.
+2. Prefix the block with `(not saved)`.
+3. State the target file path clearly above the block.
+4. The human operator can manually save the content.
+
+### One Artifact Write Per Step
+
+A single model response MUST NOT generate and write more than one primary artifact file. Primary artifacts are files listed in the Artifact Type Registry. Supporting operations (reading files, updating state) may accompany but not replace the single write rule.
+
+Exception: Skills with multiple output types (e.g., lcs-tosrs with 5 types, lcs-task-slicer with many task files) MUST use one-file-per-step write strategy across sequential steps — never in the same response.
+
+### Model Capability Mode
+
+When using an unstable model (limited or unreliable tool-calling capability):
+
+- Prefer **content-first mode**: generate full content, present for preview, save only on explicit confirmation.
+- **Avoid multi-file writes**: The one-artifact-per-step rule is strict for unstable models.
+- **Artifact preview**: Before writing, present the artifact content in a code block for human review.
+- **Fallback default**: Unstable models should default to File Write Fallback (output as text, mark `(not saved)`) rather than risking failed writes.
+
+### Planner / Reviewer / Executor Role Guidance
+
+Some models (e.g., Nemotron 3 Ultra, routed/free/open-weight models) have unreliable tool-calling. Assign roles based on capability:
+
+| Model Type | Suitable Role | Unsuitable Role |
+|---|---|---|
+| Stable tool-calling | Executor, Writer | — |
+| Unstable tool-calling | Planner, Reviewer | Executor, Writer |
+
+Unstable models SHOULD generate plans and reviews that stable models execute. If an unstable model must write, use content-first mode with fallback.
+
+### Reduce Strictness During Write Steps
+
+Planning and review steps follow the full formatting schema. Write steps use simplified instructions:
+
+- Focus on getting content written correctly.
+- Frontmatter validation is relaxed — invalid frontmatter gets `status: draft (invalid_frontmatter)` rather than blocking the write.
+- Post-write cleanup and correction can happen in subsequent steps.
+
+### Frontmatter Validation at Write Time
+
+When writing an artifact:
+
+1. Validate YAML frontmatter against the schema (field types, required fields, allowed values).
+2. If frontmatter is valid: write with the appropriate `status` value.
+3. If frontmatter is invalid: report the validation issue, write the artifact with `status: draft (invalid_frontmatter)`.
+4. Never block artifact writing due to frontmatter validation failure — the artifact is still useful with the error marker.
+5. Fix invalid frontmatter in a subsequent review/correction step.
+
 ## Chain of Truth
 
 ### Canonical Level Mapping

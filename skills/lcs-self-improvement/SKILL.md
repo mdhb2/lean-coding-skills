@@ -47,6 +47,11 @@ Analyze available evidence from:
 
 If current conversation is unavailable and user provides no files/folders, generate limited report with clear evidence limits and `[TODO]` markers.
 
+## OKF Frontmatter & Writing Safety
+
+- When creating analysis files (`.lcs/docs/self-improvements/{timestamp}-analysis.md`), include YAML frontmatter following the schema in `../lcs-shared/contract.md` with `artifact_type: self_improvement`.
+- Follow the Artifact Writing Safety rules in contract.md — generate content first, write one file, verify, stop on failure.
+
 ## Workflow Checklist
 
 - [ ] Phase 1: Collect available context and references
