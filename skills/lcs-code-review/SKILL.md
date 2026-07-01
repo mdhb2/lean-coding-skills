@@ -18,12 +18,16 @@ Purpose
 Trigger
 - Activate when user asks to review code, check implementation, or verify task completion against artifacts.
 
-Behavior checklist
-- Read `.lcs/state.md` to locate active work item.
-- Read task artifacts in Required Reading Order.
-- Perform review per What to Review sections.
-- Write review report to `.lcs/work-items/{timestamp}-{slug-work-item}/code-review.md`.
-- Update `.lcs/state.md` with current_phase: code-review.
+Workflow checklist
+- [ ] Read `.lcs/state.md` to locate active work item folder
+- [ ] Read task artifacts in Required Reading Order
+- [ ] Phase 1: Setup — identify task, read artifacts, read diff
+- [ ] Phase 2: Review — check Explore, PRD, PRD Enhance, SRS, Task Breakdown alignment
+- [ ] Phase 2: Review — scan for bugs, security, error handling, test coverage, maintainability
+- [ ] Phase 3: Report — produce `code-review.md` from template
+- [ ] Phase 4: Validate — verify claims, confirm status, update state
+- [ ] Write review report to `.lcs/work-items/{timestamp}-{slug-work-item}/code-review.md`
+- [ ] Update `.lcs/state.md` with current_phase: code-review
 
 ## Output Artifact
 
@@ -537,21 +541,38 @@ Source review: `FIX-{n}`
 
 ---
 
-## Review Procedure
+## Phase 1: Setup
 
-1. Read all available LCS artifacts.
-2. Identify the active task being reviewed.
-3. Build a list of expected behavior from artifacts.
-4. Read diff or changed files.
-5. Match implementation against expected behavior.
-6. Check acceptance criteria one by one.
-7. Find mismatches, missing behavior, and scope creep.
-8. Find potential bugs and edge cases.
-9. Check security and data safety if relevant.
-10. Check test coverage.
-11. Determine severity for each issue.
-12. Assign final review status.
-13. Create fix handoff for `lcs-task-executor` if needed.
+1. Read `.lcs/state.md` to locate active work item folder.
+2. Read all available LCS artifacts in Required Reading Order.
+3. Read diff or changed code files.
+4. Build a list of expected behavior from artifacts.
+
+## Phase 2: Review Execution
+
+1. Check alignment with Explore, PRD, PRD Enhance, SRS, and Task Breakdown.
+2. Scan for potential bugs (null handling, race conditions, edge cases, etc.).
+3. Check security and data safety (auth, injection, exposure, etc.).
+4. Check error handling and failure modes.
+5. Review test coverage.
+6. Review maintainability.
+7. Determine severity (P0-P3) for each issue found.
+
+## Phase 3: Report Writing
+
+1. Copy template from `../lcs-code-review/assets/code-review-template.md`.
+2. Replace all `{{placeholder}}` with actual review findings.
+3. For each issue found, create a FIX-{n} entry with problem, location, expected vs actual, fix instructions, and validation.
+4. Include Fix Request Copy block per FIX entry for executor consumption.
+5. Add execution order and final status.
+6. Write report to `.lcs/work-items/{timestamp}-{slug-work-item}/code-review.md`.
+
+## Phase 4: Validation & Handoff
+
+1. Verify all claims in the report are backed by evidence from artifacts or code.
+2. Confirm final status (PASS / PASS_WITH_NOTES / NEEDS_FIX / BLOCKED).
+3. Update `.lcs/state.md` with `current_phase: code-review`.
+4. Present handoff for `lcs-task-executor` with required fixes and execution order.
 
 ---
 
@@ -566,3 +587,94 @@ Source review: `FIX-{n}`
 - Every fix recommendation must be actionable.
 - When in doubt, use PARTIAL or NEEDS_FIX, not PASS.
 - Code review must help the executor fix issues clearly and precisely.
+
+---
+
+## Gotchas & Anti-Patterns
+
+- Do not review code you haven't read. Reading the diff is mandatory.
+- Do not skip artifact reading order — missing upstream context leads to false positives.
+- Do not assign P0/P1 without clear artifact evidence. Subjective preferences are P3 at most.
+- Do not combine review and fix in one step. Review produces report; executor applies fixes.
+- Do not claim `All tests passed` unless you actually ran them. State `Tests were not run` if not executed.
+- Do not add requirements that don't exist in artifacts. Label suggestions as `Optional Improvement`.
+- Do not produce a generic PASS when artifacts are missing. Use BLOCKED or PARTIAL_REVIEW.
+- For NEEDS_FIX: always include Fix Request Copy so executor can work independently.
+- For blocked reviews: clearly state which artifact is missing and what can't be verified.
+- If tests exist but were not run, note this in the report — don't assume they pass.
+- Security findings must cite specific code paths, not vague concerns.
+- Do not refactor or restructure code in fix instructions. Keep instructions surgical.
+- If the same bug appears in multiple files, create one FIX entry per distinct location.
+- Separate mandatory fixes (P0/P1) from optional improvements (P2/P3). Mixing them confuses the executor.
+- When the task scope is unclear, downgrade to PARTIAL_REVIEW rather than guessing intent.
+
+---
+
+## Chain of Truth Report
+
+### Level
+Strict
+
+### Sources Checked
+- Project source files, configs, and manifests
+- LCS artifacts: explore.md, prd.md, prd-enhanced.md, srs.md, task-breakdown.md, task-###.md
+- Task acceptance criteria
+- Diff or changed code files
+- `.lcs/state.md`
+
+### Assumptions
+- User has completed one or more tasks via lcs-task-executor before review
+- Active work item is correctly set in `.lcs/state.md`
+- Artifacts are in the canonical `.lcs/work-items/{timestamp}-{slug}/` path
+
+### Plan
+1. Phase 1: Setup — identify task, read artifacts, read diff
+2. Phase 2: Review — check alignment, bugs, security, error handling, test coverage, maintainability
+3. Phase 3: Report — populate template from `assets/code-review-template.md`
+4. Phase 4: Validate — verify claims, confirm status, update state
+
+### Actions Taken
+- Read artifacts in Required Reading Order
+- Reviewed implementation against each artifact
+- Scanned for bugs, security issues, error handling gaps
+- Checked test coverage and maintainability
+- Assigned severity (P0-P3) per finding
+- Produced `code-review.md` with FIX entries and execution order
+
+### Verification
+- Each finding cites artifact or code evidence
+- Every non-trivial claim has a source reference
+- Missing artifacts trigger BLOCKED or PARTIAL_REVIEW status
+- Review status assigned per Final Review Status table
+
+### Report
+**Confidence**: Medium (varies by artifact completeness and code access)
+**Limitations**: Claims without artifact confirmation marked accordingly; BLOCKED status when critical artifacts are missing
+
+## Handoff
+
+Next recommended skill: lcs-task-executor
+
+Next file to read: .lcs/work-items/{timestamp}-{slug-work-item}/code-review.md
+
+Current phase: code-review
+
+Current confidence: medium
+
+Blocking questions: None
+
+Risks to carry forward: Unresolved fixes marked as FIX entries; executor must follow execution order
+
+Source of Truth Bundle: .lcs/state.md, .lcs/work-items/{timestamp}-{slug-work-item}/explore.md, prd.md, srs.md, code-review.md
+
+Must Preserve IDs: <SRC-### list from artifacts>
+
+Unresolved IDs: <SRC-### list from artifacts>
+
+Suggested next command: Execute fixes from code-review.md
+
+## Chain of Truth Level
+
+Level: Strict
+
+This skill follows the LCS Chain of Truth protocol at the declared level.
