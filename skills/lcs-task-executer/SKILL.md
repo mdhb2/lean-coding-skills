@@ -116,3 +116,4 @@ This skill follows the LCS Chain of Truth protocol at the declared level.
 ---
 
 > **Deprecated name.** This skill name (`lcs-task-executer`) is kept for backward compatibility. Prefer `lcs-task-executor` for new workflows.
+> **Guard:** Do not run this legacy skill and `lcs-task-executor` interchangeably within the same work item. Always use the same executor for all tasks of a work item to keep `.lcs/state.md` `current_phase` and task statuses consistent. If a work item was started with `lcs-task-executor`, continue with it; do not switch to this legacy alias mid-work-item.

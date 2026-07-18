@@ -173,9 +173,9 @@ Before review, read artifacts in this order:
 
 1. `explore.md`
 2. `prd.md`
-3. `prd-enhance.md` or PRD reviewer output
+3. `prd-enhanced.md` or PRD reviewer output
 4. `srs.md`
-5. `task-breakdown.md`
+5. `task-coverage.md`
 6. Active task being worked on
 7. Task acceptance criteria
 8. Changed code files
@@ -491,7 +491,7 @@ Describe the issue briefly.
 ```text
 File: <path/file>
 Area/Function: <function name / component / route>
-Related artifact: <prd.md / srs.md / task-breakdown.md>
+Related artifact: <prd.md / srs.md / task-coverage.md>
 Related requirement: <section / AC / requirement id>
 ```
 
@@ -617,7 +617,7 @@ Strict
 
 ### Sources Checked
 - Project source files, configs, and manifests
-- LCS artifacts: explore.md, prd.md, prd-enhanced.md, srs.md, task-breakdown.md, task-###.md
+- LCS artifacts: explore.md, prd.md, prd-enhanced.md, srs.md, task-coverage.md, task-###.md
 - Task acceptance criteria
 - Diff or changed code files
 - `.lcs/state.md`

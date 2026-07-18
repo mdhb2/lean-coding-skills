@@ -95,8 +95,8 @@ Every original user-provided instruction, explicit constraint, and requirement b
 <what could go wrong, validations>
 
 ## Acceptance Criteria
-- AC 1: <detail>
-- AC 2: <detail>
+- AC-001: <detail>
+- AC-002: <detail>
 
 ## Test Strategy & Testing Decisions
 - Testing decisions: <what makes a good test (only test external behavior, not implementation details), modules to test, prior art in the codebase>

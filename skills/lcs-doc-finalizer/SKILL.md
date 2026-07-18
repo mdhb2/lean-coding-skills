@@ -21,15 +21,17 @@ Trigger
 
 ## OKF Frontmatter & Writing Safety
 
-- When creating `final-doc.md`, include YAML frontmatter following the schema in `../lcs-shared/contract.md`.
+- When creating `doc.md` and `map.md`, include YAML frontmatter following the schema in `../lcs-shared/contract.md` with `artifact_type: final_doc` (the canonical finalization artifact is the `doc.md` + `map.md` pair under `.lcs/docs/{timestamp}-{slug-work-item}/`).
 - Follow the Artifact Writing Safety rules in contract.md — generate content first, write one file, verify, stop on failure.
 
 Behavior checklist
 1. Read `.lcs/state.md` to identify the active work-item directory: `.lcs/work-items/{timestamp}-{slug-work-item}/`.
 2. Scan the task folder `.lcs/work-items/{timestamp}-{slug-work-item}/task/` and read all task files (`task-###.md`).
 3. Verify all task files are marked `Status: done`.
-   - If any task is NOT done (e.g., `pending` or `blocked`), alert the user, list the incomplete tasks, and ask if they wish to proceed anyway or continue executing tasks first.
-4. Read `.lcs/work-items/{timestamp}-{slug-work-item}/prd-enhanced.md` (fallback to `prd.md` if enhanced version is missing) and `explore.md` to capture context.
+    - If any task is NOT done (e.g., `pending` or `blocked`), alert the user, list the incomplete tasks, and ask if they wish to proceed anyway or continue executing tasks first.
+4. Detect artifact type of the active work item:
+    - If `prd-enhanced.md` or `prd.md` exists in the work-item folder, this is a PRD-driven work item. Read `prd-enhanced.md` (fallback `prd.md`) and `explore.md` for Objective/Context.
+    - If no PRD exists (e.g., work item originated from `lcs-codebase-doc` under `.lcs/codebase/`), this is a non-PRD documentation work item. Read `.lcs/codebase/CHAIN-OF-TRUTH.md` and the relevant `.lcs/codebase/*.md` files instead. For `doc.md`, derive Objective/Context from the codebase documentation itself rather than a PRD; leave PRD-specific fields empty or mark `N/A (codebase documentation)`.
 5. Create the following directories if they do not exist:
    - `.lcs/docs/{timestamp}-{slug-work-item}/` - output target for documentation files.
    - `.lcs/archive/{timestamp}-{slug-work-item}/` - archive target for source artifacts.

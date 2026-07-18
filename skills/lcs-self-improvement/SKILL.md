@@ -57,7 +57,7 @@ If current conversation is unavailable and user provides no files/folders, gener
 - [ ] Phase 1: Collect available context and references
 - [ ] Phase 2: Analyze friction, success patterns, and repeated issues
 - [ ] Phase 3: Cross-reference existing instructions, docs, rules, and skills
-- [ ] Phase 4: Generate `.lcs/docs/self-improvements.md`
+- [ ] Phase 4: Generate `.lcs/docs/self-improvements/{timestamp}-analysis.md`
 - [ ] Phase 5: Validate report and explain how to use it
 
 ## Phase 1 - Collect Context and References

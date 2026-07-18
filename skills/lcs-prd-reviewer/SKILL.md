@@ -140,7 +140,7 @@ Risks to carry forward: <risks>
 Source of Truth Bundle: .lcs/state.md, prd.md, prd-enhanced.md
 Must Preserve IDs: SRC-001, SRC-002, ...
 Unresolved IDs: <list or None>
-Suggested next command: Slice prd-enhanced.md menjadi tasks.md
+Suggested next command: Slice prd-enhanced.md menjadi task-coverage.md dan task/task-###.md
 
 ## Chain of Truth Level
 

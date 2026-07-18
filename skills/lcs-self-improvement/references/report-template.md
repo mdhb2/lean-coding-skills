@@ -1,6 +1,6 @@
 # LCS Self-Improvement Report Template
 
-Use this template for `.lcs/docs/self-improvements.md`.
+Use this template for `.lcs/docs/self-improvements/{timestamp}-analysis.md`.
 
 ```markdown
 # LCS Self-Improvement Report

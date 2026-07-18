@@ -160,6 +160,7 @@ The report must include:
 - Ranked falsifiable hypotheses.
 - Investigation notes.
 - Proposed patch.
+- If the bug implies a product/behavior requirement, include a `## Source Requirement Ledger` with stable `SRC-###` IDs (P0/P1/P2) so downstream `lcs-toprd` can carry it into the PRD without loss.
 - Optional regression-test options.
 - Cleanup checklist.
 - Post-mortem.

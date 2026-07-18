@@ -37,6 +37,7 @@ Behavior Checklist
       - `traceability.md` if present
     - If `prd-enhanced.md` exists but was not read, stop and report a source conflict.
     - If `srs.md` exists, use SRS IDs (`FR-###`, `BR-###`, `VR-###`, `EC-###`, `AC-###`) as the primary task slicing source instead of PRD prose.
+    - If `traceability.md` exists and contains an `## Unresolved Sources` section with any unresolved `SRC-###`, DO NOT proceed with slicing. Report the unresolved sources as a slicing blocker and stop. Every `SRC-###` must be decomposed or explicitly resolved before tasks are written.
     - Verify PRD has clear acceptance criteria and test strategy. If missing or weak, suggest running `lcs-prd-reviewer` first.
 
 2. **Draft Tracer-Bullet Vertical Slices**:
@@ -63,6 +64,7 @@ Behavior Checklist
     - Create the output directory: `.lcs/work-items/{timestamp}-{slug-work-item}/task/` if it does not exist.
     - Write each approved task into `.lcs/work-items/{timestamp}-{slug-work-item}/task/task-###.md` (sequential 3-digit number starting at `001`).
     - Every task must include Source coverage: Source IDs, Requirement IDs, Acceptance Criteria IDs, and Test IDs. If a task cannot map to upstream IDs, do not write it as executable; mark it as a slicing gap.
+    - After writing all task files, verify the Task Coverage Matrix covers every `SRC-###` from the Source Requirement Ledger / traceability. Any uncovered `SRC-###` must appear under `## Gaps` and be reported as a blocking risk in the Handoff.
 
 5. **Generate Task Coverage Matrix**:
     - Create or update `.lcs/work-items/{timestamp}-{slug-work-item}/task-coverage.md`.

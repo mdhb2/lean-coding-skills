@@ -65,6 +65,13 @@ Human-friendly:
 ## Decisions
 - Decision: <text> - Owner: <name> - Timestamp: <ISO>
 
+## Decision Ledger (upstream of PRD Source Requirement Ledger)
+Every agreed decision above that implies a product/behavior requirement must be carried into the PRD as a stable `SRC-###` ID by `lcs-toprd`. List them here so nothing is lost in synthesis:
+
+| SRC ID | Priority | Origin | Description |
+|---|---|---|---|
+| SRC-001 | P0 | explore decision | <exact requirement or faithful atomic paraphrase> |
+
 ## Chain of Truth Report
 ### Level
 Light

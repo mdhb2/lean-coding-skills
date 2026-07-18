@@ -29,10 +29,19 @@ Behavior checklist
 - Prioritize minimal reproduction steps and clear bug understanding.
 - DO NOT design or suggest fixes until the root cause is clear.
 - Once understood, write proposed hypotheses and quick investigation plan to `.lcs/work-items/{timestamp}-{slug-work-item}/debug.md`.
+- When the bug originates from or implies a product/behavior requirement, assign a stable `SRC-###` identifier to that requirement inside `debug.md` (use `SRC-001`, `SRC-002`, ... sequential). This ledger is the upstream source for `lcs-toprd` so the requirement is not lost when synthesized into the PRD. Preserve P0/P1/P2 priority per the Shared Coding Contract Requirement Preservation Rule.
 - Update `.lcs/state.md` with current phase `debug` and path.
 - End with Handoff section.
 
 Handoff example:
+
+## Source Requirement Ledger
+
+If the investigation implies any product/behavior requirement, list it here so `lcs-toprd` can carry it into the PRD without loss:
+
+| SRC ID | Priority | Origin | Description |
+|---|---|---|---|
+| SRC-001 | P0 | debug finding | <exact requirement or faithful atomic paraphrase> |
 
 ## Chain of Truth Report
 Level: Standard

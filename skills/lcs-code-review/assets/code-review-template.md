@@ -30,9 +30,9 @@ review:
 Artifacts:
 - [ ] explore.md
 - [ ] prd.md
-- [ ] prd-enhance.md
+- [ ] prd-enhanced.md
 - [ ] srs.md
-- [ ] task-breakdown.md
+- [ ] task-coverage.md
 - [ ] active task
 - [ ] acceptance criteria
 

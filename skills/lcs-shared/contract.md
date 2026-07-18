@@ -68,9 +68,9 @@ Create only when relevant:
 - db.md
 - traceability.md
 - task-coverage.md
-- tasks.md
+- tasks.md (deprecated; lcs-task-slicer now emits task-coverage.md + task/task-###.md)
 - state.md
-- final-doc.md
+- final-doc.md (deprecated; lcs-doc-finalizer now emits doc.md + map.md)
 
 ## Requirement Preservation Rule
 
@@ -169,9 +169,9 @@ next_artifact: optional/path
 | db.md | `db_spec` | lcs-tosrs | `.lcs/work-items/{ts}-{slug}/` |
 | traceability.md | `traceability` | lcs-tosrs | `.lcs/work-items/{ts}-{slug}/` |
 | task-coverage.md | `task_coverage` | lcs-task-slicer | `.lcs/work-items/{ts}-{slug}/` |
-| tasks.md / task-###.md | `task` | lcs-task-slicer | `.lcs/work-items/{ts}-{slug}/task/` |
+| task-coverage.md / task-###.md | `task` | lcs-task-slicer | `.lcs/work-items/{ts}-{slug}/task/` |
 | state.md | `state` | all skills | `.lcs/` |
-| final-doc.md | `final_doc` | lcs-doc-finalizer | `.lcs/docs/{ts}-{slug}/` |
+| doc.md + map.md | `final_doc` | lcs-doc-finalizer | `.lcs/docs/{ts}-{slug}/` |
 | index.md | `index` | all skills | `.lcs/work-items/{ts}-{slug}/` |
 | onboarding.md | `onboarding` | lcs-onboarding | `.lcs/work-items/` |
 | onboarding-map.md | `onboarding_map` | lcs-onboarding | `.lcs/work-items/` |
