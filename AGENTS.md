@@ -128,6 +128,8 @@ Skill ini menggunakan timestamped analysis files dengan state tracking:
 
 Rule ini override asumsi path artifact runtime generik untuk skill `lcs-self-improvement`.
 
+**Integrasi dengan `lcs-doc-finalizer`:** Rekomendasi dari `lcs-self-improvement` yang berstatus `applied` di `state.json` boleh dijadikan input bagi `lcs-doc-finalizer` saat finalisasi work-item terkait. Namun karena `lcs-self-improvement` bersifat diagnosis-only (tidak apply otomatis), finalizer TIDAK memindahkan atau menghapus file di `.lcs/docs/self-improvements/` — subtree tersebut dikecualikan dari langkah archive/delete finalizer agar history analisis tetap utuh.
+
 ---
 
 ## 9. Current Skill Inventory (16 skills)

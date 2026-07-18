@@ -45,8 +45,12 @@ Behavior checklist
    - `timestamp: <current-ISO-timestamp>`
    - `last_session_note: Finalized documentation for {slug-work-item}`
 9. Generate or update `.lcs/docs/docs-index.md` (ensure the filename is exactly `docs-index.md`, not `reff-index.md` or any other variant) by scanning all subdirectory items under `.lcs/docs/` and listing their `doc.md` and `map.md` with timestamps and descriptions extracted from `map.md` Description or `doc.md` Objective in a clean table.
-10. Move all source artifacts under `.lcs/work-items/{timestamp}-{slug-work-item}/` to `.lcs/archive/{timestamp}-{slug-work-item}/`, then delete the source folder `.lcs/work-items/{timestamp}-{slug-work-item}/` completely.
-    - **Guard:** Only proceed with move and delete if both `map.md` and `doc.md` were successfully generated in step 6 and 7. If either file is missing, abort this step and alert the user.
+10. Archive source artifacts while preserving Chain of Truth traceability.
+    - **Copy, do not move-and-delete.** Copy the entire source folder `.lcs/work-items/{timestamp}-{slug-work-item}/` to `.lcs/archive/{timestamp}-{slug-work-item}/` so every artifact (including `code-review.md`) remains readable from the archive.
+    - **Preserve verification artifacts in docs.** After copying, also copy `code-review.md` (if present) into `.lcs/docs/{timestamp}-{slug-work-item}/code-review.md` so the finalization docs and the verification report stay co-located and traceable together.
+    - **Delete source only after both copies succeed.** Remove the source folder `.lcs/work-items/{timestamp}-{slug-work-item}/` completely ONLY after: (a) the archive copy exists, and (b) `code-review.md` (when present) is copied into the docs folder. If any copy fails, abort the delete and alert the user — never leave traceability broken.
+    - **Guard:** Only proceed with copy and delete if both `map.md` and `doc.md` were successfully generated in step 6 and 7. If either file is missing, abort this step and alert the user.
+    - **Exclusion:** Never touch `.lcs/docs/self-improvements/` (diagnostic history from `lcs-self-improvement`). It is outside the work-item archive scope and must remain intact.
 11. End with a Handoff section.
 
 Prompt templates
@@ -138,6 +142,7 @@ Strict
 - `.lcs/state.md`
 - `.lcs/work-items/{timestamp}-{slug-work-item}/task/task-*.md`
 - `.lcs/work-items/{timestamp}-{slug-work-item}/prd-enhanced.md`
+- `.lcs/work-items/{timestamp}-{slug-work-item}/code-review.md` (if present)
 
 ### Assumptions
 - <label each [verified] or [unverified]>
@@ -161,7 +166,7 @@ Current phase: complete
 Current confidence: high
 Blocking questions: None
 Risks to carry forward: None
-Source of Truth Bundle: .lcs/state.md, prd-enhanced.md if present, prd.md, srs.md if present, task-coverage.md if present, traceability.md if present
+Source of Truth Bundle: .lcs/state.md, prd-enhanced.md if present, prd.md, srs.md if present, task-coverage.md if present, traceability.md if present, code-review.md if present
 Suggested next command: Buat PR dengan pesan yang direkomendasikan
 ```
 
