@@ -161,6 +161,7 @@ Current phase: complete
 Current confidence: high
 Blocking questions: None
 Risks to carry forward: None
+Source of Truth Bundle: .lcs/state.md, prd-enhanced.md if present, prd.md, srs.md if present, task-coverage.md if present, traceability.md if present
 Suggested next command: Buat PR dengan pesan yang direkomendasikan
 ```
 

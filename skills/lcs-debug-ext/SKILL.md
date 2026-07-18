@@ -226,6 +226,7 @@ Current phase: debug
 Current confidence: <low/medium/high>
 Blocking questions: <list or None>
 Risks to carry forward: <short>
+Source of Truth Bundle: .lcs/state.md, debug.md
 Suggested next command: <command>
 ```
 

@@ -665,7 +665,7 @@ Blocking questions: None
 
 Risks to carry forward: Unresolved fixes marked as FIX entries; executor must follow execution order
 
-Source of Truth Bundle: .lcs/state.md, .lcs/work-items/{timestamp}-{slug-work-item}/explore.md, prd.md, srs.md, code-review.md
+Source of Truth Bundle: .lcs/state.md, prd-enhanced.md if present, prd.md, srs.md, tests.md if present, traceability.md if present
 
 Must Preserve IDs: <SRC-### list from artifacts>
 

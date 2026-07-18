@@ -78,6 +78,7 @@ Current phase: debug
 Current confidence: <low/medium/high>
 Blocking questions: <list or None>
 Risks to carry forward: <risks>
+Source of Truth Bundle: .lcs/state.md, debug.md
 Suggested next command: Buat PRD dari debug.md
 
 ## Chain of Truth Level
