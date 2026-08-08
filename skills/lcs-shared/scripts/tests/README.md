@@ -36,6 +36,25 @@ npm test
 - `invalid-missing-ac-test/` — work item where `AC-002` has no TEST mapping in
   `tests.md`; must FAIL with exactly that finding.
 
+These two fixtures are **shared by both validators**: the Python runner feeds
+`fixtures/traceability/valid` and `.../invalid-missing-ac-test` to
+`validate-traceability.py`, and `test-traceability-ps1.ps1` feeds the very same
+paths to the legacy `validate-traceability.ps1`. This enforces parity: if one
+validator is changed without the other, the shared fixture suite catches it on
+the platform where PowerShell runs.
+
+### `test-traceability-ps1.ps1`
+
+PowerShell runner (Windows PowerShell 5+ or `pwsh` on any OS) for the legacy
+validator, reusing the same traceability fixtures as the Python suite. Called
+automatically by `test-validators.py` when `pwsh`/`powershell` is on `PATH`;
+otherwise it prints `[SKIP]` so the suite still passes on hosts without
+PowerShell. Run it manually with:
+
+```bash
+pwsh -File skills/lcs-shared/scripts/tests/test-traceability-ps1.ps1
+```
+
 ## Notes
 
 - `validate-okf.py` skips any subtree named `tests/`, `fixtures/`, `__pycache__`,
@@ -43,3 +62,8 @@ npm test
   never fail a whole-repo scan (e.g. `validate-okf.py skills/`).
 - Fixture frontmatter uses realistic timestamps (no `{YYYY-MM-DD}` placeholders)
   so validation is meaningful.
+- `validate-traceability.ps1` mirrors the Python validator's fixes: quote
+  stripping on `status`/`timestamp`/`source`/`previous_artifact`, OKF status
+  lifecycle (`draft|reviewed|active|archived`), the shared timestamp regex
+  (date-only / `Z` / offset), `type` as an optional field, and `state.md`
+  excluded from the work-item frontmatter scan.

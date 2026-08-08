@@ -30,7 +30,8 @@ Checks: required OKF fields, LCS extensions, status lifecycle, timestamps, artif
 
 ## tests/ — Validator Regression Tests
 
-Automated regression suite for `validate-okf.py` and `validate-traceability.py`.
+Automated regression suite for `validate-okf.py` and `validate-traceability.py`
+(canonical Python) plus `validate-traceability.ps1` (legacy PowerShell).
 Pins the F1-F3 fixes (quoted timestamps, optional `type` field, aligned timestamp
 regex, registered `artifact_type: state`) so they never silently regress.
 
@@ -39,5 +40,10 @@ python3 skills/lcs-shared/scripts/tests/test-validators.py
 # or as part of the repo suite:
 npm test
 ```
+
+`test-validators.py` runs the Python checks, then auto-runs
+`test-traceability-ps1.ps1` against the same traceability fixtures when
+`pwsh`/`powershell` is available (skipped with a clear message otherwise, so
+hosts without PowerShell still pass).
 
 See `tests/README.md` for the fixture matrix.

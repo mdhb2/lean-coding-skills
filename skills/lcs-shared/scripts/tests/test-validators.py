@@ -8,6 +8,7 @@ Usage:
     python3 skills/lcs-shared/scripts/tests/test-validators.py
 """
 
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -17,6 +18,16 @@ REPO = HERE.parents[3]  # scripts/tests -> scripts -> lcs-shared -> skills -> re
 FIXTURES = HERE / "fixtures"
 VALIDATE_OKF = REPO / "skills/lcs-shared/scripts/validate-okf.py"
 VALIDATE_TRACE = REPO / "skills/lcs-shared/scripts/validate-traceability.py"
+PS1_RUNNER = HERE / "test-traceability-ps1.ps1"
+
+
+def find_powershell() -> str | None:
+    """Return the PowerShell executable if available (pwsh on non-Windows, else powershell)."""
+    for name in ("pwsh", "powershell"):
+        path = shutil.which(name)
+        if path:
+            return path
+    return None
 
 
 def run(cmd: list[str]) -> tuple[int, str]:
@@ -78,6 +89,19 @@ def main() -> int:
         expect_ok=True,
     ):
         failures += 1
+
+    print()
+    print("=== validate-traceability.ps1 (legacy) parity fixtures ===")
+    pwsh = find_powershell()
+    if pwsh:
+        code, output = run([pwsh, "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", str(PS1_RUNNER)])
+        print(output)
+        if code != 0:
+            print(f"[FAIL] ps1 runner exited {code} (expected 0)")
+            failures += 1
+    else:
+        print("[SKIP] PowerShell (pwsh/powershell) not found on this host; PS1 parity checks skipped.")
+        print("        Run test-traceability-ps1.ps1 on a Windows host or with pwsh installed.")
 
     print()
     if failures:

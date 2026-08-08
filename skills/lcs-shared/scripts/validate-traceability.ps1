@@ -86,21 +86,25 @@ function Check-FrontmatterFields($path) {
     $content = Read-Text $path
     if ($content -match '^---\s*\n(.*?)\n---') {
         $yaml = $matches[1]
-        $required = @("type", "artifact_type", "status", "source", "timestamp")
+        # `type` is intentionally NOT required here: it is an optional LCS runtime field
+        # (recognized by validate-okf.py via LCS_RUNTIME), and most artifact templates
+        # omit it. `artifact_type` is the canonical type discriminator.
+        $required = @("artifact_type", "status", "source", "timestamp")
         foreach ($field in $required) {
             if ($yaml -notmatch "(?m)^$field\s*:") {
                 $failures += "$path missing required frontmatter field: $field"
             }
         }
         if ($yaml -match "(?m)^status\s*:\s*(.+)$") {
-            $status = $matches[1].Trim()
-            if ($status -notmatch '^(draft|review|final)') {
-                $failures += "$path invalid status value: $status (expected draft, review, or final)"
+            $status = $matches[1].Trim().Trim('"').Trim("'")
+            if ($status -notmatch '^(draft|reviewed|active|archived)$') {
+                $failures += "$path invalid status value: $status (expected draft, reviewed, active, or archived)"
             }
         }
         if ($yaml -match "(?m)^timestamp\s*:\s*(.+)$") {
-            $ts = $matches[1].Trim()
-            if ($ts -notmatch '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+-]\d{2}:\d{2}$') {
+            $ts = $matches[1].Trim().Trim('"').Trim("'")
+            # Same accepted set as validate-okf.py TIMESTAMP_RE: date-only, Z, or +HH:MM offset.
+            if ($ts -notmatch '^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}[+-]\d{2}:\d{2}|T\d{2}:\d{2}:\d{2}Z)?$') {
                 $failures += "$path invalid timestamp format: $ts (expected ISO 8601)"
             }
         }
@@ -154,7 +158,7 @@ function Check-ResourcePath($content, $label) {
     if ($content -match '^---\s*\n(.*?)\n---') {
         $yaml = $matches[1]
         if ($yaml -match "(?m)^previous_artifact\s*:\s*(.+)$") {
-            $path = $matches[1].Trim()
+            $path = $matches[1].Trim().Trim('"').Trim("'")
             if ($path -and $path -ne 'optional/path' -and -not (Test-Path $path)) {
                 $failures += "$label: previous_artifact path does not exist: $path"
             }
@@ -168,7 +172,7 @@ function Check-SourcePath($content, $label) {
     if ($content -match '^---\s*\n(.*?)\n---') {
         $yaml = $matches[1]
         if ($yaml -match "(?m)^source\s*:\s*(.+)$") {
-            $source = $matches[1].Trim()
+            $source = $matches[1].Trim().Trim('"').Trim("'")
             if ($source -match '^\.\.[\\/]') {
                 $failures += "$label: source field escapes .lcs/ directory: $source"
             }
@@ -275,7 +279,9 @@ if ($traceability) {
 # New validation checks (TASK-004)
 $failures += Check-ArtifactExistence $workItem
 
-$artifactNames = @("explore.md", "debug.md", "prd.md", "prd-enhanced.md", "srs.md", "tests.md", "api.md", "db.md", "traceability.md", "task-coverage.md", "final-doc.md", "state.md")
+# state.md lives at .lcs/state.md (repo root), NOT inside the work-item dir --
+# it cannot be validated here; validate-okf.py covers it.
+$artifactNames = @("explore.md", "debug.md", "prd.md", "prd-enhanced.md", "srs.md", "tests.md", "api.md", "db.md", "traceability.md", "task-coverage.md", "final-doc.md")
 foreach ($name in $artifactNames) {
     $path = Join-Path $workItem $name
     if (Test-Path $path) {
