@@ -56,6 +56,9 @@ When active skill is `lcs-onboarding`, outputs use flat singleton paths (no time
 These are project-level singletons - overwritten on each run. This exception overrides the timestamped folder convention for onboarding output.
 
 ## Artifact Files
+
+> **Templates:** For exact structure of each artifact type, read `templates/{artifact_type}.template.md`. Only load when generating new artifact — not during review or execution.
+
 Create only when relevant:
 - explore.md
 - debug.md
@@ -73,6 +76,8 @@ Create only when relevant:
 - final-doc.md (deprecated; lcs-doc-finalizer now emits doc.md + map.md)
 
 ## Requirement Preservation Rule
+
+> **SRC-### ID Convention:** All source requirements use `SRC-###` prefix. Acceptance criteria use `AC-###`. All IDs must be preserved through the entire chain (explore → PRD → SRS → task → code-review). See `templates/traceability.template.md` for matrix format.
 
 Every user-provided instruction, explicit constraint, or requirement bullet must receive a stable `SRC-###` identifier in the PRD phase. Once assigned, downstream skills must preserve the `SRC-###` unless the requirement is intentionally removed and documented with a reason.
 
@@ -115,6 +120,8 @@ Suggested next command:
 ```
 
 ## OKF Frontmatter Schema (v2 — OKF v0.2 Compliant)
+
+> **Full schema + all templates:** `templates/okf-schema.md` and `templates/*.template.md`
 
 All LCS artifacts MUST include YAML frontmatter per [OKF v0.2 spec](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md).
 Full schema + templates: `lcs-shared/templates/okf-schema.md`
@@ -357,3 +364,16 @@ Validation checks:
 - every `AC-###` and `FR-###` has task coverage when task files exist
 - every task has Source coverage
 - `## Chain of Truth Report` appears before `## Handoff`
+
+
+---
+
+## Pruning Checklist (For Skill Creators)
+
+Before adding any instruction to a SKILL.md, ask:
+
+1. **Does this change agent behavior?** If the instruction is "think carefully" or "follow the rules" — it's a no-op. Delete it.
+2. **Can this be verified mechanically?** If not, make it specific: replace "run tests" with "run `npm test` and capture exit code 0".
+3. **Is this already stated elsewhere?** Don't repeat rules from `contract.md` or `AGENTS.md`. Use context pointers instead.
+4. **Is this a leading word or a vague directive?** "tight loop" anchors behavior. "do your best" does not. Use leading words.
+5. **Would a senior developer approve this instruction?** If it reads like a placeholder or wishful thinking, rewrite or remove.

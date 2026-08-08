@@ -123,6 +123,22 @@ Very Strict
   3. *Horizontal slicing:* Writing all tests first, then all implementation. MUST use vertical tracer bullets.
 
 - **Rule:** Refactoring is NOT part of the red-green loop. It belongs to the review stage.
+
+
+## Strict Completion Criteria (Mandatory)
+
+Every validation step MUST follow this pattern:
+
+```
+- **Step: Execute Validation.**
+  - **Action:** Run `<command>` (project-specific: npm test, pytest, cargo test, etc.)
+  - **Completion Criterion:** Command MUST exit with code 0. The exact stdout/stderr MUST be captured verbatim in the `Verification` section of the Chain of Truth Report.
+  - **Failure Handling:** If exit code ≠ 0, mark task status as `blocked`, record the error output verbatim, and HALT. Do not attempt to fix without user confirmation or a new task.
+```
+
+**Leading Words:** "exit code 0", "verbatim stdout/stderr", "HALT on failure"
+**Anti-Pattern:** "Run tests and make sure they pass" — too vague, no capture mechanism.
+
 ## Handoff
 Next recommended skill: lcs-task-executor
 Next file to read: .lcs/work-items/{timestamp}-{slug-work-item}/task/task-###.md

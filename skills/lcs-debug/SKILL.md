@@ -84,7 +84,14 @@ Level: Standard
 
 - **Phase 1: Build Feedback Loop:** MUST build a tight, deterministic, agent-runnable command that goes RED on this specific bug. (Try: failing test, curl script, replay trace). NO HYPOTHESIZING ALLOWED until Phase 1 is complete.
 
-- **Phase 2: Reproduce + Minimize:** Shrink repro to smallest scenario that still goes red. Cut one element at a time.
+- **
+
+**Hard Stop for Phase 1:**
+- **Leading Words:** "tight loop", "red-capable", "deterministic"
+- **Completion Criterion:** You MUST have a command that reliably goes RED (fails) on this specific bug. It must be fast (<10s), deterministic, and require no human interaction.
+- **Enforcement:** Do NOT proceed to Phase 2 (Hypothesise) until this criterion is met and logged. If impossible, state the blocker and HALT.
+
+Phase 2: Reproduce + Minimize:** Shrink repro to smallest scenario that still goes red. Cut one element at a time.
 
 - **Phase 3: Hypothesise:** Generate 3-5 ranked, falsifiable hypotheses. Format: "If X is cause, changing Y will make bug disappear". Show to user before testing.
 

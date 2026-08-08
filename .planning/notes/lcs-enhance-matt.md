@@ -13,7 +13,7 @@ created: "2026-08-08"
 updated: "2026-08-08T11:30:00+07:00"
 tags: [engineering-skills, domain-modeling, debugging, architecture, matt-pocock]
 summary: "Adopt Matt Pocock Engineering Skills into LCS V2 — 5 new skills + 5 enhancements"
-status: reviewed
+status: completed
 related:
   - "https://github.com/mdhb2/lean-coding-skills/tree/v2"
   - "https://github.com/mattpocock/skills/tree/main/skills/engineering"

@@ -339,6 +339,22 @@ Strict
 - **Axis 2: Spec:** Check faithful implementation of originating PRD/SRS/Task. Verify Acceptance Criteria.
 
 - **Execution:** Run both axes. If they conflict (e.g., Standards say "extract method" but Spec says "keep inline for performance"), flag as `CONFLICT` and require user resolution.
+
+
+## Evidence Mandate (Mandatory)
+
+Every claim in the review MUST include:
+- **File path** — exact file where the issue exists
+- **Line number** — specific line or range
+- **Evidence** — terminal output, code snippet, or diff
+
+**If validation commands were NOT run:**
+- State explicitly: "**Tests not run:** `<command>` was not executed because <reason>."
+- Do NOT claim "tests pass" without evidence.
+
+**Anti-Pattern:** "This looks correct" — unsupported. Must cite file:line and explain why.
+**Leading Words:** "file:line", "verbatim output", "Tests not run"
+
 ## Handoff
 
 Next recommended skill: lcs-task-executor
