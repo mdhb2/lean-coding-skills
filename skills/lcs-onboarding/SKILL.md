@@ -1,5 +1,5 @@
 ---
-name: lcs-onboarding
+name: lcs-onboarding Do NOT trigger for: code changes, bug fixes, task execution, or PRD creation. Onboarding is read-only documentation generation, not implementation.
 description: |
   Generate developer-friendly onboarding documentation for an existing running project. Run when user asks to onboard a project, generate early project docs, or summarize the codebase for new engineers. Scans repository, extracts architecture, entrypoints, setup/run/test instructions, and writes lean markdown reports under .lcs/work-items/onboarding.md and .lcs/work-items/onboarding-map.md.
 adapters: [claudecode, opencode]
@@ -24,6 +24,11 @@ Trigger
 
 - When creating `onboarding.md` or `onboarding-map.md`, include YAML frontmatter following the schema in `../lcs-shared/contract.md`. These are singleton artifacts (no timestamp folder) — `source` field references explore.md or direct user input.
 - Follow the Artifact Writing Safety rules in contract.md — generate content first, write one file, verify, stop on failure.
+
+
+### Trigger
+
+Activate when user requests related to this skill's purpose. See description field in YAML frontmatter for trigger phrases.
 
 Behavior Checklist
 1. Scan the repository for crucial configuration files (e.g. package.json, requirements.txt, Cargo.toml, go.mod) and readme files.

@@ -39,6 +39,11 @@ Input and output location
 - **One-file-per-step write strategy**: After generating all SRS content, write one file per step in this order: srs.md → api.md → db.md → tests.md → traceability.md. Do not write more than one file per response.
 - Generate the complete content for all artifacts in planning, then write exactly one file per subsequent response.
 
+
+### Trigger
+
+Activate when user requests related to this skill's purpose. See description field in YAML frontmatter for trigger phrases.
+
 Behavior checklist
 1. Read `.lcs/state.md` first when continuing existing work.
 2. Read source bundle in order:

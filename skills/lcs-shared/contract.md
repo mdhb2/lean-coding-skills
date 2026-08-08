@@ -114,67 +114,133 @@ Unresolved IDs:
 Suggested next command:
 ```
 
-## OKF Frontmatter Schema
+## OKF Frontmatter Schema (v2 — OKF v0.2 Compliant)
 
-All LCS artifacts MUST include standard YAML frontmatter at the top of the file, delimited by `---` lines with no blank lines before it.
+All LCS artifacts MUST include YAML frontmatter per [OKF v0.2 spec](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md).
+Full schema + templates: `lcs-shared/templates/okf-schema.md`
 
-### Schema
+### Schema (merged OKF + LCS)
 
 ```yaml
 ---
-type: artifact
-artifact_type: prd
+# OKF Required
+title: "PRD: feature-name"
+format_version: "okf/0.2"
+authors:
+  - type: agent
+    name: "lcs-toprd"
+created: "2026-07-01"
+updated: "2026-07-01"
+
+# OKF Recommended
+tags: [prd, requirements]
+summary: "One-sentence summary"
 status: draft
-source: .lcs/work-items/{timestamp}-{slug}/explore.md
-timestamp: 2026-07-01T09:27:22+07:00
-resource: optional/path/or/url
-previous_artifact: optional/path
-next_artifact: optional/path
+related: ["explore.md"]
+
+# LCS Extensions
+artifact_type: prd
+artifact_id: "SRC-001"
+source: "explore.md"
+cot_level: standard
+version: "1.0"
 ---
 ```
 
-### Field Constraints
+### OKF Required Fields
 
-| Field | Type | Required | Allowed Values | Validation Rules |
-|---|---|---|---|---|
-| `type` | string | required | `artifact` | Must be exactly `artifact` |
-| `artifact_type` | string | required | Must match registry | Must be one of the 16 values in the Artifact Type Registry |
-| `status` | string | required | `draft`, `review`, `final` | If invalid, use `draft (invalid_frontmatter)` |
-| `source` | string | required | Relative path | Must be relative path from repo root; must not escape `.lcs/`; must not be absolute or URL |
-| `timestamp` | string | required | ISO 8601 | Format: `YYYY-MM-DDTHH:mm:ss±hh:mm` — regex: `^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+-]\d{2}:\d{2}$` |
-| `resource` | string | optional | Path, URL, or reference | Validator checks existence if path |
-| `previous_artifact` | string | optional | Relative path | Relative path to preceding artifact |
-| `next_artifact` | string | optional | Relative path | Relative path to next artifact |
+| Field | Type | Description |
+|---|---|---|
+| `title` | string | Descriptive title |
+| `format_version` | string | Always `"okf/0.2"` |
+| `authors` | list | `[{type: "human"\|"agent", name: "...", id: "..."?}]` |
+| `created` | ISO-8601 | `YYYY-MM-DD` or `YYYY-MM-DDTHH:MM:SSZ` |
+| `updated` | ISO-8601 | Last updated |
+
+### OKF Recommended Fields
+
+| Field | Type | Description |
+|---|---|---|
+| `tags` | list[string] | Topics/categories |
+| `summary` | string | One-sentence summary |
+| `status` | enum | `draft` → `reviewed` → `active` → `archived` |
+| `related` | list[string] | Paths to related artifacts |
+
+### LCS Extension Fields
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `artifact_type` | enum | yes | Must match registry below |
+| `artifact_id` | string | no | Traceability ID (`SRC-###`, `FR-###`, etc.) |
+| `source` | string | yes | Relative path to source artifact |
+| `cot_level` | enum | yes | `light` / `standard` / `strict` / `very_strict` |
+| `version` | string | no | Default `"1.0"` |
+
+### Status Lifecycle
+
+```
+draft → reviewed → active → archived
+```
+
+| Status | Meaning | Set by |
+|---|---|---|
+| `draft` | Work in progress | Creating skill |
+| `reviewed` | Reviewed, may have notes | lcs-prd-reviewer, lcs-code-review |
+| `active` | Approved, ready for execution | User approval |
+| `archived` | Finalized, immutable | lcs-doc-finalizer |
 
 ### Validation Rules
 
-- Frontmatter is mandatory for all new artifacts from Phase 1 onward.
-- If YAML schema is invalid, report the issue and write with `status: draft (invalid_frontmatter)`.
-- Special YAML characters (colons `:`, quotes `"`, newlines) in values MUST be wrapped in double quotes.
-- Empty/missing fields are treated as invalid — apply `invalid_frontmatter` marker.
-- Timestamp MUST always include timezone offset.
+Frontmatter mandatory for all artifacts. Invalid YAML → report issue, write `status: draft (invalid_frontmatter)`.
+Special YAML characters (colons, quotes, newlines) MUST be wrapped in double quotes.
+Empty/missing required fields → apply `invalid_frontmatter` marker.
 
-## Artifact Type Registry
+### Templates
 
-| Artifact | `artifact_type` value | Primary Skill | File Location |
+All 18 artifact templates available in `lcs-shared/templates/{artifact_type}.template.md`.
+Copy template → rename → fill frontmatter → write content.
+
+## Artifact Type Registry (Quick Reference)
+
+Full definitions + templates: `lcs-shared/templates/okf-schema.md`
+
+| `artifact_type` | File(s) | Primary Skill | CoT Level |
 |---|---|---|---|
-| explore.md | `exploration` | lcs-explore | `.lcs/work-items/{ts}-{slug}/` |
-| debug.md | `debug_report` | lcs-debug | `.lcs/work-items/{ts}-{slug}/` |
-| prd.md | `prd` | lcs-toprd | `.lcs/work-items/{ts}-{slug}/` |
-| prd-enhanced.md | `prd_enhanced` | lcs-prd-reviewer | `.lcs/work-items/{ts}-{slug}/` |
-| code-review.md | `code_review` | lcs-code-review | `.lcs/work-items/{ts}-{slug}/` |
-| srs.md | `srs` | lcs-tosrs | `.lcs/work-items/{ts}-{slug}/` |
-| tests.md | `test_spec` | lcs-tosrs | `.lcs/work-items/{ts}-{slug}/` |
-| api.md | `api_spec` | lcs-tosrs | `.lcs/work-items/{ts}-{slug}/` |
-| db.md | `db_spec` | lcs-tosrs | `.lcs/work-items/{ts}-{slug}/` |
-| traceability.md | `traceability` | lcs-tosrs | `.lcs/work-items/{ts}-{slug}/` |
-| task-coverage.md | `task_coverage` | lcs-task-slicer | `.lcs/work-items/{ts}-{slug}/` |
-| task-coverage.md / task-###.md | `task` | lcs-task-slicer | `.lcs/work-items/{ts}-{slug}/task/` |
-| state.md | `state` | all skills | `.lcs/` |
-| doc.md + map.md | `final_doc` | lcs-doc-finalizer | `.lcs/docs/{ts}-{slug}/` |
-| index.md | `index` | all skills | `.lcs/work-items/{ts}-{slug}/` |
-| onboarding.md | `onboarding` | lcs-onboarding | `.lcs/work-items/` |
-| onboarding-map.md | `onboarding_map` | lcs-onboarding | `.lcs/work-items/` |
+| `explore` | explore.md | lcs-explore | light |
+| `prd` | prd.md | lcs-toprd | standard |
+| `prd_enhanced` | prd-enhanced.md | lcs-prd-reviewer | strict |
+| `srs` | srs.md | lcs-tosrs | strict |
+| `tests` | tests.md | lcs-tosrs | strict |
+| `api` | api.md | lcs-tosrs | strict |
+| `db` | db.md | lcs-tosrs | strict |
+| `traceability` | traceability.md | lcs-tosrs | strict |
+| `task_coverage` | task-coverage.md | lcs-task-slicer | strict |
+| `task` | task-###.md | lcs-task-slicer/executor | very_strict |
+| `debug` | debug.md | lcs-debug | standard |
+| `debug_ext` | debug.md | lcs-debug-ext | very_strict |
+| `code_review` | code-review.md | lcs-code-review | strict |
+| `codebase_doc` | *.md (7 files) | lcs-codebase-doc | strict |
+| `onboarding` | onboarding.md | lcs-onboarding | standard |
+| `onboarding_map` | onboarding-map.md | lcs-onboarding | standard |
+| `final_doc` | doc.md | lcs-doc-finalizer | strict |
+| `final_map` | map.md | lcs-doc-finalizer | strict |
+| `analysis` | {ts}-analysis.md | lcs-self-improvement | standard |
+| `session_log` | session-log.md | lcs-master | standard |
+
+### Artifact ID Prefixes
+
+| Prefix | Used In | Example |
+|---|---|---|
+| `SRC-###` | prd.md, prd-enhanced.md | `SRC-001: User authentication` |
+| `FR-###` | srs.md | `FR-001: Login endpoint` |
+| `BR-###` | srs.md | `BR-001: Password policy` |
+| `VR-###` | srs.md | `VR-001: Email format` |
+| `EC-###` | srs.md | `EC-001: Concurrent login` |
+| `TEST-###` | tests.md | `TEST-001: Login success` |
+| `API-###` | api.md | `API-001: POST /auth/login` |
+| `DB-###` | db.md | `DB-001: users table` |
+| `task-###` | task-###.md | `task-001: Implement login` |
+| `DBG-###` | debug.md | `DBG-001: Login timeout` |
 
 ## Artifact Writing Safety
 

@@ -22,6 +22,11 @@ Trigger
 - After execution, update task status in task file frontmatter and include execution evidence or verification result.
 - Follow the Artifact Writing Safety rules in contract.md — generate content first, write one file, verify, stop on failure.
 
+
+### Trigger
+
+Activate when user requests related to this skill's purpose. See description field in YAML frontmatter for trigger phrases.
+
 Behavior checklist
 1. Read `.lcs/state.md` first to identify the active work-item directory: `.lcs/work-items/{timestamp}-{slug-work-item}/`.
 2. Locate and read the target task file `.lcs/work-items/{timestamp}-{slug-work-item}/task/task-###.md`.

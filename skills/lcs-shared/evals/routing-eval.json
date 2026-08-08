@@ -1,0 +1,143 @@
+{
+  "title": "lcs-master Routing Eval Kit",
+  "version": "1.0",
+  "created": "2026-08-08",
+  "description": "20 eval queries (10 positive, 10 negative near-miss) for lcs-master routing accuracy. Uses realistic casual Indonesian + English input.",
+  "dimensions": [
+    "routing_accuracy",
+    "contract_enforcement",
+    "negative_trigger_respect"
+  ],
+  "queries": [
+    {
+      "id": "POS-01",
+      "input": "saya mau bikin fitur baru untuk upload file",
+      "expected_skill": "lcs-explore",
+      "reason": "User wants to explore/brainstorm a new feature → lcs-explore"
+    },
+    {
+      "id": "POS-02",
+      "input": "tolong buatkan PRD dari hasil explore yang tadi",
+      "expected_skill": "lcs-toprd",
+      "reason": "User wants to create PRD from exploration → lcs-toprd"
+    },
+    {
+      "id": "POS-03",
+      "input": "review prd ini, pastikan gak ada yang kelewat",
+      "expected_skill": "lcs-prd-reviewer",
+      "reason": "User wants to review/harden existing PRD → lcs-prd-reviewer"
+    },
+    {
+      "id": "POS-04",
+      "input": "ubah PRD jadi SRS yang lebih teknis",
+      "expected_skill": "lcs-tosrs",
+      "reason": "User wants to transform PRD to SRS → lcs-tosrs"
+    },
+    {
+      "id": "POS-05",
+      "input": "potong SRS jadi task-task kecil yang bisa dikerjakan",
+      "expected_skill": "lcs-task-slicer",
+      "reason": "User wants to slice SRS into tasks → lcs-task-slicer"
+    },
+    {
+      "id": "POS-06",
+      "input": "eksekusi task-001",
+      "expected_skill": "lcs-task-executor",
+      "reason": "User wants to execute a specific task → lcs-task-executor"
+    },
+    {
+      "id": "POS-07",
+      "input": "ada bug di login, error 500 terus",
+      "expected_skill": "lcs-debug",
+      "reason": "User reports a bug → lcs-debug"
+    },
+    {
+      "id": "POS-08",
+      "input": "review kode yang baru di-push",
+      "expected_skill": "lcs-code-review",
+      "reason": "User wants code review → lcs-code-review"
+    },
+    {
+      "id": "POS-09",
+      "input": "onboarding docs untuk developer baru",
+      "expected_skill": "lcs-onboarding",
+      "reason": "User wants onboarding documentation → lcs-onboarding"
+    },
+    {
+      "id": "POS-10",
+      "input": "finalize dokumentasi yang sudah selesai",
+      "expected_skill": "lcs-doc-finalizer",
+      "reason": "User wants to finalize documentation → lcs-doc-finalizer"
+    },
+    {
+      "id": "NEG-01",
+      "input": "review kode yang baru di-push",
+      "expected_skill": "lcs-code-review",
+      "must_not_be": ["lcs-task-executor"],
+      "reason": "Review ≠ execution. Task executor is for implementing, not reviewing."
+    },
+    {
+      "id": "NEG-02",
+      "input": "saya mau bikin fitur baru untuk upload file",
+      "expected_skill": "lcs-explore",
+      "must_not_be": ["lcs-toprd", "lcs-task-executor"],
+      "reason": "Exploration ≠ PRD creation ≠ implementation. Explore first."
+    },
+    {
+      "id": "NEG-03",
+      "input": "ada bug di login, error 500 terus",
+      "expected_skill": "lcs-debug",
+      "must_not_be": ["lcs-debug-ext"],
+      "reason": "Normal debug ≠ debug-ext (which is evidence-only, no fixes)."
+    },
+    {
+      "id": "NEG-04",
+      "input": "review prd ini, pastikan gak ada yang kelewat",
+      "expected_skill": "lcs-prd-reviewer",
+      "must_not_be": ["lcs-code-review"],
+      "reason": "PRD review ≠ code review. Different artifacts, different skills."
+    },
+    {
+      "id": "NEG-05",
+      "input": "potong SRS jadi task-task kecil",
+      "expected_skill": "lcs-task-slicer",
+      "must_not_be": ["lcs-task-executor"],
+      "reason": "Slicing ≠ executing. Slicer creates tasks, executor runs them."
+    },
+    {
+      "id": "NEG-06",
+      "input": "onboarding docs untuk developer baru",
+      "expected_skill": "lcs-onboarding",
+      "must_not_be": ["lcs-codebase-doc"],
+      "reason": "Onboarding ≠ codebase documentation. Different audiences."
+    },
+    {
+      "id": "NEG-07",
+      "input": "finalize dokumentasi yang sudah selesai",
+      "expected_skill": "lcs-doc-finalizer",
+      "must_not_be": ["lcs-code-review"],
+      "reason": "Finalization ≠ review. Finalizer consolidates, reviewer checks."
+    },
+    {
+      "id": "NEG-08",
+      "input": "ubah PRD jadi SRS yang lebih teknis",
+      "expected_skill": "lcs-tosrs",
+      "must_not_be": ["lcs-toprd"],
+      "reason": "PRD→SRS ≠ PRD creation. tosrs transforms, toprd creates."
+    },
+    {
+      "id": "NEG-09",
+      "input": "eksekusi task-001",
+      "expected_skill": "lcs-task-executor",
+      "must_not_be": ["lcs-task-executer"],
+      "reason": "Must route to executor (canonical), not executer (deprecated)."
+    },
+    {
+      "id": "NEG-10",
+      "input": "tolong buatkan PRD dari hasil explore yang tadi",
+      "expected_skill": "lcs-toprd",
+      "must_not_be": ["lcs-prd-reviewer"],
+      "reason": "Creating PRD ≠ reviewing PRD. toprd creates, reviewer hardens."
+    }
+  ]
+}

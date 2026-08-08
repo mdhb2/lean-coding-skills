@@ -1,5 +1,5 @@
 ---
-name: lcs-explore
+name: lcs-explore Do NOT trigger for: PRD writing (use lcs-toprd), task slicing (use lcs-task-slicer), code review (use lcs-code-review), or implementation (use lcs-task-executor). Explore is for ideation only, not execution.
 description: Use this skill whenever the user needs to explore, brainstorm, clarify, or shape a coding idea before a PRD or implementation. Trigger on requests mentioning explore, brainstorm, evaluate options, compare trade-offs, feasibility, or ask for recommended direction. Use this skill even when the user does not explicitly ask for a PRD but wants options or trade-off analysis.
 adapters: [claudecode, opencode]
 compatibility: [claudecode, opencode]
@@ -22,6 +22,11 @@ Trigger
 
 - When creating `explore.md`, include YAML frontmatter following the schema in `../lcs-shared/contract.md`.
 - Follow the Artifact Writing Safety rules in contract.md — generate content first, write one file, verify, stop on failure.
+
+
+### Trigger
+
+Activate when user requests related to this skill's purpose. See description field in YAML frontmatter for trigger phrases.
 
 Behavior checklist
 - Confirm work-name. If .lcs/state.md exists in workspace, read it.

@@ -185,219 +185,11 @@ Before review, read artifacts in this order:
 If the repository uses different paths, locate the most relevant LCS artifacts.
 
 ---
-
 ## What to Review
 
-### 1. Explore Alignment
+> **Full checklist:** `references/what-to-review.md`
+> Read this file when performing the review. Covers: Affected Areas, Code Quality, Security, Performance, Test Coverage, Architecture.
 
-Check if implementation still matches initial context.
-
-Verify:
-
-- Original problem to solve.
-- Technical constraints.
-- User goal.
-- Scope boundaries.
-- Exploration decisions agreed upon.
-
-Review questions:
-
-```text
-Does the code solve the same problem identified during exploration?
-Is there any implementation that deviates from the initial context?
-Are any initial constraints violated?
-```
-
-### 2. PRD Alignment
-
-Check if feature matches product requirements.
-
-Verify:
-
-- Feature purpose.
-- User story.
-- Functional requirements.
-- Non-functional requirements.
-- Out of scope.
-- Success criteria.
-
-Review questions:
-
-```text
-Are all main PRD requirements reflected in the code?
-Are there any requirements not yet implemented?
-Are there any features added that were not requested?
-Does the product behavior match user expectations?
-```
-
-### 3. PRD Enhance Alignment
-
-Check if PRD reviewer hardening is applied.
-
-Verify:
-
-- Additional edge cases.
-- Requirement risks.
-- Clarifications.
-- Security concerns.
-- Data validation.
-- Permission rules.
-- Failure scenarios.
-- UX fallbacks.
-
-Review questions:
-
-```text
-Is the PRD hardening output followed?
-Are important edge cases handled?
-Are previously identified vulnerabilities closed?
-```
-
-### 4. SRS Alignment
-
-Check if implementation follows technical specification.
-
-Verify:
-
-- Data model.
-- API contract.
-- Service behavior.
-- State transitions.
-- Error handling.
-- Validation rules.
-- Permission logic.
-- Integration points.
-- Side effects.
-- Dependencies.
-
-Review questions:
-
-```text
-Does the code follow the SRS technical design?
-Is the data structure correct?
-Is the system flow correct?
-Is error handling implemented as specified?
-Are there any technical behaviors differing from SRS?
-```
-
-### 5. Task Breakdown Alignment
-
-Check if completed task matches task breakdown.
-
-Verify:
-
-- Task ID.
-- Task scope.
-- Acceptance criteria.
-- Target files.
-- Expected output.
-- Work boundaries.
-- Task dependencies.
-
-Review questions:
-
-```text
-Was the task completed within scope?
-Did the task expand into other areas?
-Are all acceptance criteria met?
-Are there files that should have been touched but were not?
-Are there files that should not have been touched?
-```
-
-### 6. Potential Bugs
-
-Must check:
-
-- Null / undefined handling.
-- Empty state.
-- Invalid input.
-- Duplicate data.
-- Race condition.
-- Permission bypass.
-- Incorrect validation.
-- Incorrect default value.
-- Wrong conditional logic.
-- Wrong date/time handling.
-- Timezone issue.
-- Data loss.
-- Broken migration.
-- Broken relation.
-- Broken API response.
-- Broken UI state.
-- Unhandled errors.
-- Regression against existing features.
-- Inconsistent naming.
-- Inconsistent types.
-- Dangerous hardcoded values.
-
-### 7. Security & Data Safety
-
-Must check:
-
-- Auth check.
-- Authorization / role permission.
-- Input validation.
-- SQL injection risk.
-- XSS risk.
-- CSRF risk.
-- Secret/token leakage.
-- Sensitive data exposure.
-- Unsafe file upload.
-- Unsafe external request.
-- Missing rate limit if relevant.
-- Data ownership rule.
-
-If security is not relevant to the task, write:
-
-```text
-No direct security-sensitive surface found for this task.
-```
-
-### 8. Error Handling & Failure Mode
-
-Must check:
-
-- Database error.
-- API error.
-- Network error.
-- Empty response.
-- Invalid payload.
-- Missing config.
-- Failed dependency.
-- Failed transaction.
-- Partial update.
-- Retry behavior if relevant.
-
-### 9. Test Coverage
-
-Review:
-
-- Unit test.
-- Feature test.
-- Integration test.
-- Regression test.
-- Edge case test.
-- Manual test instruction.
-
-If tests are missing, determine whether this is a `Required Fix` or `Recommended Improvement` based on task risk level.
-
-### 10. Maintainability
-
-Check:
-
-- Overly long functions.
-- Logic duplication.
-- Confusing naming.
-- File structure mismatching project patterns.
-- Business logic leaking into UI.
-- Heavy queries.
-- Unclear types.
-- Missing comments on complex logic.
-- Excessive abstraction.
-
-Maintainability issues are only Required Fix if they risk causing bugs or violating SRS/task.
-
----
 
 ## Severity
 
@@ -420,115 +212,11 @@ Maintainability issues are only Required Fix if they risk causing bugs or violat
 | BLOCKED | Main artifact missing, diff unavailable, active task unclear |
 
 ---
-
 ## Review Output Format
 
-After review, produce a report saved to `.lcs/work-items/{timestamp}-{slug-work-item}/code-review.md` using the template at `../lcs-code-review/assets/code-review-template.md`.
+> **Full templates:** `references/output-format.md`
+> Includes: Review Report template, Verdict template, FIX entry template.
 
-Copy the template, replace each `{{placeholder}}` with actual content, and write the result.
-
-### Template Fields
-
-| Field | Description | Required |
-|---|---|---|
-| `{{active_work_item_path}}` | Path to current work item folder | yes |
-| `{{iso_timestamp}}` | ISO 8601 timestamp with timezone offset | yes |
-| `{{task_file_or_diff}}` | Task file or diff path being reviewed | yes |
-| `{{task_file}}` | Previous artifact (task file) | yes |
-| `{{task_title}}` | Short title of reviewed task | yes |
-| `{{review_status}}` | PASS / PASS_WITH_NOTES / NEEDS_FIX / BLOCKED | yes |
-| `{{task_id}}` | Task ID or title | yes |
-| `{{highest_severity}}` | P0 / P1 / P2 / P3 / NONE | yes |
-| `{{next_skill}}` | Next recommended skill | yes |
-| `{{code_files}}` | List of code files reviewed | yes |
-| `{{test_run}}` | Yes / No | yes |
-| `{{test_command}}` | Test command used | if test_run=Yes |
-| `{{test_result}}` | Test output summary | if test_run=Yes |
-| `{{explore_status}}` to `{{ac_notes}}` | Chain of Truth compliance per source | yes |
-| `{{ac_criteria}}` | List of acceptance criteria | yes |
-| `{{ac_check_status}}` | PASS / FAIL / PARTIAL per criteria | yes |
-| `{{ac_evidence}}` | Evidence per criteria | yes |
-| `{{fix_summary_list}}` | Numbered list of fixes (or empty if PASS) | if NEEDS_FIX |
-| `{{fix_entries}}` | Full FIX-### blocks (see FIX template below) | if NEEDS_FIX |
-| `{{execution_order}}` | YAML ordered fix list | if NEEDS_FIX |
-| `{{total_required_fixes}}` | Count of required fixes | yes |
-| `{{total_optional_fixes}}` | Count of optional improvements | yes |
-| `{{must_rerun}}` | true / false | yes |
-| `{{conclusion}}` | Final conclusion text | yes |
-| `{{sources_checked}}` | List of artifacts and code read | yes |
-| `{{assumptions}}` | Verified/unverified assumptions | yes |
-| `{{actions_taken}}` | Summary of review actions | yes |
-| `{{verification}}` | Verification result | yes |
-| `{{report_summary}}` | 1-3 sentence summary | yes |
-| `{{next_file}}` | Next file for executor to read | yes |
-| `{{confidence}}` | low / medium / high | yes |
-| `{{blocking_questions}}` | List or None | yes |
-| `{{risks}}` | Risks to carry forward | yes |
-| `{{source_of_truth}}` | Path to main artifact | yes |
-| `{{must_preserve_ids}}` | SRC-### list | yes |
-| `{{unresolved_ids}}` | SRC-### list | yes |
-| `{{suggested_command}}` | Suggested next action | yes |
-
-### FIX Entry Template
-
-Each FIX entry in `{{fix_entries}}` follows this structure:
-
-```markdown
-### FIX-{n} — <title>
-
-**Severity:** `P{n}`
-**Target skill:** `<target>`
-**Issue type:** `<BUG | REQUIREMENT_GAP | SRS_GAP | TASK_GAP | TEST_GAP | DOC_GAP | SECURITY | DATA_SAFETY>`
-
-#### Problem
-
-```text
-Describe the issue briefly.
-```
-
-#### Location
-
-```text
-File: <path/file>
-Area/Function: <function name / component / route>
-Related artifact: <prd.md / srs.md / task-coverage.md>
-Related requirement: <section / AC / requirement id>
-```
-
-#### Expected
-
-```text
-Describe the expected behavior based on LCS artifacts.
-```
-
-#### Actual
-
-```text
-Describe the current implementation behavior.
-```
-
-#### Fix Instructions
-
-```text
-1. ...
-2. ...
-```
-
-#### Validation After Fix
-
-```text
-- [ ] ...
-- [ ] ...
-```
-
-#### Fix Request Copy
-
-```markdown
-# LCS Fix Request
-
-Target skill: `<target>`
-
-Source review: `FIX-{n}`
 
 ## Problem
 
@@ -589,26 +277,11 @@ Source review: `FIX-{n}`
 - Code review must help the executor fix issues clearly and precisely.
 
 ---
-
 ## Gotchas & Anti-Patterns
 
-- Do not review code you haven't read. Reading the diff is mandatory.
-- Do not skip artifact reading order — missing upstream context leads to false positives.
-- Do not assign P0/P1 without clear artifact evidence. Subjective preferences are P3 at most.
-- Do not combine review and fix in one step. Review produces report; executor applies fixes.
-- Do not claim `All tests passed` unless you actually ran them. State `Tests were not run` if not executed.
-- Do not add requirements that don't exist in artifacts. Label suggestions as `Optional Improvement`.
-- Do not produce a generic PASS when artifacts are missing. Use BLOCKED or PARTIAL_REVIEW.
-- For NEEDS_FIX: always include Fix Request Copy so executor can work independently.
-- For blocked reviews: clearly state which artifact is missing and what can't be verified.
-- If tests exist but were not run, note this in the report — don't assume they pass.
-- Security findings must cite specific code paths, not vague concerns.
-- Do not refactor or restructure code in fix instructions. Keep instructions surgical.
-- If the same bug appears in multiple files, create one FIX entry per distinct location.
-- Separate mandatory fixes (P0/P1) from optional improvements (P2/P3). Mixing them confuses the executor.
-- When the task scope is unclear, downgrade to PARTIAL_REVIEW rather than guessing intent.
+> **Full reference:** `references/gotchas-anti-patterns.md`
+> Common mistakes to avoid during code review.
 
----
 
 ## Chain of Truth Report
 
@@ -664,6 +337,8 @@ Current confidence: medium
 Blocking questions: None
 
 Risks to carry forward: Unresolved fixes marked as FIX entries; executor must follow execution order
+
+Routing: If review PASSED → recommend "finalize documentation" (lcs-doc-finalizer). If review has FIX items → recommend "Eksekusi TASK-###" (lcs-task-executor) to apply fixes, then re-review. If review BLOCKED → report blockers to user, do not proceed.
 
 Source of Truth Bundle: .lcs/state.md, prd-enhanced.md if present, prd.md, srs.md, tests.md if present, traceability.md if present
 

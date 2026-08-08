@@ -132,6 +132,29 @@ Rule ini override asumsi path artifact runtime generik untuk skill `lcs-self-imp
 
 ---
 
+## 8a. Path Exception: `lcs-onboarding`
+
+Skill ini menghasilkan documentation artifact dengan path tetap (tidak timestamped):
+
+| Tujuan | Path |
+|---|---|
+| Onboarding doc | `.lcs/work-items/onboarding.md` |
+| Onboarding map | `.lcs/work-items/onboarding-map.md` |
+
+Rule ini override asumsi path `{ts}-{slug}/` untuk skill ini. File produced di `.lcs/work-items/` langsung, bukan subdirectory.
+
+## 8b. Path Exception: `lcs-debug-ext`
+
+Skill ini menggunakan suffix folder `-debug-ext` pada work-item directory:
+
+| Tujuan | Path |
+|---|---|
+| Debug report | `.lcs/work-items/{timestamp}-{slug}-debug-ext/debug.md` |
+
+Rule ini override asumsi `{ts}-{slug}/` — suffix `-debug-ext` ditambahkan untuk membedakan debug output dari `lcs-debug` yang menggunakan `{ts}-{slug}/` tanpa suffix.
+
+---
+
 ## 9. Current Skill Inventory (16 skills)
 
 | Skill | Chain of Truth Level | Purpose |

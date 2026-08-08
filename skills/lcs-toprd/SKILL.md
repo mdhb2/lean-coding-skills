@@ -21,8 +21,13 @@ Trigger
 - When creating `prd.md`, include YAML frontmatter following the schema in `../lcs-shared/contract.md`.
 - Follow the Artifact Writing Safety rules in contract.md — generate content first, write one file, verify, stop on failure.
 
+
+### Trigger
+
+Activate when user requests related to this skill's purpose. See description field in YAML frontmatter for trigger phrases.
+
 Behavior checklist
-- Read state.md first if continuing. Otherwise locate explore.md or debug.md.
+- Read state.md first when continuing work. Otherwise, locate explore.md or debug.md. **If prd-enhanced.md exists in the work-item directory, read it first** — it contains reviewer-hardened sections. Do not overwrite sections in prd-enhanced.md without explicit user confirmation.
 - Explore the repo to understand the current state of the codebase, if you haven't already. Use the project's domain glossary vocabulary throughout the PRD, and respect any ADRs in the area you're touching.
 - Sketch out the major modules you will need to build or modify to complete the implementation. Actively look for opportunities to extract deep modules that can be tested in isolation. A deep module encapsulates a lot of functionality in a simple, testable interface which rarely changes.
 - Ensure PRD uses Affected Areas / Files to limit later code reads.

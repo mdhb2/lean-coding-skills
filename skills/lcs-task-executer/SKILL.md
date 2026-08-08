@@ -1,6 +1,6 @@
 ---
 name: lcs-task-executer
-description: Use this skill whenever the user asks to implement, execute, or continue a specific task from sliced tasks. Trigger on "Eksekusi TASK-###", "Eksekusi task-###.md", "continue TASK-###", "implement TASK-###". Always read .lcs/state.md first, check dependencies, analyze and recommend Normal vs TDD mode, confirm with user, and update task status and .lcs/state.md when done.
+description: "DEPRECATED — use lcs-task-executor instead. This skill exists only for backward compatibility. Do not trigger for new workflows."
 adapters: [claudecode, opencode]
 compatibility: [claudecode, opencode]
 ---
@@ -15,6 +15,11 @@ Purpose
 
 Trigger
 - Activate when the user requests to "Eksekusi TASK-###", "Eksekusi task-###.md", "continue TASK-###", or "implement TASK-###".
+
+
+### Trigger
+
+Activate when user requests related to this skill's purpose. See description field in YAML frontmatter for trigger phrases.
 
 Behavior checklist
 1. Read `.lcs/state.md` first to identify the active work-item directory: `.lcs/work-items/{timestamp}-{slug-work-item}/`.

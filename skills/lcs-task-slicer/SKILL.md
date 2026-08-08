@@ -17,6 +17,11 @@ Purpose
 Trigger
 - Activate when user requests to "slice prd", "break down prd", "slice prd-enhanced.md", "create tasks", or similar.
 
+
+### Trigger
+
+Activate when user requests related to this skill's purpose. See description field in YAML frontmatter for trigger phrases.
+
 Behavior Checklist
 
 ## OKF Frontmatter & Writing Safety

@@ -24,6 +24,11 @@ Trigger
 - When creating `doc.md` and `map.md`, include YAML frontmatter following the schema in `../lcs-shared/contract.md` with `artifact_type: final_doc` (the canonical finalization artifact is the `doc.md` + `map.md` pair under `.lcs/docs/{timestamp}-{slug-work-item}/`).
 - Follow the Artifact Writing Safety rules in contract.md — generate content first, write one file, verify, stop on failure.
 
+
+### Trigger
+
+Activate when user requests related to this skill's purpose. See description field in YAML frontmatter for trigger phrases.
+
 Behavior checklist
 1. Read `.lcs/state.md` to identify the active work-item directory: `.lcs/work-items/{timestamp}-{slug-work-item}/`.
 2. Scan the task folder `.lcs/work-items/{timestamp}-{slug-work-item}/task/` and read all task files (`task-###.md`).
@@ -50,6 +55,7 @@ Behavior checklist
     - **Preserve verification artifacts in docs.** After copying, also copy `code-review.md` (if present) into `.lcs/docs/{timestamp}-{slug-work-item}/code-review.md` so the finalization docs and the verification report stay co-located and traceable together.
     - **Delete source only after both copies succeed.** Remove the source folder `.lcs/work-items/{timestamp}-{slug-work-item}/` completely ONLY after: (a) the archive copy exists, and (b) `code-review.md` (when present) is copied into the docs folder. If any copy fails, abort the delete and alert the user — never leave traceability broken.
     - **Guard:** Only proceed with copy and delete if both `map.md` and `doc.md` were successfully generated in step 6 and 7. If either file is missing, abort this step and alert the user.
+11. **Stale-State Guard.** After archiving, update `.lcs/state.md`: set `Source Truth Bundle` to reference `doc.md` and `map.md` under `.lcs/docs/`, clear any `active_work_item` pointer, and add a comment: `Archived: {timestamp}-{slug}`. If `.lcs/state.md` points to a work-item directory that no longer exists, report it as a stale reference and offer to clean it up.
     - **Exclusion:** Never touch `.lcs/docs/self-improvements/` (diagnostic history from `lcs-self-improvement`). It is outside the work-item archive scope and must remain intact.
 11. End with a Handoff section.
 

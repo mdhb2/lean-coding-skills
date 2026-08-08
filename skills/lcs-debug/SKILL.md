@@ -1,5 +1,5 @@
 ---
-name: lcs-debug
+name: lcs-debug Do NOT trigger for: design review, architecture decisions, new feature implementation, code review, or task execution. Use lcs-explore for design, lcs-code-review for review, lcs-task-executor for implementation.
 description: Use this skill whenever the user needs a focused bug investigation. Trigger on phrases about bugs, failing tests, errors, regressions, or unexpected behavior. Ask questions one at a time to identify the bug, and write the investigation results and fix plan in .lcs/work-items/{timestamp}-{slug-work-item}/debug.md before planning any fixes.
 adapters: [claudecode, opencode]
 compatibility: [claudecode, opencode]
@@ -22,6 +22,11 @@ Trigger
 
 - When creating `debug.md`, include YAML frontmatter following the schema in `../lcs-shared/contract.md`.
 - Follow the Artifact Writing Safety rules in contract.md — generate content first, write one file, verify, stop on failure.
+
+
+### Trigger
+
+Activate when user requests related to this skill's purpose. See description field in YAML frontmatter for trigger phrases.
 
 Behavior checklist
 - Confirm work item name and read `state.md` if present to identify active work item folder.
