@@ -7,7 +7,7 @@ Behavioral guidelines to enforce high-quality coding, exceptional documentation,
 ## Project Overview: Lean Coding Skills (LCS)
 
 **Current State** (as of 2026-07-01):
-- **15 LCS skills** in `skills/` directory implementing a complete Chain of Truth workflow
+- **21 LCS skills** in `skills/` directory implementing a complete Chain of Truth workflow
 - **3 work items completed** and archived in `.lcs/archive/`:
   1. `chain-of-truth` — Chain of Truth meta-skill protocol
   2. `chain-of-truth-prd` — PRD alignment for Chain of Truth
@@ -58,7 +58,7 @@ Behavioral guidelines to enforce high-quality coding, exceptional documentation,
 
 ---
 
-## 6. Skill Creation Standards (.claude/skills/)
+## 6. Skill Creation Standards (skills/)
 **Highly targeted triggers. Progressive disclosure. Seamless reuse.**
 
 ### Folder Naming Convention
@@ -212,7 +212,7 @@ Verify where available. For markdown-only repos: check file existence, grep for 
 ### Future Skills Rule
 Every new skill created after this protocol is established must declare a Chain of Truth level in its `SKILL.md`.
 
-See: `.claude/skills/lcs-chain-of-truth/SKILL.md` for the full protocol.
+See: `skills/lcs-chain-of-truth/SKILL.md` for the full protocol.
 
 ---
 
@@ -243,8 +243,4 @@ Prefer readability and maintainability
 
 Always aim to help users complete their coding tasks quickly, clearly, and professionally.
 When useful, end with the next recommended LCS command.
-Do not add generic follow-up questions when the next step is already clear.|`lcs-domain-modeling`|Standard|Ubiquitous language via CONTEXT.md tracking|
-|`lcs-research`|Standard|Evidence-based research with source validation|
-|`lcs-prototype`|Strict|Isolated prototype execution and validation|
-|`lcs-wayfinder`|Strict|Codebase navigation during active work|
-|`lcs-wizard`|Standard|Human-in-the-loop procedures with audit trail|
+Do not add generic follow-up questions when the next step is already clear.

@@ -37,6 +37,8 @@ Activate when user wants to: create setup scripts, walk through manual procedure
 
 - `scripts/<name>-wizard.sh` — executable bash script with human-in-the-loop prompts
 
+> **Path Exception:** Wizard scripts are saved to the project's `scripts/` directory (documented exception in `../lcs-shared/contract.md`), not under `.lcs/work-items/`, because the human must run them manually.
+
 ## Chain of Truth Report
 
 ### Level
@@ -61,7 +63,7 @@ Standard
 ## Handoff
 
 Next recommended skill: {context-dependent}
-Next file read: scripts/<name>-wizard.sh
+Next file to read: scripts/<name>-wizard.sh
 Current phase: wizard
 Current confidence: <low/medium/high>
 Blocking questions: None

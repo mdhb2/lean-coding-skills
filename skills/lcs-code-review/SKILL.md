@@ -322,8 +322,6 @@ Strict
 
 ## Two-Axis Review
 
-## Two-Axis Review Execution
-
 - **Axis 1: Standards:** Check coding standards, Fowler smell baseline, consistency with existing patterns.
 
 - **Axis 2: Spec:** Check faithful implementation of originating PRD/SRS/Task. Verify Acceptance Criteria.
@@ -347,7 +345,7 @@ Every claim in the review MUST include:
 
 ## Handoff
 
-Next recommended skill: lcs-task-executor
+Next recommended skill: lcs-doc-finalizer
 
 Next file to read: .lcs/work-items/{timestamp}-{slug-work-item}/code-review.md
 
@@ -361,10 +359,10 @@ Risks to carry forward: Unresolved fixes marked as FIX entries; executor must fo
 
 Routing: If review PASSED → recommend "finalize documentation" (lcs-doc-finalizer). If review has FIX items → recommend "Eksekusi TASK-###" (lcs-task-executor) to apply fixes, then re-review. If review BLOCKED → report blockers to user, do not proceed.
 
-Source of Truth Bundle: .lcs/state.md, prd-enhanced.md if present, prd.md, srs.md, tests.md if present, traceability.md if present
+Source of Truth Bundle: .lcs/state.md, prd-enhanced.md if present, prd.md, srs.md, tests.md if present, traceability.md if present, task-coverage.md if present
 
 Must Preserve IDs: <SRC-### list from artifacts>
 
 Unresolved IDs: <SRC-### list from artifacts>
 
-Suggested next command: Execute fixes from code-review.md
+Suggested next command: Finalize dokumentasi (lcs-doc-finalizer) jika PASS, atau eksekusi FIX dari code-review.md (lcs-task-executor)

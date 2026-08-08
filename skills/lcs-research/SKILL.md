@@ -63,7 +63,7 @@ Standard
 ## Handoff
 
 Next recommended skill: {invoking-skill}
-Next file read: .lcs/work-items/{ts}-{slug}/research/<topic>.md
+Next file to read: .lcs/work-items/{ts}-{slug}/research/<topic>.md
 Current phase: research
 Current confidence: <low/medium/high>
 Blocking questions: <list or None>

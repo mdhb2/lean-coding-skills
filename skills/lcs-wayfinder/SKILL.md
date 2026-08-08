@@ -64,7 +64,7 @@ Strict
 ## Handoff
 
 Next recommended skill: lcs-toprd
-Next file read: .lcs/work-items/{ts}-{slug}/wayfinder-map.md
+Next file to read: .lcs/work-items/{ts}-{slug}/wayfinder-map.md
 Current phase: wayfinder
 Current confidence: <low/medium/high>
 Blocking questions: <open decision tickets>

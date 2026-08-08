@@ -38,7 +38,7 @@ Behavior checklist
   - Last Reviewed: {timestamp}
   - Summary: <summary of revisions/gaps found>
   - Changes Applied: <improvements written into prd-enhanced.md>
-- End with Handoff section pointing to the next logical step (e.g., `lcs-task-slicer` or task slicing command), including Source of Truth Bundle, Must Preserve IDs, and Unresolved IDs.
+- End with Handoff section pointing to the next logical step (e.g., `lcs-tosrs` for SRS transformation), including Source of Truth Bundle, Must Preserve IDs, and Unresolved IDs.
 
 Prompt templates
 - Starter: "Review prd.md dan perbaiki menjadi prd-enhanced.md agar siap di-slice"
@@ -136,7 +136,7 @@ Strict
 <Explicit pass/fail per acceptance criterion>
 
 ## Handoff
-Next recommended skill: lcs-task-slicer
+Next recommended skill: lcs-tosrs
 Next file to read: .lcs/work-items/{timestamp}-{slug-work-item}/prd-enhanced.md
 Current phase: prd_review
 Current confidence: high
@@ -145,7 +145,7 @@ Risks to carry forward: <risks>
 Source of Truth Bundle: .lcs/state.md, prd.md, prd-enhanced.md
 Must Preserve IDs: SRC-001, SRC-002, ...
 Unresolved IDs: <list or None>
-Suggested next command: Slice prd-enhanced.md menjadi task-coverage.md dan task/task-###.md
+Suggested next command: Transform prd-enhanced.md menjadi SRS deterministik (lcs-tosrs)
 
 ## Chain of Truth Level
 

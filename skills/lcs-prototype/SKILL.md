@@ -66,7 +66,7 @@ Strict
 ## Handoff
 
 Next recommended skill: lcs-toprd or lcs-tosrs
-Next file read: .lcs/work-items/{ts}-{slug}/prototype/
+Next file to read: .lcs/work-items/{ts}-{slug}/prototype/
 Current phase: prototype
 Current confidence: <low/medium/high>
 Blocking questions: <list or None>

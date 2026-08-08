@@ -45,6 +45,8 @@ Activate when user wants to: define domain terms, clarify naming, build glossary
 - Updated `CONTEXT.md` at project root (if domain terms were resolved)
 - Optional: `docs/adr/XXXX-decision.md` for significant decisions
 
+> **Path Exception:** Domain artifacts live at the project root, shared across work items (documented exception in `../lcs-shared/contract.md`).
+
 ## Chain of Truth Report
 
 ### Level
@@ -70,7 +72,7 @@ Standard
 ## Handoff
 
 Next recommended skill: lcs-toprd
-Next file read: CONTEXT.md
+Next file to read: CONTEXT.md
 Current phase: domain-modeling
 Current confidence: <low/medium/high>
 Blocking questions: <list or None>

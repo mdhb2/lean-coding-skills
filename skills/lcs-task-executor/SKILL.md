@@ -59,7 +59,7 @@ Behavior checklist
     - `current_phase: execution`
     - `last_session_note: Executed TASK-###: <task-name> successfully`
     - `timestamp: <current-ISO-timestamp>`
-11. End with Handoff pointing to the next logical step (e.g., the next sequential task or `lcs-doc-finalizer`).
+11. End with Handoff pointing to the next logical step (e.g., the next sequential task, `lcs-code-review` after all tasks, or `lcs-doc-finalizer`).
 
 Prompt templates
 - Starter Task Execution: "Eksekusi TASK-001"
@@ -110,8 +110,6 @@ Very Strict
 
 ## Seam Discipline & TDD Rules
 
-## Seam Discipline &amp; TDD Rules
-
 - **Glossary:** A Seam is the public boundary you test at. Test ONLY at pre-agreed seams.
 
 - **Anti-Patterns (STRICTLY FORBIDDEN):**
@@ -140,7 +138,7 @@ Every validation step MUST follow this pattern:
 **Anti-Pattern:** "Run tests and make sure they pass" — too vague, no capture mechanism.
 
 ## Handoff
-Next recommended skill: lcs-task-executor
+Next recommended skill: lcs-code-review
 Next file to read: .lcs/work-items/{timestamp}-{slug-work-item}/task/task-###.md
 Current phase: execution
 Current confidence: high
@@ -149,7 +147,7 @@ Risks to carry forward: None
 Source of Truth Bundle: target task, prd-enhanced.md if present, prd.md, srs.md if referenced, tests.md if referenced, traceability.md if present, task-coverage.md if present
 Must Preserve IDs: <executed SRC/FR/AC/TEST IDs>
 Unresolved IDs: <remaining uncovered IDs or None>
-Suggested next command: Eksekusi TASK-002
+Suggested next command: Eksekusi TASK-002 jika ada, atau review hasil dengan lcs-code-review
 
 ## Chain of Truth Level
 

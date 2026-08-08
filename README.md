@@ -50,6 +50,10 @@ lcs-tosrs (Strict)
 lcs-task-slicer (Strict)
 ↓
 lcs-task-executor (Very Strict)
+↓
+lcs-code-review (Strict)
+↓
+lcs-doc-finalizer (Strict)
 ```
 ### Level Summary
 

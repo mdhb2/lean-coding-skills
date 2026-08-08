@@ -15,6 +15,8 @@ cot_level: standard
 version: "1.0"
 ---
 
+> **Note:** `lcs-wizard` produces executable bash scripts (`scripts/<name>-wizard.sh`) via `template.sh`. This markdown template serves as a human-readable procedure spec to accompany the script, not the primary artifact.
+
 # Wizard: {procedure-name}
 
 ## Purpose

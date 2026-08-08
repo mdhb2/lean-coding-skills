@@ -323,7 +323,7 @@ Append audit-trail entry ke `.lcs/work-items/{timestamp}-lcs-master/session-log.
 ```
 
 **Behavior:**
-- Create log file (dengan OKF frontmatter `type: artifact, artifact_type: master_session_log`) pada first routing of session
+- Create log file (dengan OKF frontmatter `type: artifact, artifact_type: session_log`) pada first routing of session
 - Append-only (no modifications to existing entries)
 - Log all routing decisions, termasuk precondition check dan vocabulary invocation
 
@@ -355,9 +355,15 @@ Append audit-trail entry ke `.lcs/work-items/{timestamp}-lcs-master/session-log.
 ## Handoff
 
 Next recommended skill: {determined-by-routing-logic}
-Next file read: .lcs/state.md
+Next file to read: .lcs/state.md
 Current phase: routing
 Current confidence: high
+Blocking questions: None
+Risks to carry forward: Enforce shared contract on every handoff (path conventions, exact skill names, decision log)
+Source of Truth Bundle: .lcs/state.md, session-log.md
+Must Preserve IDs: None
+Unresolved IDs: None
+Suggested next command: {determined-by-routing-logic}
 
 ## Chain of Truth Level
 

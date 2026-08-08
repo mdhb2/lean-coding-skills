@@ -55,6 +55,28 @@ When active skill is `lcs-onboarding`, outputs use flat singleton paths (no time
 ```
 These are project-level singletons - overwritten on each run. This exception overrides the timestamped folder convention for onboarding output.
 
+### Skill-Specific Exception: `lcs-wizard`
+When active skill is `lcs-wizard`, the output script is saved to the project's `scripts/` directory (the human must run it manually):
+```
+scripts/<name>-wizard.sh
+```
+This exception overrides the timestamped folder convention for wizard script output.
+
+### Skill-Specific Exception: `lcs-debug-ext`
+When active skill is `lcs-debug-ext`, the work-item folder uses the `-debug-ext` suffix to keep report-only debug output distinct from `lcs-debug`:
+```
+.lcs/work-items/{timestamp}-{slug}-debug-ext/debug.md
+```
+This exception overrides the generic `{ts}-{slug}/` folder assumption for debug-ext output.
+
+### Skill-Specific Exception: `lcs-domain-modeling`
+When active skill is `lcs-domain-modeling`, domain artifacts live at the project root (shared across work items):
+```
+CONTEXT.md
+docs/adr/XXXX-decision.md
+```
+This exception overrides the timestamped folder convention for domain-model outputs.
+
 ## Artifact Files
 
 > **Templates:** For exact structure of each artifact type, read `templates/{artifact_type}.template.md`. Only load when generating new artifact — not during review or execution.
@@ -99,6 +121,7 @@ Downstream skills must not ignore enhanced upstream artifacts. Read available ar
 6. `tests.md` if present for test coverage mapping.
 7. `api.md` and `db.md` if present for implementation contracts.
 8. `traceability.md` if present for ID mapping.
+9. `research/<topic>.md` and `wayfinder-map.md` if present for validated findings and decision maps.
 
 If `prd-enhanced.md` exists but was not read, stop and report a source conflict. Do not proceed from `prd.md` alone when enhanced PRD exists.
 
@@ -234,10 +257,10 @@ Full definitions + templates: `lcs-shared/templates/okf-schema.md`
 | `analysis` | {ts}-analysis.md | lcs-self-improvement | standard |
 | `session_log` | session-log.md | lcs-master | standard |
 | `domain_model` | CONTEXT.md | lcs-domain-modeling | standard |
-| `research` | research.md | lcs-research | standard |
-| `prototype` | prototype.md | lcs-prototype | strict |
-| `wayfinder` | wayfinder.md | lcs-wayfinder | strict |
-| `wizard` | wizard.md | lcs-wizard | standard |
+| `research` | research/<topic>.md | lcs-research | standard |
+| `prototype` | prototype/ (directory) | lcs-prototype | strict |
+| `wayfinder` | wayfinder-map.md, wayfinder-tickets/DEC-###.md | lcs-wayfinder | strict |
+| `wizard` | scripts/<name>-wizard.sh | lcs-wizard | standard |
 | `execution_log` | session-log.md | lcs-master | standard |
 
 ### Artifact ID Prefixes

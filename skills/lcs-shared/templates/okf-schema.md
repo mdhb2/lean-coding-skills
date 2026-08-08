@@ -60,11 +60,11 @@ Based on [OKF v0.2](https://github.com/GoogleCloudPlatform/knowledge-catalog/blo
 | `analysis` | {ts}-analysis.md | lcs-self-improvement | — |
 | `session_log` | session-log.md | lcs-master | — |
 | `execution_log` | session-log.md | lcs-master | — |
-| `domain_model` | CONTEXT.md | lcs-domain-modeling | standard | Domain model and ubiquitous language |
-| `research` | research.md | lcs-research | standard | Evidence-based research findings |
-| `prototype` | prototype.md | lcs-prototype | strict | Throwaway prototype for design validation |
-| `wayfinder` | wayfinder-map.md | lcs-wayfinder | strict | Codebase navigation and decision tickets |
-| `wizard` | wizard.sh | lcs-wizard | standard | Human-in-the-loop procedure scripts |
+| `domain_model` | CONTEXT.md | lcs-domain-modeling | — |
+| `research` | research/<topic>.md | lcs-research | — |
+| `prototype` | prototype/ (directory) | lcs-prototype | — |
+| `wayfinder` | wayfinder-map.md, wayfinder-tickets/DEC-###.md | lcs-wayfinder | DEC-### |
+| `wizard` | scripts/<name>-wizard.sh | lcs-wizard | — |
 
 ---
 

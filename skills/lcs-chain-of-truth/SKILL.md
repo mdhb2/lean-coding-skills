@@ -179,4 +179,7 @@ Current phase: reference
 Current confidence: high
 Blocking questions: None
 Risks to carry forward: None
+Source of Truth Bundle: skills/lcs-chain-of-truth/SKILL.md (reference, not self-applied)
+Must Preserve IDs: None
+Unresolved IDs: None
 Suggested next command: N/A — reference skill, no execution flow

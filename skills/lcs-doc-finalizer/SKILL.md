@@ -172,7 +172,7 @@ Current phase: complete
 Current confidence: high
 Blocking questions: None
 Risks to carry forward: None
-Source of Truth Bundle: .lcs/state.md, prd-enhanced.md if present, prd.md, srs.md if present, task-coverage.md if present, traceability.md if present, code-review.md if present
+Source of Truth Bundle: .lcs/state.md, prd-enhanced.md if present, prd.md, srs.md if present, tests.md if present, task-coverage.md if present, traceability.md if present, code-review.md if present
 Must Preserve IDs: <SRC/FR/AC/TEST IDs covered by finalized work>
 Unresolved IDs: <list or None>
 Suggested next command: Buat PR dengan pesan yang direkomendasikan
