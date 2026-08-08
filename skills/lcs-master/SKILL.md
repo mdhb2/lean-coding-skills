@@ -1,107 +1,370 @@
 ---
 name: lcs-master
-description: Use this skill as the single entry point / router for the entire Lean Coding Skills (LCS) workflow. Activate when the user wants to "start", "begin", "what should I do next", "route me", has an ambiguous LCS request, or otherwise needs the correct LCS skill selected and invoked. lcs-master actively analyzes user intent, recommends the next skill in the Chain of Truth workflow, and runs in either confirmation mode (asks each step) or autopilot mode (chains skills, stopping at critical points to write a Source-of-Truth blocker). Enforces the shared contract (path conventions, exact skill-name routing, decision log) on every handoff.
+description: Use this skill as the single entry point / router for the entire Lean Coding Skills (LCS) workflow. Activate when the user wants to "start", "begin", "what should I do next", "route me", has an ambiguous LCS request, or otherwise needs the correct LCS skill selected and invoked. lcs-master actively analyzes user intent, recognizes starting situations (on-ramps), recommends the next skill with rich contextual guidance, and runs in either confirmation mode (asks each step) or autopilot mode (chains skills, stopping at critical points). Enforces the shared contract (path conventions, exact skill-name routing, decision log) on every handoff. Do NOT activate when request names a specific downstream skill (e.g. "run lcs-toprd") — invoke that skill directly.
 adapters: [claudecode, opencode]
 compatibility: [claudecode, opencode]
 chain_of_truth_level: Standard
 ---
 
-# LCS Master — Router / Orchestrator Skill
+# LCS Master — Enhanced Contextual Router / Orchestrator
 
-## Shared Coding Contract
-- Refer to the Shared Coding Workflow Contract in `../lcs-shared/contract.md` for folder conventions, Handoff format, Chain of Truth level mapping, and token optimization.
-- This skill is a **router** — it does not author artifacts itself. It selects and invokes the correct downstream LCS skill, enforces the contract on every handoff, and records a decision log.
+Shared Coding Contract: Refer to `../lcs-shared/contract.md` for folder conventions, Handoff format, Chain Truth level mapping, token optimization. This skill is a **router**, not an author of artifacts itself. It selects and invokes the correct downstream LCS skill, enforces the contract on every handoff, and records a decision log.
 
 ## Purpose
-One skill to rule them all. `lcs-master` is an **active router** over the 16 LCS skills:
-- Analyzes the user's input and the current workflow state.
-- Recommends the next skill in the Chain of Truth progression.
-- Runs in **confirmation mode** (default) or **autopilot mode** (user opt-in).
-- Enforces the shared contract (SOT) on every handoff: correct path, exact skill name, decision log.
+
+One skill to rule all. `lcs-master` is a **contextual router** over 21 LCS skills:
+- Recognizes **starting situations** (on-ramps) and routes the flow accordingly
+- Integrates **vocabulary foundation** (domain-modeling, codebase-design) as a layer beneath all skills
+- Supports **branching logic** (prototype detour, wayfinder detour) without breaking Chain of Truth
+- Provides **rich contextual guidance** with alternative paths and critical warnings
+- Enforces **shared contract (SOT)** on every handoff: correct path, exact skill name, decision log
+- Performs **precondition check** before the first routing in a new repo
 
 ## Trigger
-Activate when the user:
-- Says "start", "begin", "what should I do", "route me", "next step", or similar.
-- Has an ambiguous or multi-stage LCS request (e.g. "I want to build a feature" without specifying the stage).
-- Explicitly names `lcs-master` or asks for the "master" / "router" skill.
-Do NOT activate for a request that already names a specific downstream skill (e.g. "run lcs-toprd") — invoke that skill directly.
+
+Activate when user:
+- Says "start", "begin", "what do", "route me", "next step", or similar
+- Has an ambiguous or multi-stage LCS request (e.g. "I want to build a feature" without specifying the stage)
+- Explicitly names `lcs-master` or asks for "master" / "router" skill
+- Reports a bug, huge project, or mid-workflow situation (on-ramps)
+
+Do NOT activate when request names a specific downstream skill (e.g. "run lcs-toprd") — invoke that skill directly.
+
+---
+
+## [NEW] Precondition Check
+
+Sebelum routing pertama di repo baru, verify prerequisites:
+
+### Checklist
+1. **`.lcs/` directory exists?** → If no, create it dengan structure dasar
+2. **Shared contract accessible?** → Verify `skills/lcs-shared/contract.md` exists
+3. **State file exists?** → If no `.lcs/state.md`, create dengan initial state:
+   ```yaml
+   ---
+   type: state
+   current_phase: idle
+   current_work: null
+   last_session_note: "Initial setup"
+   timestamp: 2026-08-08T00:00:00+07:00
+   ---
+   ```
+4. **Domain setup (optional)?** → Check jika `CONTEXT.md` exists di project root. If no, offer to create empty template untuk domain glossary.
+
+### Behavior
+- **Non-blocking:** Jika precondition gagal, guide user through setup, jangan block workflow
+- **First-time only:** Skip precondition check jika `.lcs/state.md` exists dengan `current_phase != idle`
+- **Log setup:** Append setup actions ke session-log.md
+
+---
+
+## [NEW] Contextual Entry Points (On-ramps)
+
+Recognize starting situations dan route ke flow yang tepat:
+
+### On-ramp 1: Bug Reports & Issues
+**Trigger:** User mentions "bug", "error", "regression", "failing test", "unexpected behavior"
+**Route:**
+- **Single bug** → `lcs-debug` (enhanced 6-phase disciplined loop)
+  - Critical Warning: Phase 1 (Build Feedback Loop) MUST complete sebelum hypothesizing
+- **Multiple issues piling up** → Manual prioritization 
+  - List issues dengan severity (P0-P3), user picks one untuk start
+**Flow:** lcs-debug → lcs-toprd (if bug implies missing requirement) → main flow
+
+### On-ramp 2: Huge Foggy Projects
+**Trigger:** User describes project yang "too big for one session", "unclear requirements", "greenfield", "multi-week effort"
+**Route:**
+1. `lcs-wayfinder` → Chart decision map dengan decision tickets
+2. Resolve decision tickets one per session
+3. When map clears → Handoff ke `lcs-toprd` → continue main flow
+**Critical Warning:** Do NOT loop wayfinder straight into task-executor. Always collapse decisions into PRD first.
+
+### On-ramp 3: Codebase Maintenance
+**Trigger:** User wants to "improve architecture", "refactor", "clean up code", "deepen modules"
+**Route:**
+1. `lcs-codebase-doc` → Map current state
+2. `lcs-improve-codebase-architecture` (future) → Find deepening opportunities
+3. Main flow untuk implementasi (explore → toprd → ...)
+**Note:** Maintenance tidak tercampur dengan feature work. Selalu start dengan mapping.
+
+### On-ramp 4: Mid-Workflow Situations
+**Trigger:** User sudah di tengah workflow tapi stuck atau butuh situational help
+**Route:**
+- **Merge conflict** → `lcs-resolving-merge-conflicts` (future standalone)
+- **Need research** → `lcs-research` (background agent) → return ke main flow
+- **Need prototype** → `lcs-prototype` (throwaway validation) → return ke main flow
+- **Need wizard** → `lcs-wizard` (human-in-the-loop setup) → user executes manually
+**Behavior:** Standalone skills tidak memutus main flow. Setelah complete, return ke skill yang memanggil.
+
+---
+
+## [ENHANCED] Main Flow dengan Branching Logic
+
+```
+lcs-explore (brainstorm)
+  ↓
+[Branch: Need visual/interactive validation?]
+  ├─ Yes → lcs-prototype (throwaway prototype)
+  │         ↓
+  │       Archive prototype, fold decisions into explore.md
+  │         ↓
+  └─ No → Continue
+  ↓
+lcs-toprd (create PRD)
+  ↓
+[Branch: Multi-session build?]
+  ├─ Yes → lcs-wayfinder (chart decision map) → lcs-toprd (when clear)
+  └─ No → Continue
+  ↓
+lcs-prd-reviewer → lcs-tosrs → lcs-task-slicer → lcs-task-executor → lcs-code-review → lcs-doc-finalizer
+```
+
+### Branching Rules
+
+**Prototype Detour:**
+- **Trigger:** User asks "can we see it?", "I need to validate this visually", "does this logic feel right?"
+- **Action:** Invoke `lcs-prototype`, archive after validation, continue main flow
+- **CoT Level:** Strict (creates throwaway code)
+- **Return:** After prototype complete, fold decisions ke explore.md atau prd.md, continue dari skill yang memanggil
+
+**Wayfinder Detour:**
+- **Trigger:** Project description terlalu besar/unclear untuk satu session (>1 week effort)
+- **Action:** Invoke `lcs-wayfinder`, resolve decision tickets, handoff back ke main flow
+- **CoT Level:** Strict (creates decision map)
+- **Return:** When map clears, handoff ke `lcs-toprd` untuk collapse decisions into buildable plan
+
+---
+
+## [NEW] Vocabulary Foundation Layer
+
+Two skills run beneath the main flow sebagai vocabulary sources:
+
+
+> **Dependency Note:** `lcs-codebase-design` belum ada. Options: (A) buat skill baru, (B) gunakan `lcs-codebase-doc` sebagai interim, (C) defer vocabulary layer sampai skill dibuat. PRD ini mengasumsikan opsi A.
+
+### lcs-domain-modeling (Domain Language)
+- **Purpose:** Sharpen domain language (CONTEXT.md, ADRs)
+- **When to invoke:**
+  - Before `lcs-toprd` jika `CONTEXT.md` belum ada atau outdated
+  - During `lcs-explore` saat new terms emerge
+  - Saat user uses fuzzy/overloaded terms (e.g., "account" doing three jobs)
+- **Auto-invoke rule:** Jika user input contains terms yang tidak ada di `CONTEXT.md`, prompt untuk clarify dan update inline
+- **Integration:** Referenced oleh semua skills yang generate PRD/SRS/tasks
+
+### lcs-codebase-design (Deep Module Vocabulary)
+- **Purpose:** Deep module vocabulary (module, interface, seam, depth, locality)
+- **When to invoke:**
+  - Before `lcs-task-executor` untuk ensure testable interfaces
+  - During `lcs-code-review` untuk check architectural quality
+  - When designing new modules atau refactoring
+- **Integration:** Referenced oleh `lcs-task-executor` (seam discipline) dan `lcs-code-review` (two-axis review)
+
+### Vocabulary Invocation Rules
+- **Lazy invocation:** Hanya invoke saat needed, bukan setiap routing
+- **Context-aware:** Jika "working in a repo" → invoke domain-modeling. Jika "not in a repo" → skip (use stateless flow)
+- **Inline updates:** Domain-modeling updates `CONTEXT.md` immediately, bukan batch up
+
+---
 
 ## Routing Modes
 
 ### Confirmation Mode (default)
-1. Analyze input + read `.lcs/state.md` if present to find the active work item and current phase.
-2. Recommend the next skill (with a one-line reason).
-3. Ask the user to confirm, or let them name a different skill.
-4. After the invoked skill completes, stop and ask again for the next step.
+1. Recognize starting situation (on-ramp atau main flow)
+2. Check vocabulary foundation (auto-invoke domain-modeling jika needed)
+3. Generate rich contextual guidance (recommended skill + reason + context + flow + alternatives + warnings)
+4. Ask user untuk confirm atau choose alternative
+5. After invoked skill completes, stop dan ask lagi untuk next step
+6. Log routing decision ke session-log.md
 
 ### Autopilot Mode (opt-in)
 User must explicitly choose autopilot. Before chaining:
-- If the workflow has not yet gathered enough context (no `explore.md` / no clear intent), invoke `lcs-explore` first and ask enough probing questions to solidify the plan.
-- Then chain forward: explore → toprd → prd-reviewer → tosrs → task-slicer → (task-executor / debug-ext).
-- **Autopilot STOPS (no prompting) and writes a SOT blocker** when it reaches a critical point (see Stop Matrix). The user reviews the blocker later and resumes — lcs-master does not re-prompt.
+- If workflow has not yet gathered enough context (no `explore.md` / no clear intent), invoke `lcs-explore` first
+- Then chain forward dengan branching logic: explore → [prototype detour?] → toprd → [wayfinder detour?] → prd-reviewer → tosrs → task-slicer → (task-executor / debug-ext)
+- **Autopilot STOPS (no prompting) dan writes a SOT blocker** when it reaches a critical point (see Stop Matrix). User reviews blocker later dan resumes.
 
-## Stop Matrix (autopilot → when to halt & write SOT)
-Bound to the Chain of Truth level mapping in `../lcs-shared/contract.md` plus a structural-change guard.
+### Stop Matrix (Autopilot Critical Points)
+- After `lcs-explore` → Stop untuk user confirm explore.md
+- After `lcs-toprd` → Stop untuk user confirm PRD
+- After `lcs-prd-reviewer` → Stop untuk user review enhanced PRD
+- After `lcs-task-slicer` → Stop untuk user approve task breakdown
+- After each `lcs-task-executor` → Stop untuk user review code changes
+- After `lcs-code-review` → Stop untuk user review findings
 
-| CoT Level | Example skills | Autopilot behavior |
-|---|---|---|
-| Light | lcs-explore | run continuously (conversational only) |
-| Standard | lcs-toprd, lcs-debug, lcs-onboarding, lcs-self-improvement | run continuously (markdown artifacts, reversible) |
-| Strict | lcs-prd-reviewer, lcs-tosrs, lcs-task-slicer, lcs-doc-finalizer, lcs-codebase-doc, lcs-code-review | run, but BEFORE any filesystem-mutating step (finalize / archive / move) → stop & write SOT |
-| Very Strict | lcs-task-executor, lcs-task-executer (legacy), lcs-debug-ext | ALWAYS stop & write SOT before real changes |
+---
 
-**Cross-level guard:** if the output of the current skill changes an assumption or the initial plan from an earlier step (e.g. `lcs-tosrs` reveals the PRD must change), that is also critical → stop & write SOT regardless of level.
+## [NEW] Standalone Skills (Off-Flow)
 
-Threshold definition: **stop = the skill has a permanent filesystem / code mutation action**; CoT level is the proxy. Structural-change detection is the override.
+Skills yang tidak fit main flow tapi dibutuhkan dalam situasi khusus:
 
-### Writing the SOT Blocker
-When autopilot stops, write a blocker file (do NOT prompt the user):
+### lcs-research (Background Agent)
+- **Purpose:** Investigate primary sources, capture cited findings
+- **When to use:** User needs facts sebelum decision (API docs, library comparison, RFC review)
+- **Integration:** Findings feed back into main flow (e.g., research → explore → toprd)
+- **CoT Level:** Standard
+- **Trigger:** "Research X", "Find out about Y", "Compare Z libraries"
+
+### lcs-wizard (Human-in-the-Loop)
+- **Purpose:** Generate interactive bash scripts untuk manual procedures
+- **When to use:** Infrastructure setup, credentials configuration, one-off migrations
+- **Integration:** Standalone, user executes manually
+- **CoT Level:** Standard
+- **Trigger:** "Setup AWS credentials", "Configure CI secrets", "Run migration wizard"
+
+### lcs-resolving-merge-conflicts (Future Enhancement)
+- **Purpose:** Resolve git merge/rebase conflicts by intent, not line-by-line
+- **When to use:** Mid-merge conflict situation
+- **Integration:** Standalone, never `--abort`
+- **CoT Level:** Strict
+- **Trigger:** "Merge conflict", "Rebase conflict", "Git conflict"
+
+---
+
+## [ENHANCED] Contextual Guidance Format
+
+Setiap recommendation harus mengikuti format 6-part:
+
+### Format
 ```
-.lcs/work-items/{timestamp}-{slug-work-item}/master-blocker.md
+**Recommended:** <skill-name>
+**Reason:** <one-line reason>
+
+**Context:** <why this flow is appropriate for the situation>
+
+**Flow:** <full path dari current state ke completion>
+
+**Alternative paths:**
+- <alternative 1>: <when to use>
+- <alternative 2>: <when to use>
+
+**Critical warnings:**
+- <warning 1> (P0 decision, hard to reverse)
+- <warning 2> (Phase 1 violation, etc.)
 ```
-With frontmatter `type: artifact, artifact_type: master_blocker, status: blocked` and body:
-- What was reached (skill + step).
-- Why it is critical (CoT level / structural change).
-- The decision needed from the user.
-- Suggested resume command.
-Then end the session with a Handoff pointing to the blocker.
 
-## Contract (SOT) Enforcement — 3 responsibilities
-Before EVERY handoff to a downstream skill, lcs-master MUST:
-1. **Path enforcer:** verify the target skill uses the correct path per `../lcs-shared/contract.md` (e.g. `lcs-doc-finalizer` → `.lcs/docs/`, NOT `.lcs/work-items/docs/`; `lcs-self-improvement` → `.lcs/docs/self-improvements/`). If the target skill would violate the path contract, block the handoff and report the conflict.
-2. **Exact-name routing:** route using the folder name that EXACTLY matches the `name:` field in the target skill's `SKILL.md` frontmatter (AGENTS.md §6). No alternate spellings, no typos.
-3. **Decision log (SOT):** append an audit-trail entry to
-   `.lcs/work-items/{timestamp}-lcs-master/session-log.md` recording
-   `timestamp | routed-to: <skill> | reason: <why> | mode: <confirmation|autopilot>`.
-   Create the log file (with OKF frontmatter `type: artifact, artifact_type: master_session_log`) on first routing of the session.
+### Example 1: User says "I want to build a new feature"
+```
+**Recommended:** lcs-explore
+**Reason:** Start dengan brainstorming untuk clarify requirements
 
-## Behavior Checklist
-- Read `.lcs/state.md` first when continuing work (token optimization rule).
-- Identify the active work item and current Chain of Truth phase.
-- Pick the next skill from the canonical workflow order, honoring the Stop Matrix.
-- Enforce the 3 contract responsibilities before invoking.
-- In confirmation mode: stop and ask after each skill.
-- In autopilot mode: chain until a Stop Matrix condition hits, then write SOT blocker and end.
-- Never author downstream artifacts itself — always delegate to the correct skill.
+**Context:** You're describing a new feature from scratch. The main flow starts dengan `lcs-explore` untuk evaluate options sebelum committing ke PRD.
 
-## Canonical Workflow Order (reference)
-lcs-explore (Light) → lcs-toprd (Standard) → lcs-prd-reviewer (Strict) → lcs-tosrs (Strict) → lcs-task-slicer (Strict) → lcs-task-executor (Very Strict).
-Supporting: lcs-debug / lcs-debug-ext, lcs-code-review, lcs-codebase-doc, lcs-onboarding, lcs-self-improvement, lcs-doc-finalizer.
-Always consult `../lcs-shared/contract.md` for the authoritative CoT level mapping and path exceptions.
+**Flow:** lcs-explore → lcs-toprd → lcs-prd-reviewer → lcs-tosrs → lcs-task-slicer → lcs-task-executor → lcs-code-review → lcs-doc-finalizer
+
+**Alternative paths:**
+- Skip ke lcs-toprd: If you already have clear requirements
+- Add lcs-wayfinder: If this is a huge project (>1 week)
+- Add lcs-prototype: If you need visual validation
+
+**Critical warnings:**
+- None for this flow
+```
+
+### Example 2: User says "There's a bug in production"
+```
+**Recommended:** lcs-debug (enhanced 6-phase loop)
+**Reason:** Investigate bug systematically
+
+**Context:** You're reporting a production bug. This is an on-ramp situation, not a new feature. The enhanced `lcs-debug` uses a 6-phase disciplined loop.
+
+**Flow:** lcs-debug → lcs-toprd (if bug implies missing requirement) → main flow
+
+**Alternative paths:**
+- Skip ke lcs-toprd: If bug is well-understood dan only needs fix
+- Add lcs-research: If bug requires investigating external systems
+
+**Critical warnings:**
+- ⚠️ Phase 1 (Build Feedback Loop) MUST complete sebelum hypothesizing. No guessing allowed until you have a deterministic command that goes RED on this specific bug.
+- ⚠️ Post-mortem MUST ask "What architectural change would have prevented this?" Handoff ke codebase maintenance jika needed.
+```
+
+### Example 3: User says "I want to refactor the authentication module"
+```
+**Recommended:** lcs-codebase-doc
+**Reason:** Map current state sebelum refactoring
+
+**Context:** You're describing codebase maintenance, not a new feature. Always start dengan mapping untuk understand current architecture.
+
+**Flow:** lcs-codebase-doc → lcs-improve-codebase-architecture (future) → lcs-explore → lcs-toprd → ...
+
+**Alternative paths:**
+- Skip ke lcs-explore: If you already have clear understanding of current state
+- Add lcs-research: If you need to research best practices untuk authentication refactor
+
+**Critical warnings:**
+- ⚠️ Do NOT start coding tanpa mapping. Refactoring tanpa understanding current state leads ke regressions.
+- ⚠️ Use expand-contract pattern untuk wide refactors (rename column, retype symbol) untuk keep CI green.
+```
+
+---
+
+## Contract (SOT) Enforcement — 3 Responsibilities
+
+Sebelum EVERY handoff ke downstream skill, lcs-master MUST:
+
+### 1. Path Enforcer
+Verify target skill uses correct path per `../lcs-shared/contract.md`:
+- `lcs-doc-finalizer` → `.lcs/docs/`, NOT `.lcs/work-items/docs/`
+- `lcs-self-improvement` → `.lcs/docs/self-improvements/`
+- `lcs-onboarding` → `.lcs/work-items/onboarding.md` (singleton, no timestamp)
+- `lcs-debug-ext` → `.lcs/work-items/{timestamp}-{slug}-debug-ext/`
+- All others → `.lcs/work-items/{timestamp}-{slug}/`
+
+**Behavior:** Jika target skill would violate path contract, block handoff dan report conflict.
+
+### 2. Exact-Name Routing
+Route menggunakan folder name yang EXACTLY matches `name:` field di target skill's `SKILL.md` frontmatter (AGENTS.md §6).
+- ✅ `lcs-task-executor` (correct)
+- ❌ `lcs-task-executer` (legacy, only if explicitly requested)
+- ❌ `task-executor` (missing prefix)
+- ❌ `LCS-Task-Executor` (wrong case)
+
+**Behavior:** No alternate spellings, no typos. Jika skill name ambiguous, ask user untuk clarify.
+
+### 3. Decision Log (SOT)
+Append audit-trail entry ke `.lcs/work-items/{timestamp}-lcs-master/session-log.md` recording:
+```yaml
+- timestamp: 2026-08-08T11:30:00+07:00
+  routed-to: lcs-explore
+  reason: "User wants to build new feature, starting dari brainstorming"
+  mode: confirmation
+  situation-type: main-flow
+  alternatives-offered: ["Skip to lcs-toprd", "Add lcs-wayfinder", "Add lcs-prototype"]
+  warnings-given: []
+```
+
+**Behavior:**
+- Create log file (dengan OKF frontmatter `type: artifact, artifact_type: master_session_log`) pada first routing of session
+- Append-only (no modifications to existing entries)
+- Log all routing decisions, termasuk precondition check dan vocabulary invocation
+
+---
+
+## Prompt Templates
+
+- **Starter:** "Start LCS workflow"
+- **On-ramp (bug):** "There's a bug in production: <description>"
+- **On-ramp (huge project):** "I want to build a huge feature: <description>"
+- **On-ramp (maintenance):** "I want to refactor <module>"
+- **Main flow:** "I want to build a new feature: <description>"
+- **Autopilot:** "Start LCS workflow in autopilot mode"
+- **Escape hatch:** "I need to research <topic> before continuing"
+
+---
 
 ## Handoff
-Must appear at bottom of every lcs-master response (per contract Handoff format):
-```markdown
-## Handoff
 
-Next recommended skill:
-Next file to read:
-Current phase:
-Current confidence:
-Blocking questions:
-Risks to carry forward:
-Source of Truth Bundle:
-Must Preserve IDs:
-Unresolved IDs:
-Suggested next command:
-```
+Next recommended skill: {determined-by-routing-logic}
+Next file read: .lcs/state.md
+Current phase: routing
+Current confidence: high
+
+## Chain of Truth Report
+
+| Stage | Detail |
+|-------|--------|
+| **Source** | User input, `.lcs/state.md`, `CONTEXT.md`, skill inventory |
+| **Assumption** | User wants LCS workflow assistance |
+| **Plan** | Analyze intent → identify on-ramp → route to appropriate skill |
+| **Action** | Route to skill with rich contextual guidance |
+| **Verification** | Skill invoked correctly, contract enforced |
+| **Report** | Decision logged in session-log.md |

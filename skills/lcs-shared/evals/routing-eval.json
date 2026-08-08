@@ -216,6 +216,42 @@
         "lcs-explore"
       ],
       "reason": "Research \u2260 exploration. Research is evidence-based, exploration is brainstorming."
+    },
+    {
+      "id": "POS-16",
+      "input": "ada bug di production, error 500",
+      "expected_skill": "lcs-debug",
+      "reason": "Bug report on-ramp \u2192 lcs-debug"
+    },
+    {
+      "id": "POS-17",
+      "input": "project ini terlalu besar, butuh mapping dulu",
+      "expected_skill": "lcs-wayfinder",
+      "reason": "Huge foggy project on-ramp \u2192 lcs-wayfinder"
+    },
+    {
+      "id": "POS-18",
+      "input": "start",
+      "expected_skill": "lcs-master",
+      "reason": "Ambiguous start \u2192 lcs-master for routing"
+    },
+    {
+      "id": "NEG-14",
+      "input": "ada bug di production, error 500",
+      "expected_skill": "lcs-debug",
+      "must_not_be": [
+        "lcs-task-executor"
+      ],
+      "reason": "Bug on-ramp goes to debug, not executor"
+    },
+    {
+      "id": "NEG-15",
+      "input": "run lcs-toprd",
+      "expected_skill": "lcs-toprd",
+      "must_not_be": [
+        "lcs-master"
+      ],
+      "reason": "Explicit skill name \u2192 invoke directly, don't route through master"
     }
   ]
 }
