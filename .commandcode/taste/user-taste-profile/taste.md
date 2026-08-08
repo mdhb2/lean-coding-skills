@@ -6,3 +6,5 @@
 - Values systematic, multi-dimensional project reviews: checks component interconnection/consistency, information flow integrity between pipeline stages, and risk/breakage assessment as distinct dimensions. Confidence: 0.8
 - Prefers thorough, complete coverage across all components rather than partial or sample-based reviews. Confidence: 0.7
 - When documenting skills/tools, includes concrete usage scenarios with example conversation prompts and "when to use" guidance for each. Confidence: 0.85
+- Uses annotated git tags with semantic versioning (vX.Y) and descriptive release notes that summarize key changes and credit external inspiration sources. Confidence: 0.65
+- Credits external inspiration sources by name (e.g., Matt Pocock's skill pack) when deriving new work, expecting attribution in release descriptions and documentation. Confidence: 0.65
