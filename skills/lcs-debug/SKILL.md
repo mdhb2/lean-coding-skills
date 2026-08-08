@@ -1,6 +1,6 @@
 ---
-name: lcs-debug Do NOT trigger for: design review, architecture decisions, new feature implementation, code review, or task execution. Use lcs-explore for design, lcs-code-review for review, lcs-task-executor for implementation.
-description: Use this skill whenever the user needs a focused bug investigation. Trigger on phrases about bugs, failing tests, errors, regressions, or unexpected behavior. Ask questions one at a time to identify the bug, and write the investigation results and fix plan in .lcs/work-items/{timestamp}-{slug-work-item}/debug.md before planning any fixes.
+name: lcs-debug
+description: Use this skill whenever the user needs a focused bug investigation. Trigger on phrases about bugs, failing tests, errors, regressions, or unexpected behavior. Ask questions one at a time to identify the bug, and write the investigation results and fix plan in .lcs/work-items/{timestamp}-{slug-work-item}/debug.md before planning any fixes. Do NOT trigger for: design review, architecture decisions, new feature implementation, code review, or task execution. Use lcs-explore for design, lcs-code-review for review, lcs-task-executor for implementation.
 adapters: [claudecode, opencode]
 compatibility: [claudecode, opencode]
 ---
@@ -108,6 +108,8 @@ Current confidence: <low/medium/high>
 Blocking questions: <list or None>
 Risks to carry forward: <risks>
 Source of Truth Bundle: .lcs/state.md, debug.md
+Must Preserve IDs: SRC-001, SRC-002, ... (from Source Requirement Ledger)
+Unresolved IDs: <list or None>
 Suggested next command: Buat PRD dari debug.md
 
 ## Chain of Truth Level

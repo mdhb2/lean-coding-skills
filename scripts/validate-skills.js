@@ -29,14 +29,18 @@ const CANONICAL_LEVELS = {
   'lcs-code-review':     'Strict',
   'lcs-debug-ext':       'Very Strict',
   'lcs-task-executor':   'Very Strict',
-  'lcs-task-executer':   'Very Strict',
   'lcs-chain-of-truth':  'Meta',
   'lcs-shared':          'Meta',
+  'lcs-master':          'Standard',
+  'lcs-domain-modeling': 'Standard',
+  'lcs-research':        'Standard',
+  'lcs-prototype':       'Strict',
+  'lcs-wayfinder':       'Strict',
+  'lcs-wizard':          'Standard',
 };
 
 const VALID_LEVELS = new Set(['Light', 'Standard', 'Strict', 'Very Strict', 'Meta']);
 const CANONICAL_EXECUTOR = 'lcs-task-executor';
-const LEGACY_EXECUTOR    = 'lcs-task-executer';
 const MINIMAL_SKILL_FILES = new Set(['lcs-shared']);
 const WORK_ITEMS_CORRUPTED = '.lcs/work-items/' + '-/';
 const DOCS_CORRUPTED = '.lcs/docs/' + '-/';
@@ -302,7 +306,6 @@ function checkPackageTestScript() {
 
 // ---------------------------------------------------------------------------
 // Check 8 — canonical executor lcs-task-executor exists
-// Check 9 — legacy lcs-task-executer still exists
 // ---------------------------------------------------------------------------
 
 function checkExecutors() {
@@ -315,18 +318,6 @@ function checkExecutors() {
       fail(`canonical executor SKILL.md name mismatch: expected '${CANONICAL_EXECUTOR}', got '${fm && fm.name}'`);
     } else {
       pass(`canonical executor '${CANONICAL_EXECUTOR}' exists with correct name`);
-    }
-  }
-
-  const legacyPath = path.join(SKILLS_DIR, LEGACY_EXECUTOR, 'SKILL.md');
-  if (!fs.existsSync(legacyPath)) {
-    fail(`legacy executor '${LEGACY_EXECUTOR}' missing — must not be removed (backward compat)`);
-  } else {
-    const fm = parseFrontmatter(fs.readFileSync(legacyPath, 'utf8'));
-    if (!fm || fm.name !== LEGACY_EXECUTOR) {
-      fail(`legacy executor SKILL.md name mismatch: expected '${LEGACY_EXECUTOR}', got '${fm && fm.name}'`);
-    } else {
-      pass(`legacy executor '${LEGACY_EXECUTOR}' still exists with correct name`);
     }
   }
 }
@@ -342,7 +333,6 @@ const SPOT_CHECK = [
   { skill: 'lcs-debug',         level: 'Standard' },
   { skill: 'lcs-debug-ext',     level: 'Very Strict' },
   { skill: 'lcs-task-executor', level: 'Very Strict' },
-  { skill: 'lcs-task-executer', level: 'Very Strict' },
   { skill: 'lcs-codebase-doc',  level: 'Strict' },
 ];
 

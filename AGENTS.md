@@ -165,16 +165,21 @@ Rule ini override asumsi `{ts}-{slug}/` — suffix `-debug-ext` ditambahkan untu
 | `lcs-debug` | Standard | Focused bug investigation and fix planning |
 | `lcs-debug-ext` | Very Strict | Evidence-based debug reports without applying changes |
 | `lcs-doc-finalizer` | Strict | Finalize completed work into canonical docs |
+| `lcs-domain-modeling` | Standard | Ubiquitous language via CONTEXT.md tracking |
 | `lcs-explore` | Light | Interactive explore/brainstorm before PRD |
+| `lcs-master` | Standard | Contextual router/orchestrator over all LCS skills |
 | `lcs-onboarding` | Standard | Generate developer onboarding documentation |
 | `lcs-prd-reviewer` | Strict | Review, harden, security-check PRDs |
+| `lcs-prototype` | Strict | Isolated throwaway prototype execution and validation |
+| `lcs-research` | Standard | Evidence-based research with source validation |
 | `lcs-self-improvement` | Standard | Analyze friction, recommend improvements |
 | `lcs-shared` | — (internal) | Shared contract, folder conventions, token optimization |
-| `lcs-task-executer` | Very Strict | Legacy alias (backward compatibility) |
 | `lcs-task-executor` | Very Strict | Execute task plan with Chain of Truth verification |
 | `lcs-task-slicer` | Strict | Split PRD/SRS into actionable session-sized tasks |
 | `lcs-toprd` | Standard | Lean, implementation-focused PRD writer |
 | `lcs-tosrs` | Strict | Transform PRD into deterministic Lean SRS |
+| `lcs-wayfinder` | Strict | Codebase navigation during active work |
+| `lcs-wizard` | Standard | Human-in-the-loop procedures with audit trail |
 
 ---
 
@@ -196,7 +201,7 @@ Source → Assumption → Plan → Action → Verification → Report
 - **Light** — exploratory/conversational skills (lcs-explore)
 - **Standard** — planning/documentation skills (lcs-toprd, lcs-onboarding, lcs-debug, lcs-self-improvement)
 - **Strict** — contracts, reviews, finalization (lcs-prd-reviewer, lcs-tosrs, lcs-task-slicer, lcs-doc-finalizer, lcs-codebase-doc)
-- **Very Strict** — code changes, debugging, implementation (lcs-task-executor, lcs-task-executer, lcs-debug-ext)
+- **Very Strict** — code changes, debugging, implementation (lcs-task-executor, lcs-debug-ext)
 
 ### Report Placement
 Chain of Truth Report must appear before the Handoff section in every artifact that uses this protocol.

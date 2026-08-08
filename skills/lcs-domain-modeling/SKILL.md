@@ -45,8 +45,43 @@ Activate when user wants to: define domain terms, clarify naming, build glossary
 - Updated `CONTEXT.md` at project root (if domain terms were resolved)
 - Optional: `docs/adr/XXXX-decision.md` for significant decisions
 
-### Handoff
+## Chain of Truth Report
+
+### Level
+Standard
+
+### Sources Checked
+- `.lcs/state.md`
+- `CONTEXT.md` (if present)
+- User statements / terminology in conversation
+
+### Assumptions
+- <label each [verified] or [unverified]>
+
+### Actions Taken
+- <Terms challenged, glossary entries added, ADRs created>
+
+### Verification
+- <CONTEXT.md exists / updated; manual review>
+
+### Report
+<1-3 sentence summary with confidence rating>
+
+## Handoff
 
 Next recommended skill: lcs-toprd
 Next file read: CONTEXT.md
 Current phase: domain-modeling
+Current confidence: <low/medium/high>
+Blocking questions: <list or None>
+Risks to carry forward: <summary>
+Source of Truth Bundle: .lcs/state.md, CONTEXT.md
+Must Preserve IDs: None
+Unresolved IDs: None
+Suggested next command: Buat PRD dari domain model
+
+## Chain of Truth Level
+
+Level: Standard
+
+This skill follows the LCS Chain of Truth protocol at the declared level.

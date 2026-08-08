@@ -143,8 +143,6 @@ Standard
 
 ## Testing Seams
 
-## Testing Seams
-
 Seams at which we will test this feature. Existing seams preferred. The fewer seams across the codebase, the better.
 
 - **Primary seam:** [Highest level public interface]

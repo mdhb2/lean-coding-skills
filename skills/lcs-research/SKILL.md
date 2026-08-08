@@ -39,8 +39,42 @@ Activate when user wants to: research a library/API, look up documentation, veri
 
 - `.lcs/work-items/{ts}-{slug}/research/<topic>.md` with structured findings and citations
 
-### Handoff
+## Chain of Truth Report
+
+### Level
+Standard
+
+### Sources Checked
+- <Primary sources consulted, with URLs/paths>
+- `.lcs/state.md` (if present)
+
+### Assumptions
+- <label each [verified] or [unverified]>
+
+### Actions Taken
+- <Search and source-verification steps performed>
+
+### Verification
+- <Findings written; citations verified against primary sources>
+
+### Report
+<1-3 sentence summary with confidence rating>
+
+## Handoff
 
 Next recommended skill: {invoking-skill}
 Next file read: .lcs/work-items/{ts}-{slug}/research/<topic>.md
 Current phase: research
+Current confidence: <low/medium/high>
+Blocking questions: <list or None>
+Risks to carry forward: <summary>
+Source of Truth Bundle: .lcs/state.md, research/<topic>.md
+Must Preserve IDs: None
+Unresolved IDs: None
+Suggested next command: Kembali ke skill pemanggil dan lanjut flow
+
+## Chain of Truth Level
+
+Level: Standard
+
+This skill follows the LCS Chain of Truth protocol at the declared level.

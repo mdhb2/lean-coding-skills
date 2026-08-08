@@ -83,14 +83,14 @@ Recognize starting situations dan route ke flow yang tepat:
 **Trigger:** User wants to "improve architecture", "refactor", "clean up code", "deepen modules"
 **Route:**
 1. `lcs-codebase-doc` → Map current state
-2. `lcs-improve-codebase-architecture` (future) → Find deepening opportunities
+2. `lcs-domain-modeling` → Sharpen domain language / architecture vocabulary (interim for the not-yet-built `lcs-codebase-design`)
 3. Main flow untuk implementasi (explore → toprd → ...)
 **Note:** Maintenance tidak tercampur dengan feature work. Selalu start dengan mapping.
 
 ### On-ramp 4: Mid-Workflow Situations
 **Trigger:** User sudah di tengah workflow tapi stuck atau butuh situational help
 **Route:**
-- **Merge conflict** → `lcs-resolving-merge-conflicts` (future standalone)
+- **Merge conflict** → manual resolution (no dedicated skill yet; do NOT route to `lcs-resolving-merge-conflicts` — it does not exist)
 - **Need research** → `lcs-research` (background agent) → return ke main flow
 - **Need prototype** → `lcs-prototype` (throwaway validation) → return ke main flow
 - **Need wizard** → `lcs-wizard` (human-in-the-loop setup) → user executes manually
@@ -137,10 +137,9 @@ lcs-prd-reviewer → lcs-tosrs → lcs-task-slicer → lcs-task-executor → lcs
 
 ## [NEW] Vocabulary Foundation Layer
 
-Two skills run beneath the main flow sebagai vocabulary sources:
+Skills that run beneath the main flow sebagai vocabulary sources:
 
-
-> **Dependency Note:** `lcs-codebase-design` belum ada. Options: (A) buat skill baru, (B) gunakan `lcs-codebase-doc` sebagai interim, (C) defer vocabulary layer sampai skill dibuat. PRD ini mengasumsikan opsi A.
+> **Dependency Note:** `lcs-codebase-design` belum ada — jangan route ke skill ini. Saat deep-module vocabulary dibutuhkan, gunakan `lcs-domain-modeling` untuk domain language atau `lcs-codebase-doc` untuk architecture mapping sebagai interim.
 
 ### lcs-domain-modeling (Domain Language)
 - **Purpose:** Sharpen domain language (CONTEXT.md, ADRs)
@@ -150,14 +149,6 @@ Two skills run beneath the main flow sebagai vocabulary sources:
   - Saat user uses fuzzy/overloaded terms (e.g., "account" doing three jobs)
 - **Auto-invoke rule:** Jika user input contains terms yang tidak ada di `CONTEXT.md`, prompt untuk clarify dan update inline
 - **Integration:** Referenced oleh semua skills yang generate PRD/SRS/tasks
-
-### lcs-codebase-design (Deep Module Vocabulary)
-- **Purpose:** Deep module vocabulary (module, interface, seam, depth, locality)
-- **When to invoke:**
-  - Before `lcs-task-executor` untuk ensure testable interfaces
-  - During `lcs-code-review` untuk check architectural quality
-  - When designing new modules atau refactoring
-- **Integration:** Referenced oleh `lcs-task-executor` (seam discipline) dan `lcs-code-review` (two-axis review)
 
 ### Vocabulary Invocation Rules
 - **Lazy invocation:** Hanya invoke saat needed, bukan setiap routing
@@ -284,7 +275,7 @@ Setiap recommendation harus mengikuti format 6-part:
 
 **Context:** You're describing codebase maintenance, not a new feature. Always start dengan mapping untuk understand current architecture.
 
-**Flow:** lcs-codebase-doc → lcs-improve-codebase-architecture (future) → lcs-explore → lcs-toprd → ...
+**Flow:** lcs-codebase-doc → lcs-domain-modeling (vocabulary) → lcs-explore → lcs-toprd → ...
 
 **Alternative paths:**
 - Skip ke lcs-explore: If you already have clear understanding of current state
@@ -314,7 +305,6 @@ Verify target skill uses correct path per `../lcs-shared/contract.md`:
 ### 2. Exact-Name Routing
 Route menggunakan folder name yang EXACTLY matches `name:` field di target skill's `SKILL.md` frontmatter (AGENTS.md §6).
 - ✅ `lcs-task-executor` (correct)
-- ❌ `lcs-task-executer` (legacy, only if explicitly requested)
 - ❌ `task-executor` (missing prefix)
 - ❌ `LCS-Task-Executor` (wrong case)
 
@@ -351,13 +341,6 @@ Append audit-trail entry ke `.lcs/work-items/{timestamp}-lcs-master/session-log.
 
 ---
 
-## Handoff
-
-Next recommended skill: {determined-by-routing-logic}
-Next file read: .lcs/state.md
-Current phase: routing
-Current confidence: high
-
 ## Chain of Truth Report
 
 | Stage | Detail |
@@ -368,3 +351,16 @@ Current confidence: high
 | **Action** | Route to skill with rich contextual guidance |
 | **Verification** | Skill invoked correctly, contract enforced |
 | **Report** | Decision logged in session-log.md |
+
+## Handoff
+
+Next recommended skill: {determined-by-routing-logic}
+Next file read: .lcs/state.md
+Current phase: routing
+Current confidence: high
+
+## Chain of Truth Level
+
+Level: Standard
+
+This skill follows the LCS Chain of Truth protocol at the declared level.

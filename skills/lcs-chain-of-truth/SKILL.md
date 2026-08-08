@@ -96,7 +96,7 @@ Requirements:
 
 ### Level 4 — Very Strict
 
-**Use for**: Code changes, debugging, implementation (lcs-task-executor, lcs-task-executer (legacy), lcs-debug-ext).
+**Use for**: Code changes, debugging, implementation (lcs-task-executor, lcs-debug-ext).
 
 Requirements:
 - All Level 3 requirements, plus:
@@ -160,7 +160,6 @@ Each LCS skill declares its Chain of Truth level:
 | `lcs-codebase-doc` | Strict (3) | Codebase mapping and onboarding documentation |
 | `lcs-debug` | Standard (2) | Question-asking investigation skill, no code changes applied |
 | `lcs-debug-ext` | Very Strict (4) | Evidence-based debug reports without code changes |
-| `lcs-task-executer` | Very Strict (4) | Code implementation with tests and lint (legacy spelling) |
 | `lcs-task-executor` | Very Strict (4) | Code implementation with tests and lint (canonical spelling) |
 | `lcs-chain-of-truth` | — | Meta-protocol, not self-applied |
 
@@ -171,8 +170,6 @@ Each LCS skill declares its Chain of Truth level:
 Level: Meta
 
 This skill defines the LCS Chain of Truth protocol and is not self-applied.
-
----
 
 ## Handoff
 

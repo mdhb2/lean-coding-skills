@@ -1,6 +1,6 @@
 ---
 name: lcs-wayfinder
-description: "Use this skill to plan huge chunks of work with a shared map and decision tickets. Trigger on 'wayfinder', 'map the codebase', 'plan this refactor', 'decision tickets', 'blocked on'. Do NOT trigger for: architecture documentation (use lcs-codebase-doc), onboarding (use lcs-onboarding), or simple tasks (use lcs-task-slicer). This is distinct from lcs-pathfinder."
+description: "Use this skill to plan huge chunks of work with a shared map and decision tickets. Trigger on 'wayfinder', 'map the codebase', 'plan this refactor', 'decision tickets', 'blocked on'. Do NOT trigger for: architecture documentation (use lcs-codebase-doc), onboarding (use lcs-onboarding), or simple tasks (use lcs-task-slicer)."
 adapters: [claudecode, opencode]
 compatibility: [claudecode, opencode]
 ---
@@ -40,14 +40,46 @@ Activate when user wants to: map out a large refactor, plan multi-session work, 
 - `.lcs/work-items/{ts}-{slug}/wayfinder-map.md` — navigation map
 - `.lcs/work-items/{ts}-{slug}/wayfinder-tickets/DEC-###.md` — decision tickets
 
-### Handoff
+## Chain of Truth Report
+
+### Level
+Strict
+
+### Sources Checked
+- `.lcs/state.md`
+- <Codebase areas mapped>
+
+### Assumptions
+- <label each [verified] or [unverified]>
+
+### Actions Taken
+- <Map created, decision tickets written, resolutions recorded>
+
+### Verification
+- <Map and tickets exist at declared paths>
+
+### Report
+<Explicit status of open vs resolved decisions>
+
+## Handoff
 
 Next recommended skill: lcs-toprd
 Next file read: .lcs/work-items/{ts}-{slug}/wayfinder-map.md
 Current phase: wayfinder
+Current confidence: <low/medium/high>
+Blocking questions: <open decision tickets>
+Risks to carry forward: <unresolved decisions>
+Source of Truth Bundle: .lcs/state.md, wayfinder-map.md, wayfinder-tickets/
+Must Preserve IDs: DEC-###, SRC-### if referenced
+Unresolved IDs: <open DEC-### tickets>
+Suggested next command: Collapse decisions ke PRD via lcs-toprd
 
 ### Note
 
-This is distinct from `lcs-pathfinder` (understanding skill).
-- **Wayfinder** = codebase navigation during active work.
-- **Pathfinder** = one-time architecture mapping for onboarding/learning.
+Wayfinder plans and navigates work during active development. It is not a one-time architecture mapping tool — use `lcs-codebase-doc` for onboarding/learning-oriented codebase mapping.
+
+## Chain of Truth Level
+
+Level: Strict
+
+This skill follows the LCS Chain of Truth protocol at the declared level.

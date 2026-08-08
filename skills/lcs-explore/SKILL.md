@@ -1,6 +1,6 @@
 ---
-name: lcs-explore Do NOT trigger for: PRD writing (use lcs-toprd), task slicing (use lcs-task-slicer), code review (use lcs-code-review), or implementation (use lcs-task-executor). Explore is for ideation only, not execution.
-description: Use this skill whenever the user needs to explore, brainstorm, clarify, or shape a coding idea before a PRD or implementation. Trigger on requests mentioning explore, brainstorm, evaluate options, compare trade-offs, feasibility, or ask for recommended direction. Use this skill even when the user does not explicitly ask for a PRD but wants options or trade-off analysis.
+name: lcs-explore
+description: Use this skill whenever the user needs to explore, brainstorm, clarify, or shape a coding idea before a PRD or implementation. Trigger on requests mentioning explore, brainstorm, evaluate options, compare trade-offs, feasibility, or ask for recommended direction. Use this skill even when the user does not explicitly ask for a PRD but wants options or trade-off analysis. Do NOT trigger for: PRD writing (use lcs-toprd), task slicing (use lcs-task-slicer), code review (use lcs-code-review), bug investigation (use lcs-debug), or implementation (use lcs-task-executor). Explore is for ideation only, not execution.
 adapters: [claudecode, opencode]
 compatibility: [claudecode, opencode]
 ---
@@ -103,6 +103,9 @@ Current phase: explore
 Current confidence: <low/medium/high>
 Blocking questions: <list or None>
 Risks to carry forward: <summary>
+Source of Truth Bundle: .lcs/state.md, explore.md
+Must Preserve IDs: SRC-001, SRC-002, ... (from Decision Ledger)
+Unresolved IDs: <list or None>
 Suggested next command: Create PRD from explore.md
 
 ## Chain of Truth Level

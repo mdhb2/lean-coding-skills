@@ -221,16 +221,6 @@ If the repository uses different paths, locate the most relevant LCS artifacts.
 > **Full templates:** `references/output-format.md`
 > Includes: Review Report template, Verdict template, FIX entry template.
 
-
-## Problem
-
-...
-
-## Location
-
-...
-```
-
 ---
 
 ## Phase 1: Setup

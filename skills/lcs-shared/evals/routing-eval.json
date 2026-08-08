@@ -147,9 +147,9 @@
       "input": "eksekusi task-001",
       "expected_skill": "lcs-task-executor",
       "must_not_be": [
-        "lcs-task-executer"
+        "lcs-task-slicer"
       ],
-      "reason": "Must route to executor (canonical), not executer (deprecated)."
+      "reason": "Must route to executor (executes tasks), not slicer (creates tasks)."
     },
     {
       "id": "NEG-10",

@@ -77,6 +77,4 @@ Current phase: wayfinder
 
 ## Note
 
-This is distinct from `lcs-pathfinder` (understanding skill).
-Wayfinder = codebase navigation during active work.
-Pathfinder = one-time architecture mapping for onboarding/learning.
+Wayfinder plans and navigates work during active development. It is not a one-time architecture mapping tool — use `lcs-codebase-doc` for onboarding/learning-oriented codebase mapping.

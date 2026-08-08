@@ -37,12 +37,46 @@ Activate when user wants to: create setup scripts, walk through manual procedure
 
 - `scripts/<name>-wizard.sh` — executable bash script with human-in-the-loop prompts
 
-### Handoff
+## Chain of Truth Report
+
+### Level
+Standard
+
+### Sources Checked
+- `.env.example`, config files, framework configs
+- `.lcs/state.md` (if present)
+
+### Assumptions
+- <label each [verified] or [unverified]>
+
+### Actions Taken
+- <Script authored, syntax-checked, saved>
+
+### Verification
+- <bash -n passed; shellcheck passed (if available)>
+
+### Report
+<1-3 sentence summary with confidence rating>
+
+## Handoff
 
 Next recommended skill: {context-dependent}
 Next file read: scripts/<name>-wizard.sh
 Current phase: wizard
+Current confidence: <low/medium/high>
+Blocking questions: None
+Risks to carry forward: <summary>
+Source of Truth Bundle: .lcs/state.md, scripts/<name>-wizard.sh
+Must Preserve IDs: None
+Unresolved IDs: None
+Suggested next command: Jalankan script secara manual
 
 ### Orca Tool Overlap
 
 This skill may overlap with Orca's `wizard` tool. Decision: If the task is LCS-tracked (in `.lcs/work-items/`), use this skill for Chain of Truth traceability. If ad-hoc or external, prefer the Orca tool directly. Both paths are valid — skill provides LCS integration, Orca tool provides speed.
+
+## Chain of Truth Level
+
+Level: Standard
+
+This skill follows the LCS Chain of Truth protocol at the declared level.

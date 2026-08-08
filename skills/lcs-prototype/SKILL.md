@@ -42,8 +42,42 @@ Activate when user wants to: validate an approach, build a proof of concept, tes
 
 - `.lcs/work-items/{ts}-{slug}/prototype/` — isolated throwaway prototype
 
-### Handoff
+## Chain of Truth Report
+
+### Level
+Strict
+
+### Sources Checked
+- `.lcs/state.md`
+- <PRD/explore sections being validated>
+
+### Assumptions
+- <label each [verified] or [unverified]>
+
+### Actions Taken
+- <Prototype built, branch picked (LOGIC/UI), validation run>
+
+### Verification
+- <Prototype ran successfully; decision captured and folded back>
+
+### Report
+<Explicit pass/fail on the design question being validated>
+
+## Handoff
 
 Next recommended skill: lcs-toprd or lcs-tosrs
 Next file read: .lcs/work-items/{ts}-{slug}/prototype/
 Current phase: prototype
+Current confidence: <low/medium/high>
+Blocking questions: <list or None>
+Risks to carry forward: <summary>
+Source of Truth Bundle: .lcs/state.md, prototype/ output
+Must Preserve IDs: <SRC/FR/AC IDs touched by the prototype>
+Unresolved IDs: <list or None>
+Suggested next command: Fold prototype decision ke PRD/SRS
+
+## Chain of Truth Level
+
+Level: Strict
+
+This skill follows the LCS Chain of Truth protocol at the declared level.

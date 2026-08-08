@@ -91,6 +91,25 @@ Task File Structure
 Each `task-###.md` must adhere to this exact structure:
 
 ```markdown
+---
+title: "Task {###}: {task-name}"
+format_version: "okf/0.2"
+authors:
+  - type: agent
+    name: "lcs-task-slicer"
+created: {YYYY-MM-DD}
+updated: {YYYY-MM-DD}
+artifact_type: task
+cot_level: very_strict
+version: "1.0"
+status: pending
+tags: [task, implementation]
+summary: "{Brief description of what this task implements}"
+source: "srs.md"
+related: ["task-coverage.md"]
+blocked_by: <TASK-### or None>
+---
+
 # TASK-###: <task-name>
 
 * **Status**: pending
@@ -137,11 +156,7 @@ Strict
 ### Report
 <Explicit pass/fail per acceptance criterion>
 
-
-
 ## Blocking Edges & Expand-Contract Pattern
-
-## Blocking Edges &amp; Expand-Contract Pattern
 
 - **Blocking Edges:** Every task file MUST include `blocked_by` in YAML frontmatter. Work the frontier (unblocked tasks first).
 
@@ -154,6 +169,7 @@ Strict
   3. *Contract:* Delete old form (Task N+1).
 
   Do NOT force wide refactors into vertical tracer bullets.
+
 ## Handoff
 Next recommended skill: lcs-task-executor
 Next file to read: .lcs/work-items/{timestamp}-{slug-work-item}/task/task-###.md

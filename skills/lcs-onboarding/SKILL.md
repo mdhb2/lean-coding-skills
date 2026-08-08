@@ -1,7 +1,7 @@
 ---
-name: lcs-onboarding Do NOT trigger for: code changes, bug fixes, task execution, or PRD creation. Onboarding is read-only documentation generation, not implementation.
+name: lcs-onboarding
 description: |
-  Generate developer-friendly onboarding documentation for an existing running project. Run when user asks to onboard a project, generate early project docs, or summarize the codebase for new engineers. Scans repository, extracts architecture, entrypoints, setup/run/test instructions, and writes lean markdown reports under .lcs/work-items/onboarding.md and .lcs/work-items/onboarding-map.md.
+  Generate developer-friendly onboarding documentation for an existing running project. Run when user asks to onboard a project, generate early project docs, or summarize the codebase for new engineers. Scans repository, extracts architecture, entrypoints, setup/run/test instructions, and writes lean markdown reports under .lcs/work-items/onboarding.md and .lcs/work-items/onboarding-map.md. Do NOT trigger for: code changes, bug fixes, task execution, PRD creation, or deep architecture analysis (use lcs-codebase-doc). Onboarding is read-only documentation generation, not implementation.
 adapters: [claudecode, opencode]
 compatibility: [claudecode, opencode]
 ---
@@ -154,6 +154,9 @@ Current phase: onboarding
 Current confidence: high
 Blocking questions: None
 Risks to carry forward: None
+Source of Truth Bundle: .lcs/state.md, onboarding.md, onboarding-map.md
+Must Preserve IDs: None
+Unresolved IDs: None
 Suggested next command: Explore feature atau buat PRD
 
 ## Chain of Truth Level

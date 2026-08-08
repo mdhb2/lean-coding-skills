@@ -31,6 +31,8 @@ VALID_ARTIFACT_TYPES = {
     "traceability", "task_coverage", "task", "debug", "debug_ext",
     "code_review", "codebase_doc", "onboarding", "onboarding_map",
     "final_doc", "final_map", "analysis", "session_log",
+    "domain_model", "research", "prototype", "wayfinder", "wizard",
+    "execution_log",
 }
 
 TIMESTAMP_RE = re.compile(r"^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}[+-]\d{2}:\d{2}|T\d{2}:\d{2}:\d{2}Z)?$")

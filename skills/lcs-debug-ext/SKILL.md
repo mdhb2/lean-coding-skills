@@ -227,16 +227,10 @@ Current confidence: <low/medium/high>
 Blocking questions: <list or None>
 Risks to carry forward: <short>
 Source of Truth Bundle: .lcs/state.md, debug.md
+Must Preserve IDs: SRC-001, SRC-002, ... (from Source Requirement Ledger)
+Unresolved IDs: <list or None>
 Suggested next command: <command>
 ```
-
-## Bundled References
-
-- Read `references/debug-workflow.md` when the feedback loop or reproduction path is unclear.
-- Read `references/hypothesis-checklist.md` when hypotheses feel weak, too few, or anchored.
-- Read `references/report-template.md` before writing the final report.
-- Read `references/patch-proposal-format.md` before writing the patch proposal.
-- Use `scripts/hitl-loop.template.sh` only when automated reproduction is unavailable and manual observation is useful.
 
 ## Chain of Truth Level
 

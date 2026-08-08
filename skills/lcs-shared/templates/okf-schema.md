@@ -59,6 +59,7 @@ Based on [OKF v0.2](https://github.com/GoogleCloudPlatform/knowledge-catalog/blo
 | `final_map` | map.md | lcs-doc-finalizer | — |
 | `analysis` | {ts}-analysis.md | lcs-self-improvement | — |
 | `session_log` | session-log.md | lcs-master | — |
+| `execution_log` | session-log.md | lcs-master | — |
 | `domain_model` | CONTEXT.md | lcs-domain-modeling | standard | Domain model and ubiquitous language |
 | `research` | research.md | lcs-research | standard | Evidence-based research findings |
 | `prototype` | prototype.md | lcs-prototype | strict | Throwaway prototype for design validation |

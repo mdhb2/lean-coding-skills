@@ -332,7 +332,7 @@ When writing an artifact:
 | Light | lcs-explore |
 | Standard | lcs-toprd, lcs-onboarding, lcs-debug, lcs-self-improvement |
 | Strict | lcs-prd-reviewer, lcs-tosrs, lcs-task-slicer, lcs-doc-finalizer, lcs-codebase-doc, lcs-code-review |
-| Very Strict | lcs-task-executor, lcs-task-executer (legacy), lcs-debug-ext |
+| Very Strict | lcs-task-executor, lcs-debug-ext |
 | Meta | lcs-chain-of-truth (protocol, not self-applied) |
 
 ### Report Placement Rule
