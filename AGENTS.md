@@ -6,7 +6,7 @@ Behavioral guidelines to enforce high-quality coding, exceptional documentation,
 
 ## Project Overview: Lean Coding Skills (LCS)
 
-**Current State** (as of 2026-07-01):
+**Current State** (as of 2026-08-08):
 - **21 LCS skills** in `skills/` directory implementing a complete Chain of Truth workflow
 - **3 work items completed** and archived in `.lcs/archive/`:
   1. `chain-of-truth` — Chain of Truth meta-skill protocol
@@ -15,7 +15,7 @@ Behavioral guidelines to enforce high-quality coding, exceptional documentation,
 - **Documentation** in `.lcs/docs/` with `docs-index.md` navigation
 - **Workflow**: `lcs-explore` (Light) → `lcs-toprd` (Standard) → `lcs-prd-reviewer` (Strict) → `lcs-tosrs` (Strict) → `lcs-task-slicer` (Strict) → `lcs-task-executor` (Very Strict)
 - **Chain of Truth Levels**: Light, Standard, Strict, Very Strict (declared per skill)
-- **Artifact Writing Safety**: OKF frontmatter schema (8 fields), 16-type artifact registry, content-first/write-second, fallback markers, one-artifact-per-step
+- **Artifact Writing Safety**: OKF frontmatter schema (8 fields), 28-type artifact registry, content-first/write-second, fallback markers, one-artifact-per-step
 
 ## 1. Think Before Coding
 **Don't assume. Don't hide confusion. Surface tradeoffs.**

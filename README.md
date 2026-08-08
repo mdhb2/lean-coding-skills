@@ -68,6 +68,15 @@ lcs-doc-finalizer (Strict)
 ### Executor Naming
 - **Canonical**: `lcs-task-executor` — the only executor skill
 
+### Artifacts & OKF Frontmatter
+
+Every LCS artifact carries OKF v0.2 YAML frontmatter. The shared contract registers **28 artifact types** (e.g. `prd`, `srs`, `task`, `state`, `index`, `wayfinder`), each with a template under `skills/lcs-shared/templates/{artifact_type}.template.md` (27 template files; `execution_log` reuses `session-log.template.md`).
+
+- `state` → `.lcs/state.md` (session state, written by `lcs-master`)
+- `index` → navigation/control files: `.lcs/docs/docs-index.md` and `.lcs/docs/self-improvements/index.md`
+- **Validators**: `validate-okf.py` (frontmatter schema) and `validate-traceability.py` / `.ps1` (SRC preservation)
+- Template filenames are kebab-case (`code_review` → `code-review.template.md`).
+
 ## Skill Documentation & Usage Scenarios
 
 ### Main Flow Skills
@@ -261,6 +270,13 @@ Internal resource holding the canonical folder conventions, OKF frontmatter sche
 
 **When to use:** Read it as a reference when extending LCS or debugging artifact conventions.
 
+## Releases
+
+| Tag | Summary |
+|-----|---------|
+| `v2.2` | OKF lifecycle alignment: wayfinder DEC tickets now use `status: active/archived` in frontmatter; `artifact_type: index` registered for navigation files (`docs-index.md`, `index.md`) with full OKF frontmatter; validator alignment (quoted timestamps, no-`type` frontmatter, date-only) plus a PowerShell parity runner for `validate-traceability.ps1`. |
+| `v2.1` | Chain of Truth compliance for all skills, `lcs-task-executer` deprecated in favor of `lcs-task-executor`, new artifact types and templates, `lcs-wizard` helper template (`template.sh`), extended routing evals, README-ID.md. |
+
 ## Install
 
 ```
@@ -300,3 +316,7 @@ Add new skill under `skills/<skill-name>/SKILL.md` with frontmatter `name` and `
 - `AGENTS.md` §9 skill inventory
 - `skills/lcs-shared/contract.md` artifact registry
 - `scripts/validate-skills.js` `CANONICAL_LEVELS`
+
+When adding or renaming an artifact type, also update:
+- The artifact type count in the *Artifacts & OKF Frontmatter* section of both READMEs
+- The *Releases* table in both READMEs (bump tag + summary)

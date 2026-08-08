@@ -69,6 +69,15 @@ lcs-doc-finalizer (Strict)
 ### Penamaan Executor
 - **Kanonik**: `lcs-task-executor` — satu-satunya skill executor
 
+### Artifacts & Frontmatter OKF
+
+Setiap artifact LCS berisi frontmatter YAML OKF v0.2. Kontrak bersama mendaftarkan **28 artifact types** (mis. `prd`, `srs`, `task`, `state`, `index`, `wayfinder`), masing-masing dengan template di `skills/lcs-shared/templates/{artifact_type}.template.md` (27 file template; `execution_log` memakai ulang `session-log.template.md`).
+
+- `state` → `.lcs/state.md` (state sesi, ditulis `lcs-master`)
+- `index` → file navigasi/kontrol: `.lcs/docs/docs-index.md` dan `.lcs/docs/self-improvements/index.md`
+- **Validator**: `validate-okf.py` (skema frontmatter) dan `validate-traceability.py` / `.ps1` (preservasi SRC)
+- Nama file template memakai kebab-case (`code_review` → `code-review.template.md`).
+
 ## Dokumentasi Skill & Contoh Skenario
 
 ### Skill Alur Utama
@@ -262,6 +271,13 @@ Resource internal berisi konvensi folder kanonik, skema frontmatter OKF, format 
 
 **Kapan dipakai:** Baca sebagai referensi saat memperluas LCS atau men-debug konvensi artifact.
 
+## Rilis
+
+| Tag | Ringkasan |
+|-----|-----------|
+| `v2.2` | Penyelarasan lifecycle OKF: ticket DEC wayfinder kini memakai `status: active/archived` di frontmatter; `artifact_type: index` didaftarkan untuk file navigasi (`docs-index.md`, `index.md`) dengan frontmatter OKF lengkap; penyelarasan validator (timestamp ber-quote, frontmatter tanpa `type`, date-only) plus PowerShell parity runner untuk `validate-traceability.ps1`. |
+| `v2.1` | Kepatuhan Chain of Truth untuk semua skill, `lcs-task-executer` deprecated demi `lcs-task-executor`, artifact types dan template baru, helper template `lcs-wizard` (`template.sh`), routing evals diperluas, README-ID.md. |
+
 ## Instalasi
 
 ```
@@ -301,3 +317,7 @@ Tambahkan skill baru di bawah `skills/<skill-name>/SKILL.md` dengan frontmatter 
 - Inventori skill `AGENTS.md` §9
 - Registry artifact di `skills/lcs-shared/contract.md`
 - `CANONICAL_LEVELS` di `scripts/validate-skills.js`
+
+Saat menambah atau mengganti nama artifact type, perbarui juga:
+- Jumlah artifact type di section *Artifacts & Frontmatter OKF* kedua README
+- Tabel *Rilis* di kedua README (bump tag + ringkasan)

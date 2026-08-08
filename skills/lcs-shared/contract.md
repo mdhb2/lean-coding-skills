@@ -227,7 +227,7 @@ Empty/missing required fields → apply `invalid_frontmatter` marker.
 
 ### Templates
 
-All 18 artifact templates available in `lcs-shared/templates/{artifact_type}.template.md`.
+All 28 artifact types registered — templates available in `lcs-shared/templates/{artifact_type}.template.md` (27 files; `execution_log` reuses `session-log.template.md`).
 Copy template → rename → fill frontmatter → write content.
 
 ## Artifact Type Registry (Quick Reference)
