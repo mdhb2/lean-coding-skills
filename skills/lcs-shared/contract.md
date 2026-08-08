@@ -262,6 +262,7 @@ Full definitions + templates: `lcs-shared/templates/okf-schema.md`
 | `wayfinder` | wayfinder-map.md, wayfinder-tickets/DEC-###.md | lcs-wayfinder | strict |
 | `wizard` | scripts/<name>-wizard.sh | lcs-wizard | standard |
 | `execution_log` | session-log.md | lcs-master | standard |
+| `state` | state.md | lcs-master | standard |
 
 ### Artifact ID Prefixes
 

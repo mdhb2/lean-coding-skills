@@ -23,7 +23,7 @@
     "url": "git+https://github.com/mdhb2/lean-coding-skills.git"
   },
   "scripts": {
-    "test": "node scripts/validate-skills.js",
+    "test": "node scripts/validate-skills.js && python3 skills/lcs-shared/scripts/tests/test-validators.py",
     "prepare": "chmod +x scripts/claude-skills.js || true"
   }
 }

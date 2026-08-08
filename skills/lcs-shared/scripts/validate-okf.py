@@ -22,7 +22,9 @@ OKF_REQUIRED = {"title", "format_version", "authors", "created", "updated"}
 OKF_RECOMMENDED = {"tags", "summary", "status", "related"}
 LCS_REQUIRED = {"artifact_type", "source", "cot_level"}
 LCS_OPTIONAL = {"artifact_id", "version"}
-ALL_FIELDS = OKF_REQUIRED | OKF_RECOMMENDED | LCS_REQUIRED | LCS_OPTIONAL
+# Runtime/control fields used by state.md, task files, and DEC tickets (recognized, not required)
+LCS_RUNTIME = {"type", "timestamp", "blocked_by", "current_phase", "current_work", "last_session_note"}
+ALL_FIELDS = OKF_REQUIRED | OKF_RECOMMENDED | LCS_REQUIRED | LCS_OPTIONAL | LCS_RUNTIME
 
 VALID_STATUSES = {"draft", "reviewed", "active", "archived"}
 VALID_COT_LEVELS = {"light", "standard", "strict", "very_strict"}
@@ -32,7 +34,7 @@ VALID_ARTIFACT_TYPES = {
     "code_review", "codebase_doc", "onboarding", "onboarding_map",
     "final_doc", "final_map", "analysis", "session_log",
     "domain_model", "research", "prototype", "wayfinder", "wizard",
-    "execution_log",
+    "execution_log", "state",
 }
 
 TIMESTAMP_RE = re.compile(r"^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}[+-]\d{2}:\d{2}|T\d{2}:\d{2}:\d{2}Z)?$")
@@ -130,7 +132,13 @@ def main():
     args = parser.parse_args()
 
     target = Path(args.path)
-    files = [target] if target.is_file() else sorted(target.rglob("*.md"))
+    if target.is_file():
+        files = [target]
+    else:
+        # Skip test fixtures and other non-artifact subtrees so checked-in
+        # invalid fixtures (see scripts/tests/fixtures/) never fail repo scans.
+        skip_parts = {"tests", "fixtures", "__pycache__", "node_modules"}
+        files = sorted(f for f in target.rglob("*.md") if not any(p in skip_parts for p in f.parts))
 
     errors = 0
     warnings = 0

@@ -60,6 +60,7 @@ Based on [OKF v0.2](https://github.com/GoogleCloudPlatform/knowledge-catalog/blo
 | `analysis` | {ts}-analysis.md | lcs-self-improvement | — |
 | `session_log` | session-log.md | lcs-master | — |
 | `execution_log` | session-log.md | lcs-master | — |
+| `state` | state.md | lcs-master | — |
 | `domain_model` | CONTEXT.md | lcs-domain-modeling | — |
 | `research` | research/<topic>.md | lcs-research | — |
 | `prototype` | prototype/ (directory) | lcs-prototype | — |

@@ -62,19 +62,23 @@ def check_frontmatter_fields(path: Path) -> list[str]:
     m = re.match(r'^---\s*\n(.*?)\n---', content, re.DOTALL)
     if m:
         yaml = m.group(1)
-        required = ["type", "artifact_type", "status", "source", "timestamp"]
+        # `type` is intentionally NOT required here: it is an optional LCS runtime field
+        # (recognized by validate-okf.py via LCS_RUNTIME), and most artifact templates
+        # omit it. `artifact_type` is the canonical type discriminator.
+        required = ["artifact_type", "status", "source", "timestamp"]
         for field in required:
             if not re.search(rf"^{field}\s*:", yaml, re.MULTILINE):
                 failures.append(f"{path}: missing required frontmatter field: {field}")
         status_m = re.search(r"^status\s*:\s*(.+)$", yaml, re.MULTILINE)
         if status_m:
-            status = status_m.group(1).strip()
-            if not re.match(r'^(draft|review|final)', status):
-                failures.append(f"{path}: invalid status value: {status} (expected draft, review, or final)")
+            status = status_m.group(1).strip().strip('"').strip("'")
+            if not re.match(r'^(draft|reviewed|active|archived)$', status):
+                failures.append(f"{path}: invalid status value: {status} (expected draft, reviewed, active, or archived)")
         ts_m = re.search(r"^timestamp\s*:\s*(.+)$", yaml, re.MULTILINE)
         if ts_m:
-            ts = ts_m.group(1).strip()
-            if not re.match(r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+-]\d{2}:\d{2}$', ts):
+            ts = ts_m.group(1).strip().strip('"').strip("'")
+            # Same accepted set as validate-okf.py TIMESTAMP_RE: date-only, Z, or ±HH:MM offset.
+            if not re.match(r'^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}[+-]\d{2}:\d{2}|T\d{2}:\d{2}:\d{2}Z)?$', ts):
                 failures.append(f"{path}: invalid timestamp format: {ts} (expected ISO 8601)")
     return failures
 
@@ -119,7 +123,7 @@ def check_resource_path(content: str, label: str) -> list[str]:
         yaml = m.group(1)
         prev_m = re.search(r"^previous_artifact\s*:\s*(.+)$", yaml, re.MULTILINE)
         if prev_m:
-            path_str = prev_m.group(1).strip()
+            path_str = prev_m.group(1).strip().strip('"').strip("'")
             if path_str and path_str != "optional/path" and not Path(path_str).exists():
                 failures.append(f"{label}: previous_artifact path does not exist: {path_str}")
     return failures
@@ -132,7 +136,7 @@ def check_source_path(content: str, label: str) -> list[str]:
         yaml = m.group(1)
         src_m = re.search(r"^source\s*:\s*(.+)$", yaml, re.MULTILINE)
         if src_m:
-            source = src_m.group(1).strip()
+            source = src_m.group(1).strip().strip('"').strip("'")
             if re.match(r'^\.\.[/\\]', source):
                 failures.append(f"{label}: source field escapes .lcs/ directory: {source}")
     return failures
@@ -215,7 +219,9 @@ def main() -> int:
     # New validation checks (TASK-004)
     failures += check_artifact_existence(work_item)
 
-    artifact_names = ["explore.md", "debug.md", "prd.md", "prd-enhanced.md", "srs.md", "tests.md", "api.md", "db.md", "traceability.md", "task-coverage.md", "final-doc.md", "state.md"]
+    # state.md lives at .lcs/state.md (repo root), NOT inside the work-item dir —
+    # it cannot be validated here; validate-okf.py covers it.
+    artifact_names = ["explore.md", "debug.md", "prd.md", "prd-enhanced.md", "srs.md", "tests.md", "api.md", "db.md", "traceability.md", "task-coverage.md", "final-doc.md"]
     for name in artifact_names:
         path = work_item / name
         if path.exists():

@@ -42,6 +42,21 @@ Sebelum routing pertama di repo baru, verify prerequisites:
 3. **State file exists?** → If no `.lcs/state.md`, create dengan initial state:
    ```yaml
    ---
+   title: "LCS State"
+   format_version: "okf/0.2"
+   authors:
+     - type: agent
+       name: "lcs-master"
+   created: "2026-08-08"
+   updated: "2026-08-08"
+   tags: [state]
+   summary: "Active work item state"
+   status: active
+   related: []
+   artifact_type: state
+   source: "runtime"
+   cot_level: standard
+   version: "1.0"
    type: state
    current_phase: idle
    current_work: null
