@@ -226,6 +226,12 @@ Full definitions + templates: `lcs-shared/templates/okf-schema.md`
 | `final_map` | map.md | lcs-doc-finalizer | strict |
 | `analysis` | {ts}-analysis.md | lcs-self-improvement | standard |
 | `session_log` | session-log.md | lcs-master | standard |
+| `domain_model` | CONTEXT.md | lcs-domain-modeling | standard |
+| `research` | research.md | lcs-research | standard |
+| `prototype` | prototype.md | lcs-prototype | strict |
+| `wayfinder` | wayfinder.md | lcs-wayfinder | strict |
+| `wizard` | wizard.md | lcs-wizard | standard |
+| `execution_log` | session-log.md | lcs-master | standard |
 
 ### Artifact ID Prefixes
 

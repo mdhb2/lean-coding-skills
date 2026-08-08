@@ -1,6 +1,6 @@
 ---
 name: lcs-task-executor
-description: Use this skill whenever the user asks to implement, execute, or continue a specific task from sliced tasks. Trigger on "Eksekusi TASK-###", "Eksekusi task-###.md", "continue TASK-###", "implement TASK-###". Always read .lcs/state.md first, check dependencies, analyze and recommend Normal vs TDD mode, confirm with user, and update task status and .lcs/state.md when done.
+description: Use this skill whenever the user asks to implement, execute, or continue a specific task from sliced tasks. Trigger on "Eksekusi TASK-###", "Eksekusi task-###.md", "continue TASK-###", "implement TASK-###". Always read .lcs/state.md first, check dependencies, analyze and recommend Normal vs TDD mode, confirm with user, and update task status and .lcs/state.md when done. Do NOT trigger for: design review (use lcs-code-review), brainstorming (use lcs-explore), documentation (use lcs-doc-finalizer), or debugging (use lcs-debug).
 adapters: [claudecode, opencode]
 compatibility: [claudecode, opencode]
 ---
@@ -106,6 +106,23 @@ Very Strict
 ### Risk Notes
 <None, or outstanding concerns>
 
+
+
+## Seam Discipline & TDD Rules
+
+## Seam Discipline &amp; TDD Rules
+
+- **Glossary:** A Seam is the public boundary you test at. Test ONLY at pre-agreed seams.
+
+- **Anti-Patterns (STRICTLY FORBIDDEN):**
+
+  1. *Implementation-coupled:* Mocking internal collaborators or testing private methods.
+
+  2. *Tautological:* Assertion recomputes expected value the same way the code does `expect(add(a,b)).toBe(a+b)`).
+
+  3. *Horizontal slicing:* Writing all tests first, then all implementation. MUST use vertical tracer bullets.
+
+- **Rule:** Refactoring is NOT part of the red-green loop. It belongs to the review stage.
 ## Handoff
 Next recommended skill: lcs-task-executor
 Next file to read: .lcs/work-items/{timestamp}-{slug-work-item}/task/task-###.md

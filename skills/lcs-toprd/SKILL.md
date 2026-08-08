@@ -139,6 +139,19 @@ Standard
 ### Report
 <Structured summary with confidence rating>
 
+
+
+## Testing Seams
+
+## Testing Seams
+
+Seams at which we will test this feature. Existing seams preferred. The fewer seams across the codebase, the better.
+
+- **Primary seam:** [Highest level public interface]
+
+- **Secondary seams:** [Integration points if needed]
+
+- **New seams needed:** [Propose at highest point possible]
 ## Handoff
 Next recommended skill: lcs-prd-reviewer
 Next file to read: .lcs/work-items/{timestamp}-{slug-work-item}/prd.md

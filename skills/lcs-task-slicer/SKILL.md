@@ -137,6 +137,23 @@ Strict
 ### Report
 <Explicit pass/fail per acceptance criterion>
 
+
+
+## Blocking Edges & Expand-Contract Pattern
+
+## Blocking Edges &amp; Expand-Contract Pattern
+
+- **Blocking Edges:** Every task file MUST include `blocked_by` in YAML frontmatter. Work the frontier (unblocked tasks first).
+
+- **Wide Refactors (Expand-Contract):** If a task is a mechanical change with massive blast radius (e.g., rename column):
+
+  1. *Expand:* Add new form beside old (Task 1).
+
+  2. *Migrate:* Move call sites in batches (Tasks 2..N).
+
+  3. *Contract:* Delete old form (Task N+1).
+
+  Do NOT force wide refactors into vertical tracer bullets.
 ## Handoff
 Next recommended skill: lcs-task-executor
 Next file to read: .lcs/work-items/{timestamp}-{slug-work-item}/task/task-###.md

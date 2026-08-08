@@ -76,6 +76,23 @@ Level: Standard
 ### Confidence
 <low/medium/high> - <brief justification>
 
+
+
+## 6-Phase Disciplined Debugging Loop (Mandatory)
+
+## 6-Phase Disciplined Loop (Mandatory)
+
+- **Phase 1: Build Feedback Loop:** MUST build a tight, deterministic, agent-runnable command that goes RED on this specific bug. (Try: failing test, curl script, replay trace). NO HYPOTHESIZING ALLOWED until Phase 1 is complete.
+
+- **Phase 2: Reproduce + Minimize:** Shrink repro to smallest scenario that still goes red. Cut one element at a time.
+
+- **Phase 3: Hypothesise:** Generate 3-5 ranked, falsifiable hypotheses. Format: "If X is cause, changing Y will make bug disappear". Show to user before testing.
+
+- **Phase 4: Instrument:** Change one variable at a time. Tag all debug logs with `[DEBUG-XXXX]` for easy cleanup.
+
+- **Phase 5: Fix + Regression:** Write regression test BEFORE fix (only if correct seam exists).
+
+- **Phase 6: Cleanup + Post-Mortem:** Remove `[DEBUG-XXXX]` logs. Ask: "What architectural change would have prevented this?" Handoff to `lcs-codebase-doc` or `lcs-toprd` if architecture needs deepening.
 ## Handoff
 Next recommended skill: lcs-toprd
 Next file to read: .lcs/work-items/{timestamp}-{slug-work-item}/debug.md

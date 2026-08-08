@@ -1,6 +1,6 @@
 ---
 name: lcs-code-review
-description: Use this skill when the user asks to review code implementation after lcs-task-executor execution. Trigger for prompts like "review code", "lcs-code-review", "review implementation", "check results", "verify task", "code review", "validate against artifacts". Do not trigger for design review, architecture review, brainstorming, or new implementation without existing code.
+description: Use this skill when the user asks to review code implementation after lcs-task-executor execution. Trigger for prompts like "review code", "lcs-code-review", "review implementation", "check results", "verify task", "code review", "validate against artifacts". Do not trigger for design review, architecture review, brainstorming, or new implementation without existing code. Do NOT trigger for: design review, architecture brainstorming, or new implementation without existing code.
 adapters: [claudecode, opencode]
 compatibility: [claudecode, opencode]
 ---
@@ -28,6 +28,10 @@ Workflow checklist
 - [ ] Phase 4: Validate — verify claims, confirm status, update state
 - [ ] Write review report to `.lcs/work-items/{timestamp}-{slug-work-item}/code-review.md`
 - [ ] Update `.lcs/state.md` with current_phase: code-review
+
+### Trigger
+
+Activate when user wants to: review code implementation, verify task completion, or check results against artifacts.
 
 ## Output Artifact
 
@@ -324,6 +328,17 @@ Strict
 **Confidence**: Medium (varies by artifact completeness and code access)
 **Limitations**: Claims without artifact confirmation marked accordingly; BLOCKED status when critical artifacts are missing
 
+
+
+## Two-Axis Review
+
+## Two-Axis Review Execution
+
+- **Axis 1: Standards:** Check coding standards, Fowler smell baseline, consistency with existing patterns.
+
+- **Axis 2: Spec:** Check faithful implementation of originating PRD/SRS/Task. Verify Acceptance Criteria.
+
+- **Execution:** Run both axes. If they conflict (e.g., Standards say "extract method" but Spec says "keep inline for performance"), flag as `CONFLICT` and require user resolution.
 ## Handoff
 
 Next recommended skill: lcs-task-executor

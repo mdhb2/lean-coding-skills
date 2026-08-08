@@ -13,131 +13,209 @@
       "id": "POS-01",
       "input": "saya mau bikin fitur baru untuk upload file",
       "expected_skill": "lcs-explore",
-      "reason": "User wants to explore/brainstorm a new feature → lcs-explore"
+      "reason": "User wants to explore/brainstorm a new feature \u2192 lcs-explore"
     },
     {
       "id": "POS-02",
       "input": "tolong buatkan PRD dari hasil explore yang tadi",
       "expected_skill": "lcs-toprd",
-      "reason": "User wants to create PRD from exploration → lcs-toprd"
+      "reason": "User wants to create PRD from exploration \u2192 lcs-toprd"
     },
     {
       "id": "POS-03",
       "input": "review prd ini, pastikan gak ada yang kelewat",
       "expected_skill": "lcs-prd-reviewer",
-      "reason": "User wants to review/harden existing PRD → lcs-prd-reviewer"
+      "reason": "User wants to review/harden existing PRD \u2192 lcs-prd-reviewer"
     },
     {
       "id": "POS-04",
       "input": "ubah PRD jadi SRS yang lebih teknis",
       "expected_skill": "lcs-tosrs",
-      "reason": "User wants to transform PRD to SRS → lcs-tosrs"
+      "reason": "User wants to transform PRD to SRS \u2192 lcs-tosrs"
     },
     {
       "id": "POS-05",
       "input": "potong SRS jadi task-task kecil yang bisa dikerjakan",
       "expected_skill": "lcs-task-slicer",
-      "reason": "User wants to slice SRS into tasks → lcs-task-slicer"
+      "reason": "User wants to slice SRS into tasks \u2192 lcs-task-slicer"
     },
     {
       "id": "POS-06",
       "input": "eksekusi task-001",
       "expected_skill": "lcs-task-executor",
-      "reason": "User wants to execute a specific task → lcs-task-executor"
+      "reason": "User wants to execute a specific task \u2192 lcs-task-executor"
     },
     {
       "id": "POS-07",
       "input": "ada bug di login, error 500 terus",
       "expected_skill": "lcs-debug",
-      "reason": "User reports a bug → lcs-debug"
+      "reason": "User reports a bug \u2192 lcs-debug"
     },
     {
       "id": "POS-08",
       "input": "review kode yang baru di-push",
       "expected_skill": "lcs-code-review",
-      "reason": "User wants code review → lcs-code-review"
+      "reason": "User wants code review \u2192 lcs-code-review"
     },
     {
       "id": "POS-09",
       "input": "onboarding docs untuk developer baru",
       "expected_skill": "lcs-onboarding",
-      "reason": "User wants onboarding documentation → lcs-onboarding"
+      "reason": "User wants onboarding documentation \u2192 lcs-onboarding"
     },
     {
       "id": "POS-10",
       "input": "finalize dokumentasi yang sudah selesai",
       "expected_skill": "lcs-doc-finalizer",
-      "reason": "User wants to finalize documentation → lcs-doc-finalizer"
+      "reason": "User wants to finalize documentation \u2192 lcs-doc-finalizer"
     },
     {
       "id": "NEG-01",
       "input": "review kode yang baru di-push",
       "expected_skill": "lcs-code-review",
-      "must_not_be": ["lcs-task-executor"],
-      "reason": "Review ≠ execution. Task executor is for implementing, not reviewing."
+      "must_not_be": [
+        "lcs-task-executor"
+      ],
+      "reason": "Review \u2260 execution. Task executor is for implementing, not reviewing."
     },
     {
       "id": "NEG-02",
       "input": "saya mau bikin fitur baru untuk upload file",
       "expected_skill": "lcs-explore",
-      "must_not_be": ["lcs-toprd", "lcs-task-executor"],
-      "reason": "Exploration ≠ PRD creation ≠ implementation. Explore first."
+      "must_not_be": [
+        "lcs-toprd",
+        "lcs-task-executor"
+      ],
+      "reason": "Exploration \u2260 PRD creation \u2260 implementation. Explore first."
     },
     {
       "id": "NEG-03",
       "input": "ada bug di login, error 500 terus",
       "expected_skill": "lcs-debug",
-      "must_not_be": ["lcs-debug-ext"],
-      "reason": "Normal debug ≠ debug-ext (which is evidence-only, no fixes)."
+      "must_not_be": [
+        "lcs-debug-ext"
+      ],
+      "reason": "Normal debug \u2260 debug-ext (which is evidence-only, no fixes)."
     },
     {
       "id": "NEG-04",
       "input": "review prd ini, pastikan gak ada yang kelewat",
       "expected_skill": "lcs-prd-reviewer",
-      "must_not_be": ["lcs-code-review"],
-      "reason": "PRD review ≠ code review. Different artifacts, different skills."
+      "must_not_be": [
+        "lcs-code-review"
+      ],
+      "reason": "PRD review \u2260 code review. Different artifacts, different skills."
     },
     {
       "id": "NEG-05",
       "input": "potong SRS jadi task-task kecil",
       "expected_skill": "lcs-task-slicer",
-      "must_not_be": ["lcs-task-executor"],
-      "reason": "Slicing ≠ executing. Slicer creates tasks, executor runs them."
+      "must_not_be": [
+        "lcs-task-executor"
+      ],
+      "reason": "Slicing \u2260 executing. Slicer creates tasks, executor runs them."
     },
     {
       "id": "NEG-06",
       "input": "onboarding docs untuk developer baru",
       "expected_skill": "lcs-onboarding",
-      "must_not_be": ["lcs-codebase-doc"],
-      "reason": "Onboarding ≠ codebase documentation. Different audiences."
+      "must_not_be": [
+        "lcs-codebase-doc"
+      ],
+      "reason": "Onboarding \u2260 codebase documentation. Different audiences."
     },
     {
       "id": "NEG-07",
       "input": "finalize dokumentasi yang sudah selesai",
       "expected_skill": "lcs-doc-finalizer",
-      "must_not_be": ["lcs-code-review"],
-      "reason": "Finalization ≠ review. Finalizer consolidates, reviewer checks."
+      "must_not_be": [
+        "lcs-code-review"
+      ],
+      "reason": "Finalization \u2260 review. Finalizer consolidates, reviewer checks."
     },
     {
       "id": "NEG-08",
       "input": "ubah PRD jadi SRS yang lebih teknis",
       "expected_skill": "lcs-tosrs",
-      "must_not_be": ["lcs-toprd"],
-      "reason": "PRD→SRS ≠ PRD creation. tosrs transforms, toprd creates."
+      "must_not_be": [
+        "lcs-toprd"
+      ],
+      "reason": "PRD\u2192SRS \u2260 PRD creation. tosrs transforms, toprd creates."
     },
     {
       "id": "NEG-09",
       "input": "eksekusi task-001",
       "expected_skill": "lcs-task-executor",
-      "must_not_be": ["lcs-task-executer"],
+      "must_not_be": [
+        "lcs-task-executer"
+      ],
       "reason": "Must route to executor (canonical), not executer (deprecated)."
     },
     {
       "id": "NEG-10",
       "input": "tolong buatkan PRD dari hasil explore yang tadi",
       "expected_skill": "lcs-toprd",
-      "must_not_be": ["lcs-prd-reviewer"],
-      "reason": "Creating PRD ≠ reviewing PRD. toprd creates, reviewer hardens."
+      "must_not_be": [
+        "lcs-prd-reviewer"
+      ],
+      "reason": "Creating PRD \u2260 reviewing PRD. toprd creates, reviewer hardens."
+    },
+    {
+      "id": "POS-11",
+      "input": "apa istilah yang tepat untuk konsep ini?",
+      "expected_skill": "lcs-domain-modeling",
+      "reason": "User asks about domain terminology \u2192 lcs-domain-modeling"
+    },
+    {
+      "id": "POS-12",
+      "input": "cari dokumentasi resmi tentang API ini",
+      "expected_skill": "lcs-research",
+      "reason": "User wants to research official docs \u2192 lcs-research"
+    },
+    {
+      "id": "POS-13",
+      "input": "coba buat prototype cepat untuk fitur ini",
+      "expected_skill": "lcs-prototype",
+      "reason": "User wants a quick prototype \u2192 lcs-prototype"
+    },
+    {
+      "id": "POS-14",
+      "input": "peta kode untuk refactor besar ini",
+      "expected_skill": "lcs-wayfinder",
+      "reason": "User wants codebase map for large refactor \u2192 lcs-wayfinder"
+    },
+    {
+      "id": "POS-15",
+      "input": "buatkan script setup interaktif",
+      "expected_skill": "lcs-wizard",
+      "reason": "User wants interactive setup script \u2192 lcs-wizard"
+    },
+    {
+      "id": "NEG-11",
+      "input": "coba buat prototype cepat untuk fitur ini",
+      "expected_skill": "lcs-prototype",
+      "must_not_be": [
+        "lcs-task-executor"
+      ],
+      "reason": "Prototype \u2260 production implementation. Prototype is throwaway."
+    },
+    {
+      "id": "NEG-12",
+      "input": "peta kode untuk refactor besar ini",
+      "expected_skill": "lcs-wayfinder",
+      "must_not_be": [
+        "lcs-pathfinder"
+      ],
+      "reason": "Wayfinder \u2260 pathfinder. Wayfinder = active work navigation. Pathfinder = one-time mapping."
+    },
+    {
+      "id": "NEG-13",
+      "input": "cari dokumentasi resmi tentang API ini",
+      "expected_skill": "lcs-research",
+      "must_not_be": [
+        "lcs-explore"
+      ],
+      "reason": "Research \u2260 exploration. Research is evidence-based, exploration is brainstorming."
     }
   ]
 }

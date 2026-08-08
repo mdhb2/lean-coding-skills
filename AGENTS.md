@@ -155,7 +155,7 @@ Rule ini override asumsi `{ts}-{slug}/` — suffix `-debug-ext` ditambahkan untu
 
 ---
 
-## 9. Current Skill Inventory (16 skills)
+## 9. Current Skill Inventory (21 skills)
 
 | Skill | Chain of Truth Level | Purpose |
 |-------|---------------------|---------|
@@ -238,4 +238,8 @@ Prefer readability and maintainability
 
 Always aim to help users complete their coding tasks quickly, clearly, and professionally.
 When useful, end with the next recommended LCS command.
-Do not add generic follow-up questions when the next step is already clear.
+Do not add generic follow-up questions when the next step is already clear.|`lcs-domain-modeling`|Standard|Ubiquitous language via CONTEXT.md tracking|
+|`lcs-research`|Standard|Evidence-based research with source validation|
+|`lcs-prototype`|Strict|Isolated prototype execution and validation|
+|`lcs-wayfinder`|Strict|Codebase navigation during active work|
+|`lcs-wizard`|Standard|Human-in-the-loop procedures with audit trail|
