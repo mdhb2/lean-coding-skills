@@ -181,9 +181,27 @@ Suggested next command: Buat PR dengan pesan yang direkomendasikan
 ---
 
 ## Output Template: docs-index.md
-This file contains the table of contents of all generated documentation references.
+This file contains the table of contents of all generated documentation references. It is a navigation artifact and MUST carry OKF frontmatter with `artifact_type: index` so whole-directory scans (e.g. `validate-okf.py .lcs/docs/`) pass.
 
 ```markdown
+---
+title: "Documentation References Index"
+format_version: "okf/0.2"
+authors:
+  - type: agent
+    name: "lcs-doc-finalizer"
+created: "{YYYY-MM-DD}"
+updated: "{YYYY-MM-DD}"
+tags: [index, docs]
+summary: "Table of contents of all finalized documentation"
+status: active
+related: []
+artifact_type: index
+source: ".lcs/docs/"
+cot_level: strict
+version: "1.0"
+---
+
 # Documentation References Index
 
 | Timestamp | Work Item | Description | Map | Documentation |

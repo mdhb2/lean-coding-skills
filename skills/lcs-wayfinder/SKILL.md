@@ -29,9 +29,12 @@ Activate when user wants to: map out a large refactor, plan multi-session work, 
 
 3. **Create the map:** Write `.lcs/work-items/{ts}-{slug}/wayfinder-map.md`.
 
-4. **Create decision tickets:** Write child files in `.lcs/work-items/{ts}-{slug}/wayfinder-tickets/`. Use YAML frontmatter with `blocked_by` to render dependencies.
+4. **Create decision tickets:** Write child files in `.lcs/work-items/{ts}-{slug}/wayfinder-tickets/`. Use YAML frontmatter with `blocked_by` to render dependencies. Every ticket frontmatter MUST follow the OKF status lifecycle (`draft|reviewed|active|archived`, see `../lcs-shared/contract.md` §3):
+   - `status: active` — ticket is open / being resolved
+   - `status: archived` — ticket is resolved / closed
+   Use `artifact_type: wayfinder` and keep `open`/`resolved` vocabulary in the body text only, never in frontmatter.
 
-5. **Resolve incrementally:** Do NOT resolve more than one ticket per session. Record the resolution, close the ticket, update the map.
+5. **Resolve incrementally:** Do NOT resolve more than one ticket per session. Record the resolution, set the ticket `status: archived`, update the map.
 
 6. **Handoff:** When the map clears (no open decisions), hand off to `lcs-toprd` to collapse decisions into a buildable plan.
 
@@ -59,7 +62,7 @@ Strict
 - <Map and tickets exist at declared paths>
 
 ### Report
-<Explicit status of open vs resolved decisions>
+<Explicit status of open vs resolved decisions — frontmatter uses OKF lifecycle: open=active, resolved=archived>
 
 ## Handoff
 
@@ -67,11 +70,11 @@ Next recommended skill: lcs-toprd
 Next file to read: .lcs/work-items/{ts}-{slug}/wayfinder-map.md
 Current phase: wayfinder
 Current confidence: <low/medium/high>
-Blocking questions: <open decision tickets>
+Blocking questions: <open decision tickets — i.e. DEC-### with frontmatter status: active>
 Risks to carry forward: <unresolved decisions>
 Source of Truth Bundle: .lcs/state.md, wayfinder-map.md, wayfinder-tickets/
 Must Preserve IDs: DEC-###, SRC-### if referenced
-Unresolved IDs: <open DEC-### tickets>
+Unresolved IDs: <DEC-### tickets with status: active (open)>
 Suggested next command: Collapse decisions ke PRD via lcs-toprd
 
 ### Note

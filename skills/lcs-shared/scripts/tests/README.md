@@ -25,6 +25,7 @@ npm test
 | `valid-no-type.md` | exit 0 | review fix: `type` field optional |
 | `valid-date-only.md` | exit 0 | aligned regex: date-only `YYYY-MM-DD` accepted |
 | `valid-state.md` | exit 0 | F3: `artifact_type: state` registered |
+| `valid-index.md` | exit 0 | P3: `artifact_type: index` registered (navigation files) |
 | `invalid-unknown-type.md` | exit non-zero | registry: unknown type rejected |
 | `invalid-bad-status.md` | exit non-zero | lifecycle: `pending` rejected |
 

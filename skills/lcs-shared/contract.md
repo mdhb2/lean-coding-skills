@@ -263,6 +263,7 @@ Full definitions + templates: `lcs-shared/templates/okf-schema.md`
 | `wizard` | scripts/<name>-wizard.sh | lcs-wizard | standard |
 | `execution_log` | session-log.md | lcs-master | standard |
 | `state` | state.md | lcs-master | standard |
+| `index` | index.md, docs-index.md | lcs-doc-finalizer, lcs-self-improvement | standard |  <!-- control/navigation artifact: uses lowest producer CoT level (standard) -->
 
 ### Artifact ID Prefixes
 

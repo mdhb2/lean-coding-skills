@@ -39,11 +39,13 @@ version: "1.0"
 
 ## Decision Tickets
 
-<!-- Blocked decisions that need human input -->
+<!-- Blocked decisions that need human input.
+     Status column uses the OKF lifecycle: active = open, archived = resolved.
+     Never use open/blocked/resolved in frontmatter — keep that vocabulary in the body only. -->
 
 | Ticket | Question | Context | Status |
 |---|---|---|---|
-| DEC-001 | {question} | {context} | {open/blocked/resolved} |
+| DEC-001 | {question} | {context} | {active/archived} |
 
 ## Architecture Notes
 
@@ -58,6 +60,31 @@ version: "1.0"
 | Component | Depends On | Type | Notes |
 |---|---|---|---|
 | {component} | {dependency} | {internal/external} | {notes} |
+
+## Decision Ticket Frontmatter Template
+
+Each ticket is a child file `.lcs/work-items/{ts}-{slug}/wayfinder-tickets/DEC-###.md`:
+
+```yaml
+---
+title: "DEC-001: {question}"
+format_version: "okf/0.2"
+authors:
+  - type: agent
+    name: "lcs-wayfinder"
+created: "{YYYY-MM-DD}"
+updated: "{YYYY-MM-DD}"
+tags: [wayfinder-ticket]
+summary: "{one-line question}"
+status: active        # active = open; set to archived when resolved
+related: ["wayfinder-map.md"]
+artifact_type: wayfinder
+source: "wayfinder-map.md"
+cot_level: strict
+version: "1.0"
+blocked_by: "{DEC-###}"   # optional: ticket this one depends on (empty if none)
+---
+```
 
 ## Files Touched
 

@@ -238,9 +238,27 @@ Update `.lcs/docs/self-improvements/state.json`:
 
 ### Index File Structure
 
-Generate/update `.lcs/docs/self-improvements/index.md`:
+Generate/update `.lcs/docs/self-improvements/index.md`. It is a navigation artifact and MUST carry OKF frontmatter with `artifact_type: index` so whole-directory scans (e.g. `validate-okf.py .lcs/docs/`) pass:
 
 ```markdown
+---
+title: "Self-Improvement Analyses"
+format_version: "okf/0.2"
+authors:
+  - type: agent
+    name: "lcs-self-improvement"
+created: "{YYYY-MM-DD}"
+updated: "{YYYY-MM-DD}"
+tags: [index, self-improvement]
+summary: "Navigation index of self-improvement analyses"
+status: active
+related: []
+artifact_type: index
+source: "state.json"
+cot_level: standard
+version: "1.0"
+---
+
 # Self-Improvement Analyses
 
 ## Latest Analysis

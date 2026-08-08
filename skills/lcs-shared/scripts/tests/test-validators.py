@@ -54,6 +54,7 @@ def main() -> int:
         "valid-no-type.md",
         "valid-date-only.md",
         "valid-state.md",
+        "valid-index.md",
     ]
     okf_invalid = [
         "invalid-unknown-type.md",
