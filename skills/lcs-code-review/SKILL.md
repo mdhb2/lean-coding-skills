@@ -320,13 +320,65 @@ Strict
 
 
 
-## Two-Axis Review
+## Two-Axis Review Process
 
-- **Axis 1: Standards:** Check coding standards, Fowler smell baseline, consistency with existing patterns.
+This skill executes code review along two independent axes. Both axes MUST be run and reported separately before aggregation.
 
-- **Axis 2: Spec:** Check faithful implementation of originating PRD/SRS/Task. Verify Acceptance Criteria.
+### Axis 1: Artifact Compliance
 
-- **Execution:** Run both axes. If they conflict (e.g., Standards say "extract method" but Spec says "keep inline for performance"), flag as `CONFLICT` and require user resolution.
+Checks that implementation matches originating LCS artifacts. This axis answers: **"Did the code follow the spec?"**
+
+- Verify code aligns with `explore.md`, `prd.md`, `prd-enhanced.md`, `srs.md`, and `task-###.md`.
+- Check that acceptance criteria are fully met.
+- Verify traceability: every artifact requirement maps to implemented code.
+- Each finding MUST cite the artifact name, section, and the specific requirement being checked.
+
+Artifacts checked: Explore, PRD, PRD Enhance, SRS, Task Breakdown, Acceptance Criteria.
+
+### Axis 2: Code Quality
+
+Checks code for correctness, maintainability, and adherence to standards. This axis answers: **"Is the code well-written?"**
+
+- Check for bugs, security issues, error handling, edge cases.
+- Check naming, structure, duplication, and complexity.
+- Verify test coverage and correctness.
+- **Standards source:** If `CODING_STANDARDS.md` exists in the repository, enforce those rules. If absent, fall back to the Fowler Smell Baseline (see below).
+
+### Aggregation
+
+After both axes are complete, aggregate findings. If axes conflict (e.g., Axis 2 says "extract method" but Axis 1 says "keep inline per SRS performance requirement"), flag as `CONFLICT` and require user resolution before proceeding.
+
+---
+
+## Fowler Smell Baseline
+
+When `CODING_STANDARDS.md` is absent from the repository, enforce this baseline. These 8 code smells are derived from Martin Fowler's *Refactoring*. Each smell is a P2 severity finding unless it directly causes a bug (then P1).
+
+| # | Smell | Description | Fix |
+|---|---|---|---|
+| 1 | Mysterious Name | Variable, function, or class name does not convey purpose | Fix: Rename to reveal intent |
+| 2 | Duplicated Code | Identical or near-identical code blocks in multiple locations | Fix: Extract function or Extract method |
+| 3 | Long Function | Function does too much, exceeds reasonable length | Fix: Extract function; split by responsibility |
+| 4 | Long Parameter List | Function takes many parameters, hard to understand and call | Fix: Introduce parameter object or preserve whole object |
+| 5 | Global Data | Mutable global or shared state modified from multiple places | Fix: Replace global data with parameter passing or encapsulation |
+| 6 | Mutable Data | Data structures that are changed after creation, causing side effects | Fix: Split variable, prevent mutation, or use immutable structures |
+| 7 | Divergent Change | One module is commonly changed for many different reasons | Fix: Split module so each has a single responsibility |
+| 8 | Shotgun Surgery | One change requires edits in many different places | Fix: Move code into a single module so changes are localized |
+
+---
+
+### Workflow Checklist
+
+- [ ] Read `.lcs/state.md` to locate active work item folder
+- [ ] Read task artifacts in Required Reading Order
+- [ ] Phase 1: Setup — identify task, read artifacts, read diff
+- [ ] **Execute Axis 1: Artifact Compliance** — check Explore, PRD, SRS, Task alignment
+- [ ] **Execute Axis 2: Code Quality** — check standards, Fowler baseline, bugs, security
+- [ ] **Aggregate findings** — merge axis results, flag conflicts
+- [ ] Phase 3: Report — produce `code-review.md` from template
+- [ ] Phase 4: Validate — verify claims, confirm status, update state
+- [ ] Write review report to `.lcs/work-items/{timestamp}-{slug-work-item}/code-review.md`
+- [ ] Update `.lcs/state.md` with current_phase: code-review
 
 
 ## Evidence Mandate (Mandatory)
@@ -342,6 +394,39 @@ Every claim in the review MUST include:
 
 **Anti-Pattern:** "This looks correct" — unsupported. Must cite file:line and explain why.
 **Leading Words:** "file:line", "verbatim output", "Tests not run"
+
+---
+
+## Strict Completion Criteria
+
+Review is not complete until all criteria below are satisfied. Every claim must be backed by evidence.
+
+### Test Verification
+
+Test evidence is mandatory. The review MUST include one of:
+
+**✅ GOOD — Tests were run with evidence:**
+- "Ran `npm test` — exit code 0, 42 specs passed (output below)"
+- "Ran `pytest --tb=short` — 17 passed, 0 failed (output below)"
+
+**✅ GOOD — Tests explicitly not run with reason:**
+- "Tests not run — no test suite configured in this project"
+- "Tests not run — environment lacks required database connection"
+
+**❌ BAD — Claims without evidence:**
+- "All tests pass" (no output provided)
+- "Looks good" (no verification performed)
+- "I'm sure it works" (assumption, not verification)
+
+**Leading Words for Test Evidence:**
+- `exit code 0` — command succeeded
+- `verbatim stdout/stderr` — raw test output included in report
+- `Tests not run` — explicit statement with reason
+- `HALT if failure` — if any test fails, review MUST NOT pass; escalate to NEEDS_FIX
+
+**Anti-Pattern:** "Run tests and make sure they pass" — vague instruction without evidence. Reviewer MUST either run the command and include output, or state clearly why tests were not run.
+
+---
 
 ## Handoff
 

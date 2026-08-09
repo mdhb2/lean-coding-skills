@@ -155,7 +155,7 @@ Rule ini override asumsi `{ts}-{slug}/` — suffix `-debug-ext` ditambahkan untu
 
 ---
 
-## 9. Current Skill Inventory (21 skills)
+## 9. Current Skill Inventory (22 skills)
 
 | Skill | Chain of Truth Level | Purpose |
 |-------|---------------------|---------|
@@ -167,6 +167,7 @@ Rule ini override asumsi `{ts}-{slug}/` — suffix `-debug-ext` ditambahkan untu
 | `lcs-doc-finalizer` | Strict | Finalize completed work into canonical docs |
 | `lcs-domain-modeling` | Standard | Ubiquitous language via CONTEXT.md tracking |
 | `lcs-explore` | Light | Interactive explore/brainstorm before PRD |
+| `lcs-improve-architecture` | Strict | Generate visual architecture improvement plans by analyzing features, identifying duplication, proposing unified architecture |
 | `lcs-master` | Standard | Contextual router/orchestrator over all LCS skills |
 | `lcs-onboarding` | Standard | Generate developer onboarding documentation |
 | `lcs-prd-reviewer` | Strict | Review, harden, security-check PRDs |

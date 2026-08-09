@@ -22,6 +22,7 @@ Collection of small, markdown-first AI skills for lean, focused coding workflows
 | `lcs-debug-ext` | Evidence-based debug reports and patch proposals without applying code changes |
 | `lcs-codebase-doc` | Map and document existing repositories into verified onboarding docs |
 | `lcs-code-review` | Review implementation against LCS artifacts |
+| `lcs-improve-architecture` | Generate visual architecture improvement plans by analyzing features and proposing unified refactoring |
 | `lcs-domain-modeling` | Build and sharpen the project's domain model (CONTEXT.md, ADRs) |
 | `lcs-master` | Contextual router/orchestrator over all LCS skills |
 | `lcs-onboarding` | Generate developer-friendly onboarding documentation |
