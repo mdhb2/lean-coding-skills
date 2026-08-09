@@ -1,6 +1,6 @@
 ---
 name: lcs-code-review
-description: Use this skill when the user asks to review code implementation after lcs-task-executor execution. Trigger for prompts like "review code", "lcs-code-review", "review implementation", "check results", "verify task", "code review", "validate against artifacts". Do not trigger for design review, architecture review, brainstorming, or new implementation without existing code. Do NOT trigger for: design review, architecture brainstorming, or new implementation without existing code.
+description: 'Use this skill when the user asks to review code implementation after lcs-task-executor execution. Trigger for prompts like "review code", "lcs-code-review", "review implementation", "check results", "verify task", "code review", "validate against artifacts". Do not trigger for design review, architecture review, brainstorming, or new implementation without existing code. Do NOT trigger for: design review, architecture brainstorming, or new implementation without existing code.'
 adapters: [claudecode, opencode]
 compatibility: [claudecode, opencode]
 ---

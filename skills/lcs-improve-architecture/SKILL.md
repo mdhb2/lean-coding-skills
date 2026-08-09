@@ -1,6 +1,6 @@
 ---
 name: lcs-improve-architecture
-description: Generate visual architecture improvement plans by analyzing codebase features, identifying duplicated concerns, and proposing unified refactoring with task breakdown. Use when user asks "improve architecture", "unify duplicated systems", "refactor architecture", "find duplication across features", "propose unified architecture", or before large refactoring efforts. NOT for: new feature implementation, single-file refactoring, bug fixes, or routine code review.
+description: 'Generate visual architecture improvement plans by analyzing codebase features, identifying duplicated concerns, and proposing unified refactoring with task breakdown. Use when user asks "improve architecture", "unify duplicated systems", "refactor architecture", "find duplication across features", "propose unified architecture", or before large refactoring efforts. NOT for: new feature implementation, single-file refactoring, bug fixes, or routine code review.'
 adapters: [claudecode, opencode]
 compatibility: [claudecode, opencode]
 ---

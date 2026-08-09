@@ -1,7 +1,6 @@
 ---
 name: lcs-onboarding
-description: |
-  Generate developer-friendly onboarding documentation for an existing running project. Run when user asks to onboard a project, generate early project docs, or summarize the codebase for new engineers. Scans repository, extracts architecture, entrypoints, setup/run/test instructions, and writes lean markdown reports under .lcs/work-items/onboarding.md and .lcs/work-items/onboarding-map.md. Do NOT trigger for: code changes, bug fixes, task execution, PRD creation, or deep architecture analysis (use lcs-codebase-doc). Onboarding is read-only documentation generation, not implementation.
+description: 'Generate developer-friendly onboarding documentation for existing running project. Run when user asks to onboard a project, generate early project docs, or summarize codebase for new engineers. Scans repository, extracts architecture, entrypoints, setup/run/test instructions, writes lean markdown reports under .lcs/work-items/onboarding.md and .lcs/work-items/onboarding-map.md. NOT trigger for: code changes, bug fixes, task execution, PRD creation, or deep architecture analysis (use lcs-codebase-doc). Onboarding is read-only documentation generation, not implementation.'
 adapters: [claudecode, opencode]
 compatibility: [claudecode, opencode]
 ---

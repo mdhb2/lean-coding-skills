@@ -1,6 +1,6 @@
 ---
 name: lcs-doc-finalizer
-description: Use this skill whenever the user asks to finalize completed work into canonical documentation. Trigger on "finalize documentation", "prepare final-doc", "lcs-doc-finalizer", "selesaikan dokumentasi". Ensure all tasks are marked done, generate map.md and doc.md under .lcs/docs/{timestamp}-{slug-work-item}/, recommend git commit and PR description, move source artifacts under .lcs/work-items/{timestamp}-{slug-work-item}/ to .lcs/archive/{timestamp}-{slug-work-item}/ and delete source folder.
+description: 'Use this skill whenever the user asks to finalize completed work into canonical documentation. Trigger on "finalize documentation", "prepare final-doc", "lcs-doc-finalizer", "selesaikan dokumentasi". Ensure all tasks are marked done, generate map.md and doc.md under .lcs/docs/{timestamp}-{slug-work-item}/, recommend git commit and PR description, move source artifacts under .lcs/work-items/{timestamp}-{slug-work-item}/ to .lcs/archive/{timestamp}-{slug-work-item}/ and delete source folder.'
 adapters: [claudecode, opencode]
 compatibility: [claudecode, opencode]
 ---

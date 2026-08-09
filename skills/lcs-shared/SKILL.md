@@ -1,6 +1,6 @@
 ---
 name: lcs-shared
-description: Shared coding workflow contract, folder conventions, and token-optimization rules. Internal resource for other skills.
+description: 'Shared coding workflow contract, folder conventions, and token-optimization rules. Internal resource for other skills.'
 ---
 
 # LCS Shared

@@ -1,6 +1,6 @@
 ---
 name: lcs-chain-of-truth
-description: Meta-skill protocol that enforces auditable evidence chains across all LCS skills. Activated when any LCS skill needs to produce verifiable, traceable output — not a standalone skill, but a protocol injected into execution flows requiring auditability.
+description: 'Meta-skill protocol that enforces auditable evidence chains across all LCS skills. Activated when any LCS skill needs to produce verifiable, traceable output — not a standalone skill, but a protocol injected into execution flows requiring auditability.'
 ---
 
 # LCS Chain of Truth

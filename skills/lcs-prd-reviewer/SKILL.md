@@ -1,6 +1,6 @@
 ---
 name: lcs-prd-reviewer
-description: Use this skill whenever the user asks to review, harden, or security-check an existing PRD. Trigger on phrases like "review prd", "audit prd", "harden prd", "security review of prd". This skill aggressively looks for ambiguous acceptance criteria, missing tests, and missing Affected Areas / Files, and writes the hardened/reviewed output to prd-enhanced.md. Do NOT trigger for: creating new PRDs (use lcs-toprd), code review (use lcs-code-review), task execution (use lcs-task-executor), or brainstorming (use lcs-explore). Reviewer hardens existing PRDs, does not create or implement.
+description: 'Use this skill whenever the user asks to review, harden, or security-check an existing PRD. Trigger on phrases like "review prd", "audit prd", "harden prd", "security review of prd". This skill aggressively looks for ambiguous acceptance criteria, missing tests, and missing Affected Areas / Files, and writes the hardened/reviewed output to prd-enhanced.md. Do NOT trigger for: creating new PRDs (use lcs-toprd), code review (use lcs-code-review), task execution (use lcs-task-executor), or brainstorming (use lcs-explore). Reviewer hardens existing PRDs, does not create or implement.'
 adapters: [claudecode, opencode]
 compatibility: [claudecode, opencode]
 ---

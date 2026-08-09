@@ -1,6 +1,6 @@
 ---
 name: lcs-tosrs
-description: Use this skill whenever user asks to transform PRD into SRS, implementation specification, deterministic requirements, acceptance criteria mapping, or AI-ready engineering contract. Trigger on phrases like "create SRS", "PRD to SRS", "spec from PRD", "make requirements testable", or "generate implementation-ready spec".
+description: 'Use this skill whenever user asks to transform PRD into SRS, implementation specification, deterministic requirements, acceptance criteria mapping, or AI-ready engineering contract. Trigger on phrases like "create SRS", "PRD to SRS", "spec from PRD", "make requirements testable", or "generate implementation-ready spec".'
 adapters: [claudecode, opencode]
 compatibility: [claudecode, opencode]
 ---
