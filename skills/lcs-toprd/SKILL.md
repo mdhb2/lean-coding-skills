@@ -158,7 +158,7 @@ Current phase: prd
 Current confidence: <low/medium/high>
 Blocking questions: <list or None>
 Risks to carry forward: <summary>
-Source of Truth Bundle: .lcs/state.md, explore.md or debug.md, research/ if present, wayfinder-map.md if present, prd.md
+Source of Truth Bundle: .lcs/state.md, explore.md if present, debug.md if present, research/ if present, prototype.md if present, wayfinder-map.md if present, prd.md
 Must Preserve IDs: SRC-001, SRC-002, ...
 Unresolved IDs: <list or None>
 Suggested next command: Review and fix prd.md

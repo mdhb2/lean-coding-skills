@@ -40,4 +40,14 @@ related: []
 - {Question 2}
 
 ## Handoff
-→ `lcs-toprd` — Create PRD from this exploration.
+
+Next recommended skill: lcs-toprd
+Next file to read: .lcs/work-items/{timestamp}-{slug-work-item}/explore.md
+Current phase: explore
+Current confidence: <low/medium/high>
+Blocking questions: <list or None>
+Risks to carry forward: <summary or None>
+Source of Truth Bundle: .lcs/state.md, explore.md
+Must Preserve IDs: SRC-001, SRC-002, ... (from Decision Ledger)
+Unresolved IDs: <list or None>
+Suggested next command: Create PRD from exploration

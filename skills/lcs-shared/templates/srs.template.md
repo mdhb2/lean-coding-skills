@@ -62,4 +62,14 @@ related: ["prd-enhanced.md", "tests.md", "api.md", "db.md", "traceability.md"]
 - {What we assume to be true}
 
 ## Handoff
-→ `lcs-task-slicer` — Slice into executable tasks.
+
+Next recommended skill: lcs-task-slicer
+Next file to read: .lcs/work-items/{timestamp}-{slug-work-item}/srs.md
+Current phase: srs
+Current confidence: <low/medium/high>
+Blocking questions: <list or None>
+Risks to carry forward: <summary or None>
+Source of Truth Bundle: .lcs/state.md, prd-enhanced.md if present, prd.md, srs.md, tests.md, traceability.md
+Must Preserve IDs: SRC-001, SRC-002, FR-001, AC-001, TEST-001, ...
+Unresolved IDs: <list or None>
+Suggested next command: Slice SRS into tasks

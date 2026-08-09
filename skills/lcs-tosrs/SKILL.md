@@ -49,9 +49,9 @@ Behavior checklist
 2. Read source bundle in order:
    1. `.lcs/state.md`
    2. `prd-enhanced.md` if present
-   3. `prd.md` as baseline fallback and ledger baseline
-   4. `source-ledger.md` if present
-   If `prd-enhanced.md` exists but was not read, stop and report a source conflict. Do not generate SRS from `prd.md` alone when enhanced PRD exists.
+   3. `prd.md` as baseline (fallback if no prd-enhanced exists)
+
+   If `prd-enhanced.md` exists but not read, stop and report source conflict. Do not generate SRS from `prd.md` alone when enhanced PRD exists.
 3. Extract from the authoritative PRD and Source Requirement Ledger:
    - features
    - business goals
@@ -112,7 +112,13 @@ SRS.md required structure
 
 # API Contracts
 
-# Database Impact
+# User Stories
+
+(Preserved from prd.md if present)
+
+# Testing Seams
+
+(Preserved from prd-enhanced.md if present — test seams indicate where to inject test doubles for isolated unit testing)
 
 # Acceptance Criteria
 
@@ -362,7 +368,7 @@ Current phase: tasks
 Current confidence: <low/medium/high>
 Blocking questions: <list or None>
 Risks to carry forward: <short>
-Source of Truth Bundle: .lcs/state.md, prd-enhanced.md if present, prd.md, source-ledger.md if present, srs.md, tests.md, traceability.md
+Source of Truth Bundle: .lcs/state.md, prd-enhanced.md if present, prd.md, srs.md, tests.md, traceability.md
 Must Preserve IDs: SRC-001, SRC-002, FR-001, AC-001, TEST-001, ...
 Unresolved IDs: <list or None>
 Suggested next command: Slice srs.md into task/task-###.md with strict requirement references

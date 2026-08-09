@@ -1,6 +1,11 @@
 # Shared Coding Workflow Contract
 
-This file defines canonical artifact format, folder conventions, Handoff section, and token-optimization rules used by all skills in this pack.
+**Version:** 2.3  
+**Last Updated:** 2026-08-09  
+**Status:** Authoritative (13 alignment fixes applied v2.3)
+
+This file defines the canonical artifact format, folder conventions, Handoff section, and token-optimization rules for all skills in this pack.
+
 
 ## Folder Convention
 All runtime artifacts live under:

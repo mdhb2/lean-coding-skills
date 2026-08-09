@@ -84,28 +84,28 @@ Recognize starting situations dan route ke flow yang tepat:
   - Critical Warning: Phase 1 (Build Feedback Loop) MUST complete sebelum hypothesizing
 - **Multiple issues piling up** → Manual prioritization 
   - List issues dengan severity (P0-P3), user picks one untuk start
-**Flow:** lcs-debug → lcs-toprd (if bug implies missing requirement) → main flow
+**Flow:** lcs-debug → lcs-toprd (if bug implies missing requirement) → lcs-prd-reviewer → lcs-tosrs → main flow
 
 ### On-ramp 2: Huge Foggy Projects
 **Trigger:** User describes project yang "too big for one session", "unclear requirements", "greenfield", "multi-week effort"
 **Route:**
 1. `lcs-wayfinder` → Chart decision map dengan decision tickets
 2. Resolve decision tickets one per session
-3. When map clears → Handoff ke `lcs-toprd` → continue main flow
+3. When map clears, Handoff to `lcs-toprd` → lcs-prd-reviewer → lcs-tosrs → continue main flow
 **Critical Warning:** Do NOT loop wayfinder straight into task-executor. Always collapse decisions into PRD first.
 
 ### On-ramp 3: Codebase Maintenance
 **Trigger:** User wants to "improve architecture", "refactor", "clean up code", "deepen modules"
 **Route:**
 1. `lcs-codebase-doc` → Map current state
-2. `lcs-domain-modeling` → Sharpen domain language / architecture vocabulary (interim for the not-yet-built `lcs-codebase-design`)
-3. Main flow untuk implementasi (explore → toprd → ...)
+2. `lcs-domain-modeling` — Sharpen domain language and architecture vocabulary
+3. Main flow untuk implementasi: explore → toprd → prd-reviewer → tosrs → task-slicer → ...
 **Note:** Maintenance tidak tercampur dengan feature work. Selalu start dengan mapping.
 
 ### On-ramp 4: Mid-Workflow Situations
 **Trigger:** User sudah di tengah workflow tapi stuck atau butuh situational help
 **Route:**
-- **Merge conflict** → manual resolution (no dedicated skill yet; do NOT route to `lcs-resolving-merge-conflicts` — it does not exist)
+- **Merge conflict** — manual resolution (no dedicated skill yet)
 - **Need research** → `lcs-research` (background agent) → return ke main flow
 - **Need prototype** → `lcs-prototype` (throwaway validation) → return ke main flow
 - **Need wizard** → `lcs-wizard` (human-in-the-loop setup) → user executes manually

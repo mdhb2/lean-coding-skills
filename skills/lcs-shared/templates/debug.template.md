@@ -53,10 +53,22 @@ related: []
 - **Approach:** {high-level fix description}
 - **Risk:** {risk assessment}
 
-## SRC-### (if product/behavior requirement discovered)
-### SRC-001: {requirement from bug}
-- {description of implied requirement}
+## Source Requirement Ledger
+
+### SRC-001: {requirement-from-bug-investigation}
+- Description: {description of implied requirement}
+- Priority: P0/P1/P2
+- Origin: debug investigation
 
 ## Handoff
-→ `lcs-toprd` — Create PRD for fix (if product change needed).
-→ Direct fix — Apply proposed fix (if simple bug).
+
+Next recommended skill: lcs-toprd
+Next file to read: .lcs/work-items/{timestamp}-{slug-work-item}/debug.md
+Current phase: debug
+Current confidence: <low/medium/high>
+Blocking questions: <list or None>
+Risks to carry forward: <summary or None>
+Source of Truth Bundle: .lcs/state.md, debug.md
+Must Preserve IDs: SRC-001, SRC-002, ... (from Source Requirement Ledger)
+Unresolved IDs: <list or None>
+Suggested next command: Create PRD for bug fix

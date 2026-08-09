@@ -275,8 +275,8 @@ Resource internal berisi konvensi folder kanonik, skema frontmatter OKF, format 
 
 | Tag | Ringkasan |
 |-----|-----------|
-| `v2.2` | Penyelarasan lifecycle OKF: ticket DEC wayfinder kini memakai `status: active/archived` di frontmatter; `artifact_type: index` didaftarkan untuk file navigasi (`docs-index.md`, `index.md`) dengan frontmatter OKF lengkap; penyelarasan validator (timestamp ber-quote, frontmatter tanpa `type`, date-only) plus PowerShell parity runner untuk `validate-traceability.ps1`. |
-| `v2.1` | Kepatuhan Chain of Truth untuk semua skill, `lcs-task-executer` deprecated demi `lcs-task-executor`, artifact types dan template baru, helper template `lcs-wizard` (`template.sh`), routing evals diperluas, README-ID.md. |
+|`v2.3`| Penyelarasan contract.md (13 perbaikan GAP): Format Handoff 10-field di semua 8 template; enforcement AFK/HITL di `lcs-task-executor`; preservasi artifact (alur explore.md → prd → srs); notasi P0/P1/P2 di Source Requirement Ledger; `lcs-tosrs` ditambahkan ke routing chain; validasi task-coverage.md; tracking prototype.md. Nol pelanggaran contract. |
+|`v2.2`| Penyelarasan lifecycle OKF: ticket DEC wayfinder kini memakai `status: active/archived` frontmatter; `artifact_type: index` didaftarkan untuk file navigasi `docs-index.md`/`index.md` dengan frontmatter OKF lengkap; penyelarasan validator (timestamp ber-quote, frontmatter tanpa `type`, date-only) plus PowerShell parity runner untuk `validate-traceability.ps1`. |
 
 ## Instalasi
 

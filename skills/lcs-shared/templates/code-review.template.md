@@ -65,5 +65,14 @@ related: ["task-###.md", "srs.md", "code-review.md"]
 | Report | {verdict} |
 
 ## Handoff
-→ `lcs-task-executor` — Fix critical/major findings (if FAIL).
-→ `lcs-doc-finalizer` — Proceed to documentation (if PASS).
+
+Next recommended skill: lcs-doc-finalizer
+Next file to read: .lcs/work-items/{timestamp}-{slug-work-item}/code-review.md
+Current phase: code_review
+Current confidence: <low/medium/high>
+Blocking questions: <list or None>
+Risks to carry forward: <unresolved FIX items or None>
+Source of Truth Bundle: .lcs/state.md, prd-enhanced.md if present, prd.md, srs.md, tests.md if present, traceability.md if present, task-coverage.md if present
+Must Preserve IDs: <SRC/FR/AC/TEST IDs from artifacts>
+Unresolved IDs: <list or None>
+Suggested next command: Finalize documentation

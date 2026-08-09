@@ -55,5 +55,14 @@ Every `SRC-###` from `prd.md` MUST exist here.
 | {path} | modify | high/med/low | {why} |
 
 ## Handoff
-→ `lcs-tosrs` — Transform to deterministic SRS.
-→ `lcs-task-slicer` — (fallback if SRS not needed) Slice into tasks.
+
+Next recommended skill: lcs-tosrs
+Next file to read: .lcs/work-items/{timestamp}-{slug-work-item}/prd-enhanced.md
+Current phase: prd_review
+Current confidence: <low/medium/high>
+Blocking questions: <list or None>
+Risks to carry forward: <summary or None>
+Source of Truth Bundle: .lcs/state.md, prd.md, prd-enhanced.md
+Must Preserve IDs: SRC-001, SRC-002, ...
+Unresolved IDs: <list or None>
+Suggested next command: Transform PRD to SRS

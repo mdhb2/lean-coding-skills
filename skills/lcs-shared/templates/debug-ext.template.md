@@ -65,6 +65,16 @@ related: []
 - {What requires human decision}
 
 ## Chain of Truth Report
+
+## Source Requirement Ledger
+
+(Optional — only if debug investigation reveals a product/behavior requirement that should be tracked)
+
+### SRC-001: {requirement-from-investigation}
+- Description: {description of implied requirement}
+- Priority: P0/P1/P2
+- Origin: debug-ext investigation
+
 | Stage | Detail |
 |-------|--------|
 | Source | {files read, logs checked} |

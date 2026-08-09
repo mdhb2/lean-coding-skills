@@ -28,8 +28,18 @@ Trigger
 Activate when user requests related to this skill's purpose. See description field in YAML frontmatter for trigger phrases.
 
 Behavior checklist
-1. Read `.lcs/state.md` first to identify the active work-item directory: `.lcs/work-items/{timestamp}-{slug-work-item}/`.
-2. Locate and read the target task file `.lcs/work-items/{timestamp}-{slug-work-item}/task/task-###.md`.
+1. Read `.lcs/state.md` first to identify active work-item directory: `.lcs/work-items/{timestamp}-{slug-work-item}/`.
+2. Locate and read target task file `.lcs/work-items/{timestamp}-{slug-work-item}/task/task-###.md`.
+3. **Check task type field**:
+   - If `Type: HITL` (human-in-the-loop), output plan and STOP with message: "⚠️ HITL GATE: This task requires human approval before execution. Review the plan above and confirm to proceed."
+   - If `Type: AFK` (autonomous), proceed with execution.
+   - If type field missing or unclear, default to HITL (safer).
+4. Read dependencies (`Depends on` field). If dependencies exist, verify they are completed:
+   - Check each dependency task file has `status: done` in frontmatter
+   - If any dependency not met, STOP with error listing incomplete dependencies
+5. Read `task-coverage.md` if present to validate this task is in the coverage matrix.
+6. Read `srs.md`, `prd-enhanced.md` or `prd.md`, and `tests.md` to understand acceptance criteria and test strategy.
+7. Analyze the task and recommend execution approach:
 3. Read Source coverage from the task file. If Source coverage is missing or empty, update the task status to `blocked`, report `Task lacks Source coverage. Re-run lcs-task-slicer to repair task slicing.`, and stop.
 4. Read every referenced source artifact from Source coverage before implementation:
     - `SRC-###` -> Source Requirement Ledger in `prd-enhanced.md` or `prd.md`
@@ -52,9 +62,10 @@ Behavior checklist
     - **Step B: Tracer Bullet (RED -> GREEN)**: Write ONE failing test checking ONE public behavior. Implement minimal code to pass.
     - **Step C: Incremental Vertical Slices**: Loop writing one failing test and minimal implementation for each remaining behavior. Do not write all tests first.
     - **Step D: Refactor**: Extract duplication, deepen modules (keep interfaces small/simple), and apply SOLID principles. *Never refactor while test is RED*.
-9. Once task is fully executed and verified:
-    - Update Chain of Truth Report before Handoff with executed Source IDs, AC pass/fail, tests run, and remaining uncovered IDs.
-    - Update `Status: done` inside the `.lcs/work-items/{timestamp}-{slug-work-item}/task/task-###.md` file.
+9. Once task fully executed and verified:
+   - Verify `task-coverage.md` updated with completion status for this task (mark executed SRC/FR/AC/TEST IDs).
+   - Update Chain of Truth Report before Handoff with executed Source IDs, pass/fail result, tests run, and remaining uncovered IDs.
+   - Update `Status: done` inside `.lcs/work-items/{timestamp}-{slug-work-item}/task/task-###.md` file.
 10. Update `.lcs/state.md` with:
     - `current_phase: execution`
     - `last_session_note: Executed TASK-###: <task-name> successfully`

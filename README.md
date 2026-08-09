@@ -274,8 +274,8 @@ Internal resource holding the canonical folder conventions, OKF frontmatter sche
 
 | Tag | Summary |
 |-----|---------|
-| `v2.2` | OKF lifecycle alignment: wayfinder DEC tickets now use `status: active/archived` in frontmatter; `artifact_type: index` registered for navigation files (`docs-index.md`, `index.md`) with full OKF frontmatter; validator alignment (quoted timestamps, no-`type` frontmatter, date-only) plus a PowerShell parity runner for `validate-traceability.ps1`. |
-| `v2.1` | Chain of Truth compliance for all skills, `lcs-task-executer` deprecated in favor of `lcs-task-executor`, new artifact types and templates, `lcs-wizard` helper template (`template.sh`), extended routing evals, README-ID.md. |
+|`v2.3`| Contract.md alignment (13 GAP fixes): 10-field Handoff format in all 8 templates; AFK/HITL enforcement in `lcs-task-executor`; artifact preservation (explore.md → prd → srs flow); Source Requirement Ledger P0/P1/P2 notation; `lcs-tosrs` added to routing chain; task-coverage.md validation; prototype.md tracking. Zero contract violations. |
+|`v2.2`| OKF lifecycle alignment: wayfinder DEC tickets now use `status: active/archived` frontmatter; `artifact_type: index` registered for navigation files `docs-index.md`/`index.md` with full OKF frontmatter; validator alignment (quoted timestamps, no `type` frontmatter, date-only) plus PowerShell parity runner `validate-traceability.ps1`. |
 
 ## Install
 

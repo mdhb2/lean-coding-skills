@@ -83,11 +83,11 @@ Very Strict
 
 Next recommended skill: lcs-task-executor
 Next file to read: .lcs/work-items/{timestamp}-{slug-work-item}/task/task-###.md
-Current phase: execution
+Current phase: task_definition
 Current confidence: high
 Blocking questions: None
-Risks to carry forward: None
-Source of Truth Bundle: target task, prd-enhanced.md if present, prd.md, srs.md if referenced, tests.md if referenced, traceability.md if present, task-coverage.md if present
-Must Preserve IDs: <executed SRC/FR/AC/TEST IDs>
-Unresolved IDs: <remaining uncovered IDs or None>
-Suggested next command: Eksekusi TASK-002
+Risks to carry forward: <task-specific risks or None>
+Source of Truth Bundle: .lcs/state.md, srs.md, tests.md, task-coverage.md
+Must Preserve IDs: <SRC/FR/AC/TEST IDs for this task>
+Unresolved IDs: <list or None>
+Suggested next command: Execute task-###.md

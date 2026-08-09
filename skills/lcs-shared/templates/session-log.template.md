@@ -42,4 +42,14 @@ related: []
 - **Final Status:** {active work item, current phase}
 
 ## Handoff
-→ Resume with: "{recommended next skill or action}"
+
+Next recommended skill: lcs-code-review
+Next file to read: .lcs/work-items/{timestamp}-{slug-work-item}/session-log.md
+Current phase: execution
+Current confidence: <low/medium/high>
+Blocking questions: <list or None>
+Risks to carry forward: <summary or None>
+Source of Truth Bundle: .lcs/state.md, task-###.md, srs.md, tests.md, task-coverage.md if present
+Must Preserve IDs: <executed SRC/FR/AC/TEST IDs>
+Unresolved IDs: <list or None>
+Suggested next command: Review implementation against requirements
