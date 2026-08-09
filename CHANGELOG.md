@@ -3,6 +3,45 @@
 All notable changes to Lean Coding Skills will be documented in this file.
 
 
+## [v2.5] 2026-08-09
+
+### Skill Pack Review + Two-Axis Code Review + Architecture Improvement
+
+**Summary:** Complete skill pack review with two-axis code review process (Spec Compliance & Code Quality), Fowler's 8 code smells baseline, and new lcs-improve-architecture skill for visual architecture improvement planning.
+
+#### New Features (2)
+- **lcs-improve-architecture skill**: Generate visual architecture improvement plans by analyzing features, identifying duplicated concerns, proposing unified architecture with migration task breakdown
+- **Two-Axis Review Process**: Explicit separation of spec compliance (PRD/SRS verification) vs code quality (Fowler smells + LCS standards) in lcs-code-review
+
+#### Enhancements (2)
+- **Fowler Smell Baseline**: Added 8 core code smells to lcs-code-review (Mysterious Name, Duplicated Code, Long Function, Long Parameter List, Global Data, Mutable Data, Divergent Change, Shotgun Surgery)
+- **Concurrent Review Execution**: Two-axis reviews now run in parallel for faster feedback
+
+#### New Artifacts (1)
+- **architecture-improvement.template.md**: Template for architecture improvement reports with sections for current state analysis, duplication mapping, unified architecture proposal, and migration breakdown
+
+#### Files Modified (4)
+**Skills (2):**
+- `skills/lcs-code-review/SKILL.md` - Added two-axis review process and Fowler smell baseline
+- `skills/lcs-improve-architecture/SKILL.md` (new) - Architecture improvement planning skill
+
+**Templates (1):**
+- `skills/lcs-shared/templates/architecture-improvement.template.md` (new) - Architecture improvement report template
+
+**Documentation (1):**
+- `AGENTS.md` - Updated skill inventory count (21 → 22 skills)
+
+#### Validation Results
+- ✅ All files verified readable
+- ✅ 10-field Handoff format validated
+- ✅ OKF frontmatter compliance confirmed
+- ✅ Sample code test setup completed
+
+#### Impact
+- **Code Review Quality**: Explicit framework for checking both requirements alignment and code health
+- **Architecture Work**: New workflow from duplication detection to unified refactoring with visual flowcharts
+- **Skill Inventory**: 22 total LCS skills
+
 ## [v2.4] 2026-08-09
 
 ### Code Review Enhancement: Two-Axis Review + Architecture Improvement
