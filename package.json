@@ -1,29 +1,55 @@
 {
-  "name": "@mdhb2/claude-skills",
-  "version": "0.1.0",
-  "description": "Installer CLI to copy LCS skills into .claude/skills so Claude Code can detect them",
-  "main": "scripts/claude-skills.js",
-  "bin": {
-    "claude-skills": "scripts/claude-skills.js"
-  },
-  "files": [
-    "scripts/",
-    "skills/"
-  ],
+  "name": "@lcs/lean-coding-skills",
+  "version": "2.5.0",
+  "description": "Collection of small, markdown-first skills for lean, focused coding workflows. Complete LCS suite with 22 skills.",
+  "type": "module",
   "keywords": [
-    "claude",
-    "skills",
-    "installer",
-    "lcs"
+    "lcs",
+    "lean-coding-skills",
+    "coding-workflow",
+    "skill-pack",
+    "claude-skills",
+    "ai-coding"
   ],
-  "author": "Md Habibi",
-  "license": "MIT",
+  "skills": [
+    "lcs-explore",
+    "lcs-toprd",
+    "lcs-prd-reviewer",
+    "lcs-tosrs",
+    "lcs-task-slicer",
+    "lcs-task-executor",
+    "lcs-doc-finalizer",
+    "lcs-debug",
+    "lcs-debug-ext",
+    "lcs-codebase-doc",
+    "lcs-code-review",
+    "lcs-improve-architecture",
+    "lcs-domain-modeling",
+    "lcs-master",
+    "lcs-onboarding",
+    "lcs-prototype",
+    "lcs-research",
+    "lcs-self-improvement",
+    "lcs-chain-of-truth",
+    "lcs-shared",
+    "lcs-wayfinder",
+    "lcs-wizard"
+  ],
+  "skillsConfig": {
+    "type": "skill-pack",
+    "installAll": true,
+    "skillsDir": "skills",
+    "totalSkills": 22,
+    "workflow": "explore → toprd → prd-reviewer → tosrs → task-slicer → task-executor → code-review/doc-finalizer"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mdhb2/lean-coding-skills.git"
   },
-  "scripts": {
-    "test": "node scripts/validate-skills.js && python3 skills/lcs-shared/scripts/tests/test-validators.py",
-    "prepare": "chmod +x scripts/claude-skills.js || true"
-  }
+  "author": "mdhb2 <hb2mail@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mdhb2/lean-coding-skills/issues"
+  },
+  "homepage": "https://github.com/mdhb2/lean-coding-skills#readme"
 }
