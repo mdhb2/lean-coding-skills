@@ -5,111 +5,198 @@ adapters: [claudecode, opencode]
 compatibility: [claudecode, opencode]
 ---
 
-LCS Explore Skill
+# LCS Explore
 
-Shared Coding Contract
-- Refer to Shared Coding Workflow Contract in `../lcs-shared/contract.md` for folder conventions, Handoff format, and token optimization.
+## Shared Contract
 
-Purpose
-- Clarify user intent, brainstorm technical options, ask iterative questions until PRD readiness or blocker found.
-- Persist results under .lcs/work-items/{timestamp}-{slug-work-item}/explore.md
-- Do not create PRD, tasks, or code.
+Follow `../lcs-shared/contract.md` for:
 
-Trigger
-- Activate when user mentions explore, brainstorm, clarify, evaluate options, compare trade-offs, feasibility, or asks for recommended direction.
+- folder conventions,
+- OKF frontmatter,
+- artifact writing safety,
+- Source of Truth rules,
+- stable IDs,
+- Handoff format.
 
-## OKF Frontmatter & Writing Safety
+Chain of Truth level: **Light**.
 
-- When creating `explore.md`, include YAML frontmatter following the schema in `../lcs-shared/contract.md`.
-- Follow the Artifact Writing Safety rules in contract.md — generate content first, write one file, verify, stop on failure.
+## Purpose
 
+- Clarify user intent before PRD creation.
+- Explore meaningful alternatives and trade-offs.
+- Resolve material uncertainty through structured interactive brainstorming.
+- Record decisions, assumptions, risks, and stable source requirements.
+- Persist the result as:
+  `.lcs/work-items/{timestamp}-{slug-work-item}/explore.md`
+- Do not create PRD, tasks, production code, or patches.
 
-### Trigger
+## Required References
 
-Activate when user requests related to this skill's purpose. See description field in YAML frontmatter for trigger phrases.
+Before starting an interactive explore session, read:
 
-Behavior checklist
-- Confirm work-name. If .lcs/state.md exists in workspace, read it.
-- Ask exactly one short question at a time until either: ready for PRD or blocker discovered.
-- After each user response produce a short recommendation (1-3 lines).
-- Do not create PRD, tasks, or code.
-- Persist file: .lcs/work-items/{timestamp}-{slug-work-item}/explore.md
-- Update .lcs/state.md with:
-  - current_phase: explore
-  - current_work: {timestamp}-{slug-work-item}
-  - last_session_note: <brief summary>
-- End session with Handoff recommending lcs-toprd.
+`references/interview-protocol.md`
 
-Prompt templates
-- Starter: "Explore feature <short-name>: <raw intent>. Save as explore.md"
-- Clarify Q: "Short question: <question>"
+When generating `explore.md`, read:
 
-explore.md structure (write to file)
-# Explore: <work-name>
+`../lcs-shared/templates/explore.template.md`
 
-## 1. One-line summary
-<one-line summary>
+Do not load the artifact template during normal interview rounds unless the artifact is about to be generated.
 
-## 2. Q&A History
-- Q | A | Rec  <-- parser-friendly pipe triples
-- Q | A | Rec
+## Workflow
 
-Human-friendly:
-* Q: <question 1>
-  * A: <answer 1>
-  * Recommendation: <1-3 lines>  (mark recommended option when relevant)
+1. Establish a concise work name from the user's intent.
+2. If `.lcs/state.md` exists, read it before continuing.
+3. Assess the topic complexity.
+4. Recommend an Explore Level:
+   - Easy
+   - Medium
+   - Hard
+   - Auto
+5. Let the user choose the level.
+6. If the user's manual level is materially lower or higher than recommended:
+   - explain the mismatch briefly,
+   - warn about the likely consequence,
+   - ask whether they want to keep their choice or switch.
+   - Never override a manually selected level without confirmation.
+7. Run the interview using `references/interview-protocol.md`.
+8. Ask 3 related high-value questions per round.
+9. After each round:
+   - interpret the answers,
+   - separate resolved decisions from unresolved questions,
+   - provide a 1-3 line recap,
+   - update remaining uncertainty,
+   - update approximate progress.
+10. Continue until:
+    - the work becomes PRD-ready,
+    - the selected question budget is reached,
+    - or a blocker prevents responsible progress.
+11. Question count does not determine PRD readiness.
+12. At the end of the main exploration, let the user choose whether to:
+    - finish and hand off to PRD,
+    - add one round,
+    - deep-dive a specific area,
+    - increase the Explore Level.
+13. When the user finishes exploration:
+    - read `../lcs-shared/templates/explore.template.md`,
+    - synthesize the complete artifact,
+    - persist `explore.md`,
+    - update `.lcs/state.md`,
+    - hand off to `lcs-toprd`.
 
-## 3. Findings & Options
-- Option A - Pros / Cons
-- Option B - Pros / Cons
+## Exploration Priorities
 
-## 4. Risks & Assumptions
-- risk: <short>
-- assumption: <short>
+Prefer questions that collapse the largest material uncertainty first.
 
-## Decisions
-- Decision: <text> - Owner: <name> - Timestamp: <ISO>
+Typical dimensions include:
 
-## Decision Ledger (upstream of PRD Source Requirement Ledger)
-Every agreed decision above that implies a product/behavior requirement must be carried into the PRD as a stable `SRC-###` ID by `lcs-toprd`. List them here so nothing is lost in synthesis:
+- problem and intended outcome,
+- users and actors,
+- must-have behavior,
+- existing-system constraints,
+- architecture and data flow,
+- integrations,
+- UX expectations,
+- security and privacy,
+- deployment/runtime,
+- scale/performance,
+- alternatives and trade-offs,
+- explicit non-goals.
 
-| SRC ID | Priority | Origin | Description |
-|---|---|---|---|
-| SRC-001 | P0 | explore decision | <exact requirement or faithful atomic paraphrase> |
+Do not mechanically ask every category.
 
-## Chain of Truth Report
-### Level
-Light
+Do not ask questions whose answers are already known from:
 
-### Sources Checked
-<List file paths read>
+- the user's current input,
+- previous rounds,
+- existing Source of Truth artifacts.
 
-### Assumptions
-- <label each [verified] or [unverified]>
+## Adaptive Behavior
 
-### Actions Taken
-<Summary of what was done>
+After every round, reassess what still matters.
 
-### Verification
-<Manual check result or "not applicable">
+If an answer makes a future question irrelevant:
 
-### Report
-<1-3 sentence summary>
+- drop the irrelevant question,
+- do not re-ask it,
+- adapt the next round.
 
-## Handoff
-Next recommended skill: lcs-toprd
-Next file to read: .lcs/work-items/{timestamp}-{slug-work-item}/explore.md
-Current phase: explore
-Current confidence: <low/medium/high>
-Blocking questions: <list or None>
-Risks to carry forward: <summary>
-Source of Truth Bundle: .lcs/state.md, explore.md
-Must Preserve IDs: SRC-001, SRC-002, ... (from Decision Ledger)
-Unresolved IDs: <list or None>
-Suggested next command: Create PRD from explore.md
+If the user answers only part of a round:
 
-## Chain of Truth Level
+- preserve resolved answers,
+- mark only the unanswered material items unresolved,
+- do not repeat the entire round.
 
-Level: Light
+If the user gives a custom answer instead of selecting A-D:
 
-This skill follows the LCS Chain of Truth protocol at the declared level.
+- accept it,
+- interpret it faithfully,
+- do not force it into an existing option.
+
+## Decision Discipline
+
+Keep agreed decisions separate from:
+
+- assumptions,
+- recommendations,
+- unresolved questions.
+
+Every agreed decision that implies a product, behavior, interface, data, security, or operational requirement must enter the Decision Ledger as an atomic stable `SRC-###` entry.
+
+Rules:
+
+- one question may create multiple `SRC-###` entries,
+- one round may create zero, one, or many `SRC-###` entries,
+- do not invent agreement,
+- preserve existing IDs,
+- mark unresolved assumptions `[verified]` or `[unverified]`.
+
+## PRD Readiness
+
+Treat exploration as PRD-ready only when:
+
+- intended outcome is clear,
+- major constraints are known,
+- meaningful options and trade-offs have been considered,
+- material risks and assumptions are visible,
+- unresolved questions are non-blocking or explicitly carried forward,
+- agreed requirements are captured as stable `SRC-###` entries.
+
+A completed question budget does not automatically mean PRD-ready.
+
+If the main budget ends while important uncertainty remains:
+
+- state the remaining uncertainty,
+- report current PRD readiness,
+- recommend another round or focused deep dive.
+
+## Completion
+
+When exploration finishes:
+
+1. Generate `explore.md` using the canonical shared template.
+2. Follow Artifact Writing Safety from `../lcs-shared/contract.md`.
+3. Update `.lcs/state.md` with:
+   - `current_phase: explore`
+   - `current_work: {timestamp}-{slug-work-item}`
+   - `last_session_note: <brief summary>`
+4. End with Handoff recommending `lcs-toprd`.
+
+If filesystem or repository access is unavailable:
+
+- provide the complete artifact in chat,
+- mark file/state operations as not performed,
+- never claim a file was read or written when it was not.
+
+## Chain of Truth
+
+Level: **Light**
+
+Expose:
+
+- sources checked,
+- assumptions,
+- actions taken,
+- verification status,
+- risks.
+
+Do not expose hidden chain-of-thought.
