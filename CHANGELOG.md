@@ -3,6 +3,46 @@
 All notable changes to Lean Coding Skills will be documented in this file.
 
 
+## [v2.7] - 2026-09-16
+
+### Adaptive LCS Explore Interview Workflow
+
+**Summary:** Improved `lcs-explore` with adaptive multi-question brainstorming to reduce interview fatigue while preserving requirement traceability.
+
+#### New Features
+- Added Easy, Medium, Hard, and Auto Explore Levels
+- Added adaptive question budgets:
+  - Easy: 6-9
+  - Medium: 12-15
+  - Hard: 18-24
+- Added 3 related questions per interview round
+- Added A/B/C/D answer choices with recommended options
+- Added plain-language explanations for technical decisions
+- Added progress indicators and round recaps
+- Added adaptive follow-up based on remaining uncertainty
+- Added end-of-explore controls:
+  - finish and continue to PRD
+  - add one round
+  - deep-dive an area
+  - increase Explore Level
+
+#### Enhancements
+- Improved Decision Ledger generation with atomic `SRC-###` requirements
+- Added explicit PRD readiness evaluation independent of question count
+- Expanded canonical `explore.md` template
+- Added dedicated `references/interview-protocol.md`
+
+#### Files Modified
+- `skills/lcs-explore/SKILL.md`
+- `skills/lcs-explore/references/interview-protocol.md`
+- `skills/lcs-shared/templates/explore.template.md`
+- `skills/lcs-toprd/SKILL.md`
+- `package.json`
+- `CHANGELOG.md`
+
+#### Breaking Changes
+None.
+
 ## [v2.5] 2026-08-09
 
 ### Skill Pack Review + Two-Axis Code Review + Architecture Improvement

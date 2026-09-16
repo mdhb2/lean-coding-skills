@@ -4,6 +4,19 @@ Use this protocol for every interactive `lcs-explore` session.
 
 The goal is to resolve meaningful uncertainty quickly without making the user feel trapped in an endless interview.
 
+## Contents
+
+1. Explore Levels
+2. Level Selection & Adaptation
+3. Question Budget
+4. Interview Rounds
+5. Multiple-Choice & Recommendations
+6. Technical Explanations
+7. Progress & Recaps
+8. Partial / Custom / Contradictory Answers
+9. Adaptive Follow-Up
+10. End-of-Explore Control
+
 ## 1. Explore Levels
 
 Before the main interview, recommend one Explore Level.

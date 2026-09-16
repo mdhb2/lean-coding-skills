@@ -32,6 +32,10 @@ Behavior checklist
 - Sketch out the major modules you will need to build or modify to complete the implementation. Actively look for opportunities to extract deep modules that can be tested in isolation. A deep module encapsulates a lot of functionality in a simple, testable interface which rarely changes.
 - Ensure PRD uses Affected Areas / Files to limit later code reads.
 - Extract every user instruction, explicit constraint, and requirement bullet from explore.md, debug.md, and direct user input into SRC-### rows in the Source Requirement Ledger. Do not collapse P0 requirements into summaries.
+- If `explore.md` already contains `SRC-###` IDs in its Decision Ledger,
+  preserve those IDs exactly in the PRD Source Requirement Ledger.
+  Never renumber, replace, or reassign existing `SRC-###` IDs.
+  Assign new `SRC-###` IDs only to requirements that are not already represented.
 - If `research/` or `wayfinder-map.md` exists in the work-item directory, read them and fold validated findings/decisions into the PRD (Source Context + Source Requirement Ledger).
 - Write prd.md under .lcs/work-items/{timestamp}-{slug-work-item}/prd.md. Do not create versioned copies.
 - Provide clear Acceptance Criteria and Test Strategy (unit/integration/e2e where applicable).

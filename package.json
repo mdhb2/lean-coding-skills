@@ -1,6 +1,6 @@
 {
   "name": "@lcs/lean-coding-skills",
-  "version": "2.5.0",
+  "version": "2.7.0",
   "description": "Collection of small, markdown-first skills for lean, focused coding workflows. Complete LCS suite with 22 skills.",
   "type": "module",
   "keywords": [
