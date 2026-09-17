@@ -59,6 +59,8 @@ def main() -> int:
     okf_invalid = [
         "invalid-unknown-type.md",
         "invalid-bad-status.md",
+        "invalid-state-current-work.md",
+        "invalid-state-phase-mismatch.md",
     ]
     for f in okf_valid:
         if not check(f"okf: {f}", [sys.executable, str(VALIDATE_OKF), str(FIXTURES / "okf" / f)], expect_ok=True):

@@ -1,7 +1,7 @@
 {
   "name": "@lcs/lean-coding-skills",
-  "version": "2.7.0",
-  "description": "Collection of small, markdown-first skills for lean, focused coding workflows. Complete LCS suite with 22 skills.",
+  "version": "2.8.0",
+  "description": "Collection of small, markdown-first skills for lean, focused coding workflows. Complete LCS suite with 23 skills.",
   "type": "module",
   "keywords": [
     "lcs",
@@ -12,6 +12,7 @@
     "ai-coding"
   ],
   "skills": [
+    "lcs-new",
     "lcs-explore",
     "lcs-toprd",
     "lcs-prd-reviewer",
@@ -39,8 +40,12 @@
     "type": "skill-pack",
     "installAll": true,
     "skillsDir": "skills",
-    "totalSkills": 22,
-    "workflow": "explore → toprd → prd-reviewer → tosrs → task-slicer → task-executor → code-review/doc-finalizer"
+    "totalSkills": 23,
+    "workflow": "lcs-new (optional) → explore → toprd → prd-reviewer → tosrs → task-slicer → task-executor → code-review/doc-finalizer"
+  },
+  "scripts": {
+    "test": "node scripts/validate-skills.js",
+    "test:validators": "python3 skills/lcs-shared/scripts/tests/test-validators.py"
   },
   "repository": {
     "type": "git",

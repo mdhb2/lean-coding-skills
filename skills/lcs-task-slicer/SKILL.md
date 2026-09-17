@@ -79,6 +79,8 @@ Behavior Checklist
 6. **Update State & Handoff**:
     - Update `.lcs/state.md` with:
       - `current_phase: tasks`
+      - `work_items[state.current_work].phase = tasks`
+      - `work_items[state.current_work].updated_at = <current-ISO-timestamp>`
       - `timestamp: <current-ISO-timestamp>`
     - Output the structured task list summary.
     - End with a Handoff pointing to the next logical step (e.g. `lcs-task-executor` and `task-001.md`).

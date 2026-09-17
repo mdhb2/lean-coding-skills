@@ -67,7 +67,13 @@ Behavior checklist
 6. Draft DB impact details when schema/persistence changes exist.
 7. Build traceability mapping across source IDs, requirement families, acceptance criteria, and tests.
 8. Generate `traceability.md` mapping `SRC-* -> REQ/FR/BR/VR/EC -> AC-* -> TEST-*`.
-9. Produce stable markdown output with repeated structure.
+9. Update `.lcs/state.md` with:
+   - `current_phase: srs`
+   - `work_items[state.current_work].phase = srs`
+   - `work_items[state.current_work].updated_at = <current-ISO-timestamp>`
+   - `timestamp: <current-ISO-timestamp>`
+   - `last_session_note: Generated SRS artifacts for <work-name>`
+10. Produce stable markdown output with repeated structure.
 
 Requirement design rules
 - Every requirement must be atomic, deterministic, testable, and implementation-oriented.
@@ -364,7 +370,7 @@ Strict
 
 Next recommended skill: lcs-task-slicer
 Next file to read: .lcs/work-items/{timestamp}-{slug-work-item}/srs.md
-Current phase: tasks
+Current phase: srs
 Current confidence: <low/medium/high>
 Blocking questions: <list or None>
 Risks to carry forward: <short>

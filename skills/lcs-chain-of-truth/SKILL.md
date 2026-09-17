@@ -73,7 +73,7 @@ Requirements:
 
 ### Level 2 — Standard
 
-**Use for**: Planning and documentation skills (lcs-toprd, lcs-onboarding, lcs-task-slicer, lcs-self-improvement).
+**Use for**: Planning and documentation skills (lcs-new, lcs-toprd, lcs-onboarding, lcs-task-slicer, lcs-self-improvement).
 
 Requirements:
 - Source: all files read, with paths
@@ -161,6 +161,7 @@ Each LCS skill declares its Chain of Truth level:
 | `lcs-debug` | Standard (2) | Question-asking investigation skill, no code changes applied |
 | `lcs-debug-ext` | Very Strict (4) | Evidence-based debug reports without code changes |
 | `lcs-task-executor` | Very Strict (4) | Code implementation with tests and lint (canonical spelling) |
+| `lcs-new` | Standard (2) | Blank work-item registration, no artifacts created |
 | `lcs-chain-of-truth` | — | Meta-protocol, not self-applied |
 
 ---

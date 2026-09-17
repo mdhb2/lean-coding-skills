@@ -3,6 +3,38 @@
 All notable changes to Lean Coding Skills will be documented in this file.
 
 
+## [v2.8] - 2026-09-17
+
+### Multi-Workitem State Registry
+
+**Summary:** `.lcs/state.md` now keeps an open-work registry (`work_items`) alongside the selected-item mirror (`current_work`/`current_phase`). New `lcs-new` skill (Standard) for blank registration; 23 skills total. Backward compatible — legacy state without `work_items` stays valid.
+
+#### New Features
+- Added `lcs-new` blank work-item registration (`phase: new`, `status: open`, no artifacts created)
+- Added `lcs-master` list/switch/resume control plane with idempotent legacy reconciliation
+- Added common phase-synchronization rule across explore/debug/planning/execution skills
+- Added multi-workitem static consistency check to `scripts/validate-skills.js`
+- Restored `npm test` (`node scripts/validate-skills.js`) and added `test:validators`
+
+#### Enhancements
+- `lcs-doc-finalizer` removes only the finalized registry entry and clears selection to null/idle
+- `lcs-onboarding` isolated to timestamp/session-note updates (never changes selection or phase)
+- Fixed `lcs-tosrs` Handoff phase (`srs`, not `tasks`)
+- Validator section checks now ignore fenced artifact-template examples
+
+#### Files Modified
+- `skills/lcs-new/SKILL.md` (new)
+- `skills/lcs-master/SKILL.md`
+- `skills/lcs-explore/SKILL.md`, `skills/lcs-debug/SKILL.md`, `skills/lcs-improve-architecture/SKILL.md`
+- `skills/lcs-toprd/SKILL.md`, `skills/lcs-prd-reviewer/SKILL.md`, `skills/lcs-tosrs/SKILL.md`
+- `skills/lcs-task-slicer/SKILL.md`, `skills/lcs-task-executor/SKILL.md`, `skills/lcs-code-review/SKILL.md`
+- `skills/lcs-onboarding/SKILL.md`, `skills/lcs-doc-finalizer/SKILL.md`
+- `skills/lcs-chain-of-truth/SKILL.md`, `skills/lcs-shared/contract.md`, `skills/lcs-shared/templates/state.template.md`
+- `skills/lcs-shared/scripts/validate-okf.py`, fixtures, `test-validators.py`
+- `scripts/validate-skills.js`, `package.json` (2.8.0, 23 skills)
+- `README.md`, `README-ID.md`, `AGENTS.md`, `INSTALL.md`
+
+
 ## [v2.7] - 2026-09-16
 
 ### Adaptive LCS Explore Interview Workflow

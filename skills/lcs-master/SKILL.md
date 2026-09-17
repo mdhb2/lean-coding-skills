@@ -1,6 +1,6 @@
 ---
 name: lcs-master
-description: 'Use this skill as the single entry point / router for the entire Lean Coding Skills (LCS) workflow. Activate when the user wants to "start", "begin", "what should I do next", "route me", has an ambiguous LCS request, or otherwise needs the correct LCS skill selected and invoked. lcs-master actively analyzes user intent, recognizes starting situations (on-ramps), recommends the next skill with rich contextual guidance, and runs in either confirmation mode (asks each step) or autopilot mode (chains skills, stopping at critical points). Enforces the shared contract (path conventions, exact skill-name routing, decision log) on every handoff. Do NOT activate when request names a specific downstream skill (e.g. "run lcs-toprd") — invoke that skill directly.'
+description: 'Use this skill as the single entry point / router for the entire Lean Coding Skills (LCS) workflow. Activate when the user wants to "start", "begin", "what should I do next", "route me", has an ambiguous LCS request, or otherwise needs the correct LCS skill selected and invoked. lcs-master actively analyzes user intent, recognizes starting situations (on-ramps), recommends the next skill with rich contextual guidance, and runs in either confirmation mode (asks each step) or autopilot mode (chains skills, stopping at critical points). Enforces the shared contract (path conventions, exact skill-name routing, decision log) on every handoff. Supports multi-workitem management (list, switch, resume, reconciliation). Do NOT activate when request names a specific downstream skill (e.g. "run lcs-toprd") — invoke that skill directly.'
 adapters: [claudecode, opencode]
 compatibility: [claudecode, opencode]
 chain_of_truth_level: Standard
@@ -19,6 +19,8 @@ One skill to rule all. `lcs-master` is a **contextual router** over 21 LCS skill
 - Provides **rich contextual guidance** with alternative paths and critical warnings
 - Enforces **shared contract (SOT)** on every handoff: correct path, exact skill name, decision log
 - Performs **precondition check** before the first routing in a new repo
+- Supports **multi-workitem operations**: list open items, switch between them, resume from saved phase
+- Performs **idempotent reconciliation** of legacy state and work-item directories
 
 ## Trigger
 
@@ -58,9 +60,10 @@ Sebelum routing pertama di repo baru, verify prerequisites:
    cot_level: standard
    version: "1.0"
    type: state
-   current_phase: idle
-   current_work: null
-   last_session_note: "Initial setup"
+    current_phase: idle
+    current_work: null
+    work_items: {}
+    last_session_note: "Initial setup"
    timestamp: 2026-08-08T00:00:00+07:00
    ---
    ```
@@ -115,7 +118,11 @@ Recognize starting situations dan route ke flow yang tepat:
 
 ## [ENHANCED] Main Flow dengan Branching Logic
 
+Optional: If user wants to register a blank work item first, route to `lcs-new` before `lcs-explore`.
+
 ```
+lcs-new (optional blank registration)
+  ↓ (optional)
 lcs-explore (brainstorm)
   ↓
 [Branch: Need visual/interactive validation?]
@@ -222,6 +229,79 @@ Skills yang tidak fit main flow tapi dibutuhkan dalam situasi khusus:
 - **Integration:** Standalone, never `--abort`
 - **CoT Level:** Strict
 - **Trigger:** "Merge conflict", "Rebase conflict", "Git conflict"
+
+---
+
+## Multi-Workitem Operations
+
+`lcs-master` supports managing multiple open work items via the shared state registry.
+
+### Reconciliation
+
+Before list, switch, or resume operations, `lcs-master` MUST perform idempotent reconciliation:
+
+1. Read `.lcs/state.md`.
+2. If `work_items` key is missing, initialize `work_items: {}` and migrate eligible entries:
+   - If `current_work` refers to an eligible existing work-item directory, register it with title inferred from slug, canonical path, phase from legacy `current_phase`, `status: open`, and timestamps from the work ID.
+   - Scan `.lcs/work-items/` for other eligible legacy work-item directories and import them.
+   - Preserve the original selected item and ensure `current_phase` matches.
+3. If `work_items` exists, verify:
+   - Every `current_work` key exists in the registry.
+   - `current_phase` matches the selected entry's phase.
+   - Repair mismatches by preferring the registry entry's phase.
+
+**Exclusions:** Never import as managed work items:
+- `*-lcs-master` routing-log directories
+- `*-debug-ext` report-only directories
+- `.lcs/docs/`, `.lcs/archive/`, `.lcs/codebase/`
+- Flat singleton files (e.g. `onboarding.md`)
+- Empty directories without recognized main-flow artifact markers
+
+**Recognized markers:** `explore.md`, `debug.md`, `prd.md`, `prd-enhanced.md`, `srs.md`, `tests.md`, `traceability.md`, `task-coverage.md`, `task/` directory, `code-review.md`, `architecture-improvement.md`.
+
+**Non-destructive rules:**
+- Never delete an open registry entry because a scan didn't find an artifact.
+- If a `new`-phase entry points to a missing directory, keep it (blank `lcs-new` items may be registry-backed).
+- If a non-`new` entry points to a missing directory, report stale state.
+
+### List Work Items
+
+Intent: "list work items", "show open work", "apa saja work item yang belum selesai"
+
+Behavior:
+1. Reconcile first.
+2. Display each entry from `work_items`: ID, title, phase, and a `*` marker for the currently selected item.
+3. Do not change selection.
+
+### Switch / Select
+
+Intent: "switch to feature-a", "pindah ke payment gateway", "select 20260917-090000-payment-gateway"
+
+Resolution order:
+1. Exact work-item ID match.
+2. Exact case-insensitive title match.
+3. Unique slug/title substring match.
+4. If ambiguous, show candidates and require explicit ID.
+
+On success, update only:
+```yaml
+current_work: "{target-id}"
+current_phase: "{work_items[target-id].phase}"
+```
+Do not modify other registry entries.
+
+### Resume / Continue
+
+1. Reconcile registry.
+2. If `current_work` points to a valid item, resume it.
+3. If `current_work` is null and exactly one open item exists, select it and resume.
+4. If `current_work` is null and multiple items exist, list them and require selection.
+5. Route based on stored phase (e.g. `explore` → `lcs-explore`, `prd` → `lcs-toprd`, `execution` → `lcs-task-executor`).
+
+### New Work Item Routing
+
+- If user explicitly asks only to register/create a blank work item → route to `lcs-new`.
+- If user asks to brainstorm immediately → route to `lcs-explore` (which may create/register the work item per the shared state contract).
 
 ---
 

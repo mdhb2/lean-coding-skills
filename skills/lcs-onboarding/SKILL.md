@@ -37,8 +37,9 @@ Behavior Checklist
 5. Create `.lcs/work-items/` directory if it does not exist.
 6. Write the unified onboarding report to `.lcs/work-items/onboarding.md` matching the Output Template.
 7. Write the structural map report to `.lcs/work-items/onboarding-map.md` listing impacted or key files, their functions, and system relations.
-8. Update `.lcs/state.md` with:
-   - `current_phase: onboarding`
+8. Update `.lcs/state.md` timestamp/session note only (project-level isolation):
+   - Do NOT change `current_work`, `current_phase`, or `work_items` — a selected managed work item stays selected and keeps its phase.
+   - Do NOT add an onboarding registry entry.
    - `last_session_note: Generated onboarding documentation at .lcs/work-items/onboarding.md and onboarding-map.md`
    - `timestamp: <current-ISO-timestamp>`
 9. End with the canonical Handoff section.

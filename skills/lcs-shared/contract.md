@@ -67,6 +67,43 @@ scripts/<name>-wizard.sh
 ```
 This exception overrides the timestamped folder convention for wizard script output.
 
+### 17.2 Canonical Multi-Workitem State Contract
+
+The state template at `skills/lcs-shared/templates/state.template.md` defines a two-level structure:
+
+1. **Pointer layer** — `current_work` and `current_phase` identify the currently selected work item.
+2. **Registry layer** — `work_items` is a map of all open work items keyed by their folder slug (`{timestamp}-{slug-work-item}`).
+
+Each registry entry holds:
+
+| Field | Description |
+|---|---|
+| `title` | Human-readable work item title |
+| `path` | Relative path to the work item folder |
+| `phase` | Current workflow phase for this entry |
+| `status` | Lifecycle state: `open`, `paused`, `archived`, `finalized` |
+| `created_at` | ISO-8601 timestamp when the entry was registered |
+| `updated_at` | ISO-8601 timestamp of the last phase or status change |
+
+**Phase mutation rules:**
+
+- When a skill changes `current_phase`, it must also update `work_items[current_work].phase` and `work_items[current_work].updated_at`.
+- When switching the selected work item, update `current_work`, `current_phase`, and the target entry's `updated_at`.
+- `current_phase` must always equal `work_items[current_work].phase` when `current_work` is non-null.
+
+**Managed vs off-flow items:**
+
+- Managed items: work items created by LCS skills that follow the standard flow (explore → PRD → tasks → execution → finalization).
+- Off-flow items: external work items added to the registry for tracking but not processed through LCS skills. These may remain in the registry indefinitely.
+
+**Legacy single-workitem reconciliation:**
+
+When an existing state file contains only `current_work` / `current_phase` without a `work_items` map, the first skill to touch state must populate `work_items` from the pointer fields before any other mutations.
+
+**Finalization/cleanup:**
+
+When `lcs-doc-finalizer` archives a completed work item, it removes only that entry from `work_items`. If the archived entry was the selected work item, the finalizer sets `current_work: null` and `current_phase: idle`.
+
 ### Skill-Specific Exception: `lcs-debug-ext`
 When active skill is `lcs-debug-ext`, the work-item folder uses the `-debug-ext` suffix to keep report-only debug output distinct from `lcs-debug`:
 ```
@@ -360,7 +397,7 @@ When writing an artifact:
 | Level | Skills |
 |---|---|
 | Light | lcs-explore |
-| Standard | lcs-toprd, lcs-onboarding, lcs-debug, lcs-self-improvement |
+| Standard | lcs-new, lcs-toprd, lcs-onboarding, lcs-debug, lcs-self-improvement |
 | Strict | lcs-prd-reviewer, lcs-tosrs, lcs-task-slicer, lcs-doc-finalizer, lcs-codebase-doc, lcs-code-review |
 | Very Strict | lcs-task-executor, lcs-debug-ext |
 | Meta | lcs-chain-of-truth (protocol, not self-applied) |

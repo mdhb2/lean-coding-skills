@@ -11,6 +11,7 @@ Collection of small, markdown-first AI skills for lean, focused coding workflows
 
 | Skill | Purpose |
 |-------|---------|
+| `lcs-new` | Register a blank work item without creating artifacts |
 | `lcs-explore` | Interactive explore flow for brainstorming and shaping ideas |
 | `lcs-toprd` | Lean, implementation-focused PRD writer |
 | `lcs-prd-reviewer` | Review, harden, and security-check an existing PRD |
@@ -40,6 +41,8 @@ LCS uses Chain of Truth as a cross-skill protocol for auditable, evidence-backed
 
 ### Workflow
 ```text
+lcs-new (optional blank registration, Standard)
+↓ (optional)
 lcs-explore (Light)
 ↓
 lcs-toprd (Standard)
@@ -61,13 +64,17 @@ lcs-doc-finalizer (Strict)
 | Level | Used By |
 |---|---|
 | Light | lcs-explore |
-| Standard | lcs-toprd, lcs-onboarding, lcs-debug, lcs-self-improvement |
+| Standard | lcs-new, lcs-toprd, lcs-onboarding, lcs-debug, lcs-self-improvement |
 | Strict | lcs-prd-reviewer, lcs-tosrs, lcs-task-slicer, lcs-doc-finalizer, lcs-codebase-doc, lcs-code-review |
 | Very Strict | lcs-task-executor, lcs-debug-ext |
 | Meta | lcs-chain-of-truth (protocol, not self-applied), lcs-shared (internal) |
 
 ### Executor Naming
 - **Canonical**: `lcs-task-executor` — the only executor skill
+
+### Multi-Workitem State
+
+`.lcs/state.md` keeps an open-work registry (`work_items`) alongside the selected-item mirror (`current_work`/`current_phase`). Each entry tracks `title`, `path`, `phase`, `status`, `created_at`, `updated_at`. Phase-changing skills update the selected entry and the mirror together; `lcs-master` lists, switches, and resumes items (with idempotent legacy reconciliation), and `lcs-doc-finalizer` removes only the finalized entry.
 
 ### Artifacts & OKF Frontmatter
 
@@ -81,6 +88,15 @@ Every LCS artifact carries OKF v0.2 YAML frontmatter. The shared contract regist
 ## Skill Documentation & Usage Scenarios
 
 ### Main Flow Skills
+
+#### `lcs-new` — Blank Work Item Registration
+Registers a blank work item in the state registry without creating `explore.md`, PRD, tasks, code, or docs.
+
+**When to use:** You want to reserve/select a work item before brainstorming or planning.
+
+**Scenario:**
+> "Register a blank work item for payment-gateway first, I'll explore it later."
+> → Creates `.lcs/work-items/{id}/` (empty), registers `phase: new` in `work_items`, selects it, then hands off to `lcs-explore` or `lcs-toprd` without invoking them.
 
 #### `lcs-explore` — Brainstorm & Shape Ideas
 Interactive question-and-answer flow to clarify intent, compare trade-offs, and assess feasibility before committing to a PRD.
@@ -275,6 +291,7 @@ Internal resource holding the canonical folder conventions, OKF frontmatter sche
 
 | Tag | Summary |
 |-----|---------|
+|`v2.8`| Multi-workitem state registry (`work_items` in `.lcs/state.md`, 23 skills): new `lcs-new` blank registration skill (Standard); `lcs-master` list/switch/resume control plane with legacy reconciliation; common phase-sync rule across explore/debug/planning/execution skills; onboarding state isolation; `npm test` restored (`node scripts/validate-skills.js`). Backward compatible — legacy state without `work_items` stays valid. |
 |`v2.3`| Contract.md alignment (13 GAP fixes): 10-field Handoff format in all 8 templates; AFK/HITL enforcement in `lcs-task-executor`; artifact preservation (explore.md → prd → srs flow); Source Requirement Ledger P0/P1/P2 notation; `lcs-tosrs` added to routing chain; task-coverage.md validation; prototype.md tracking. Zero contract violations. |
 |`v2.2`| OKF lifecycle alignment: wayfinder DEC tickets now use `status: active/archived` frontmatter; `artifact_type: index` registered for navigation files `docs-index.md`/`index.md` with full OKF frontmatter; validator alignment (quoted timestamps, no `type` frontmatter, date-only) plus PowerShell parity runner `validate-traceability.ps1`. |
 

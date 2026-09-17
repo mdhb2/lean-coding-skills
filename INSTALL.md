@@ -7,7 +7,7 @@
 If your skill installer supports package-level installation:
 
 ```bash
-# Install entire skill pack (all 22 skills)
+# Install entire skill pack (all 23 skills)
 npx skills add https://github.com/mdhb2/lean-coding-skills
 ```
 
@@ -39,7 +39,8 @@ After installation, check all skills are available:
 # List installed LCS skills
 npx skills list | grep "lcs-"
 
-# Expected output (22 skills):
+# Expected output (23 skills):
+# ✓ lcs-new
 # ✓ lcs-explore
 # ✓ lcs-toprd
 # ✓ lcs-prd-reviewer
@@ -68,10 +69,10 @@ npx skills list | grep "lcs-"
 
 This repository includes `package.json` with:
 
-- `skills`: Array of all 22 skill names
+- `skills`: Array of all 23 skill names
 - `skillsConfig.installAll: true`: Hint for installers to auto-select all
 - `skillsConfig.skillsDir: "skills"`: Directory containing skills
-- `skillsConfig.totalSkills: 22`: Expected skill count
+- `skillsConfig.totalSkills: 23`: Expected skill count
 
 Compatible skill installers can use this metadata to:
 1. Detect this is a skill pack (not individual skill)
@@ -85,6 +86,7 @@ LCS skills follow this workflow:
 ```
 Exploration → Planning → Review → Specification → Execution → Verification
 
+lcs-new (optional)  ─→  Register blank work item
 lcs-explore          ─→  Brainstorm & clarify
 lcs-toprd            ─→  Write lean PRD
 lcs-prd-reviewer     ─→  Review & harden PRD
@@ -111,7 +113,7 @@ lcs-shared (internal), lcs-wayfinder, lcs-wizard
 
 ### Want to install only specific skills
 
-If you don't want all 22 skills:
+If you don't want all 23 skills:
 
 ```bash
 # Install manually and deselect unwanted skills during prompt

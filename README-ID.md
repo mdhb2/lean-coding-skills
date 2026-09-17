@@ -11,6 +11,7 @@ Kumpulan skill AI berbasis markdown yang kecil dan fokus untuk alur kerja coding
 
 | Skill | Tujuan |
 |-------|--------|
+| `lcs-new` | Mendaftarkan work item kosong tanpa membuat artifact |
 | `lcs-explore` | Alur explore interaktif untuk brainstorming dan membentuk ide |
 | `lcs-toprd` | Penulis PRD lean yang fokus ke implementasi |
 | `lcs-prd-reviewer` | Review, hardening, dan security-check PRD yang sudah ada |
@@ -22,6 +23,7 @@ Kumpulan skill AI berbasis markdown yang kecil dan fokus untuk alur kerja coding
 | `lcs-debug-ext` | Laporan debug berbasis bukti + proposal patch tanpa mengubah kode |
 | `lcs-codebase-doc` | Memetakan dan mendokumentasikan repo existing menjadi docs onboarding |
 | `lcs-code-review` | Review implementasi terhadap artifact LCS |
+| `lcs-improve-architecture` | Membuat rencana perbaikan arsitektur visual dengan menganalisis fitur dan mengusulkan refactoring terpadu |
 | `lcs-domain-modeling` | Membangun dan mempertajam domain model proyek (CONTEXT.md, ADR) |
 | `lcs-master` | Router/orchestrator kontekstual untuk semua skill LCS |
 | `lcs-onboarding` | Membuat dokumentasi onboarding yang ramah developer |
@@ -39,6 +41,8 @@ LCS memakai Chain of Truth sebagai protokol lintas-skill untuk alur kerja AI yan
 
 ### Workflow
 ```text
+lcs-new (registrasi kosong opsional, Standard)
+↓ (opsional)
 lcs-explore (Light)
 ↓
 lcs-toprd (Standard)
@@ -61,13 +65,17 @@ lcs-doc-finalizer (Strict)
 | Level | Dipakai Oleh |
 |---|---|
 | Light | lcs-explore |
-| Standard | lcs-toprd, lcs-onboarding, lcs-debug, lcs-self-improvement |
+| Standard | lcs-new, lcs-toprd, lcs-onboarding, lcs-debug, lcs-self-improvement |
 | Strict | lcs-prd-reviewer, lcs-tosrs, lcs-task-slicer, lcs-doc-finalizer, lcs-codebase-doc, lcs-code-review |
 | Very Strict | lcs-task-executor, lcs-debug-ext |
 | Meta | lcs-chain-of-truth (protokol, tidak dipakai sendiri), lcs-shared (internal) |
 
 ### Penamaan Executor
 - **Kanonik**: `lcs-task-executor` — satu-satunya skill executor
+
+### State Multi-Workitem
+
+`.lcs/state.md` menyimpan registry pekerjaan terbuka (`work_items`) di samping mirror item terpilih (`current_work`/`current_phase`). Setiap entry mencatat `title`, `path`, `phase`, `status`, `created_at`, `updated_at`. Skill pengubah phase mengupdate entry terpilih dan mirror sekaligus; `lcs-master` me-list, switch, dan resume item (dengan rekonsiliasi legacy yang idempoten), dan `lcs-doc-finalizer` hanya menghapus entry yang sudah difinalisasi.
 
 ### Artifacts & Frontmatter OKF
 
@@ -81,6 +89,15 @@ Setiap artifact LCS berisi frontmatter YAML OKF v0.2. Kontrak bersama mendaftark
 ## Dokumentasi Skill & Contoh Skenario
 
 ### Skill Alur Utama
+
+#### `lcs-new` — Registrasi Work Item Kosong
+Mendaftarkan work item kosong di registry state tanpa membuat `explore.md`, PRD, task, kode, atau docs.
+
+**Kapan dipakai:** Kamu mau memesan/memilih work item dulu sebelum brainstorming atau merencanakan.
+
+**Skenario:**
+> "Daftarkan work item kosong untuk payment-gateway dulu, nanti saya explore."
+> → Membuat `.lcs/work-items/{id}/` (kosong), mendaftarkan `phase: new` di `work_items`, memilihnya, lalu handoff ke `lcs-explore` atau `lcs-toprd` tanpa memanggilnya otomatis.
 
 #### `lcs-explore` — Brainstorm & Bentuk Ide
 Alur tanya-jawab interaktif untuk memperjelas niat, membandingkan trade-off, dan menilai kelayakan sebelum berkomitmen ke PRD.
@@ -275,6 +292,7 @@ Resource internal berisi konvensi folder kanonik, skema frontmatter OKF, format 
 
 | Tag | Ringkasan |
 |-----|-----------|
+|`v2.8`| Registry state multi-workitem (`work_items` di `.lcs/state.md`, 23 skill): skill baru `lcs-new` untuk registrasi kosong (Standard); control plane list/switch/resume di `lcs-master` dengan rekonsiliasi legacy; aturan sinkronisasi phase umum di semua skill explore/debug/planning/execution; isolasi state onboarding; `npm test` dipulihkan (`node scripts/validate-skills.js`). Backward compatible — state legacy tanpa `work_items` tetap valid. |
 |`v2.3`| Penyelarasan contract.md (13 perbaikan GAP): Format Handoff 10-field di semua 8 template; enforcement AFK/HITL di `lcs-task-executor`; preservasi artifact (alur explore.md → prd → srs); notasi P0/P1/P2 di Source Requirement Ledger; `lcs-tosrs` ditambahkan ke routing chain; validasi task-coverage.md; tracking prototype.md. Nol pelanggaran contract. |
 |`v2.2`| Penyelarasan lifecycle OKF: ticket DEC wayfinder kini memakai `status: active/archived` frontmatter; `artifact_type: index` didaftarkan untuk file navigasi `docs-index.md`/`index.md` dengan frontmatter OKF lengkap; penyelarasan validator (timestamp ber-quote, frontmatter tanpa `type`, date-only) plus PowerShell parity runner untuk `validate-traceability.ps1`. |
 

@@ -40,6 +40,15 @@ Behavior checklist
   - Changes Applied: <improvements written into prd-enhanced.md>
 - End with Handoff section pointing to the next logical step (e.g., `lcs-tosrs` for SRS transformation), including Source of Truth Bundle, Must Preserve IDs, and Unresolved IDs.
 
+## State Synchronization
+
+After successful `prd-enhanced.md` creation, update `.lcs/state.md`:
+- `current_phase: prd_review`
+- `work_items[state.current_work].phase = prd_review`
+- `work_items[state.current_work].updated_at = <current-ISO-timestamp>`
+- `timestamp: <current-ISO-timestamp>`
+- `last_session_note: Hardened prd.md into prd-enhanced.md for <work-name>`
+
 Prompt templates
 - Starter: "Review prd.md dan perbaiki menjadi prd-enhanced.md agar siap di-slice"
 - Checklist ask: "Apakah acceptance criteria cukup spesifik?"

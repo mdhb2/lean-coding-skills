@@ -29,13 +29,20 @@ Trigger
 Activate when user requests related to this skill's purpose. See description field in YAML frontmatter for trigger phrases.
 
 Behavior checklist
-- Confirm work item name and read `state.md` if present to identify active work item folder.
+- Confirm work item name and read `.lcs/state.md` if present to identify active work item folder.
+- If no work item is selected (`current_work` is null), create/register a new work item before or together with the state transition.
+- If a work item is already selected, use it (do not create a duplicate).
 - Ask one question at a time: repro steps, expected vs actual behavior, logs, env, recent commits.
 - Prioritize minimal reproduction steps and clear bug understanding.
 - DO NOT design or suggest fixes until the root cause is clear.
 - Once understood, write proposed hypotheses and quick investigation plan to `.lcs/work-items/{timestamp}-{slug-work-item}/debug.md`.
 - When the bug originates from or implies a product/behavior requirement, assign a stable `SRC-###` identifier to that requirement inside `debug.md` (use `SRC-001`, `SRC-002`, ... sequential). This ledger is the upstream source for `lcs-toprd` so the requirement is not lost when synthesized into the PRD. Preserve P0/P1/P2 priority per the Shared Coding Contract Requirement Preservation Rule.
-- Update `.lcs/state.md` with current phase `debug` and path.
+- Update `.lcs/state.md` with:
+  - `current_phase: debug`
+  - `work_items[state.current_work].phase = debug`
+  - `work_items[state.current_work].updated_at = <current-ISO-timestamp>`
+  - `timestamp: <current-ISO-timestamp>`
+  - `last_session_note: <brief summary>`
 - End with Handoff section.
 
 Handoff example:

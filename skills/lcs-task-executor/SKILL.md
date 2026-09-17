@@ -68,6 +68,8 @@ Behavior checklist
    - Update `Status: done` inside `.lcs/work-items/{timestamp}-{slug-work-item}/task/task-###.md` file.
 10. Update `.lcs/state.md` with:
     - `current_phase: execution`
+    - `work_items[state.current_work].phase = execution`
+    - `work_items[state.current_work].updated_at = <current-ISO-timestamp>`
     - `last_session_note: Executed TASK-###: <task-name> successfully`
     - `timestamp: <current-ISO-timestamp>`
 11. End with Handoff pointing to the next logical step (e.g., the next sequential task, `lcs-code-review` after all tasks, or `lcs-doc-finalizer`).

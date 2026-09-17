@@ -30,7 +30,7 @@ Trigger
 Activate when user requests related to this skill's purpose. See description field in YAML frontmatter for trigger phrases.
 
 Behavior checklist
-1. Read `.lcs/state.md` to identify the active work-item directory: `.lcs/work-items/{timestamp}-{slug-work-item}/`.
+1. Read `.lcs/state.md` to identify the active work-item: resolve `current_work` to the directory `.lcs/work-items/{current_work}/`. If `current_work` is null, alert the user and ask them to select a work item first.
 2. Scan the task folder `.lcs/work-items/{timestamp}-{slug-work-item}/task/` and read all task files (`task-###.md`).
 3. Verify all task files are marked `Status: done`.
     - If any task is NOT done (e.g., `pending` or `blocked`), alert the user, list the incomplete tasks, and ask if they wish to proceed anyway or continue executing tasks first.
@@ -46,7 +46,10 @@ Behavior checklist
    - Extract task titles and descriptions from each `task-###.md` file.
    - Generate `## Task List` section in doc.md with bullet points listing all completed tasks in clear, professional English (see template for format and example).
 8. Update `.lcs/state.md` with:
-   - `current_phase: finalization`
+   - Set selected phase to `finalization` using the common synchronization rule:
+     - `current_phase: finalization`
+     - `work_items[current_work].phase: finalization`
+     - `work_items[current_work].updated_at: <current-ISO-timestamp>`
    - `timestamp: <current-ISO-timestamp>`
    - `last_session_note: Finalized documentation for {slug-work-item}`
 9. Generate or update `.lcs/docs/docs-index.md` (ensure the filename is exactly `docs-index.md`, not `reff-index.md` or any other variant) by scanning all subdirectory items under `.lcs/docs/` and listing their `doc.md` and `map.md` with timestamps and descriptions extracted from `map.md` Description or `doc.md` Objective in a clean table.
@@ -55,7 +58,12 @@ Behavior checklist
     - **Preserve verification artifacts in docs.** After copying, also copy `code-review.md` (if present) into `.lcs/docs/{timestamp}-{slug-work-item}/code-review.md` so the finalization docs and the verification report stay co-located and traceable together.
     - **Delete source only after both copies succeed.** Remove the source folder `.lcs/work-items/{timestamp}-{slug-work-item}/` completely ONLY after: (a) the archive copy exists, and (b) `code-review.md` (when present) is copied into the docs folder. If any copy fails, abort the delete and alert the user — never leave traceability broken.
     - **Guard:** Only proceed with copy and delete if both `map.md` and `doc.md` were successfully generated in step 6 and 7. If either file is missing, abort this step and alert the user.
-11. **Stale-State Guard.** After archiving, update `.lcs/state.md`: set `Source Truth Bundle` to reference `doc.md` and `map.md` under `.lcs/docs/`, clear any `active_work_item` pointer, and add a comment: `Archived: {timestamp}-{slug}`. If `.lcs/state.md` points to a work-item directory that no longer exists, report it as a stale reference and offer to clean it up.
+11. **Stale-State Guard and Registry Cleanup.** After archiving, update `.lcs/state.md`:
+    - **Remove finalized entry from registry:** Delete `work_items[current_work]` from the state.
+    - **Clear selection:** Set `current_work: null` and `current_phase: idle`.
+    - **Update metadata:** Set `timestamp: <current-ISO-timestamp>` and `last_session_note: Finalized and archived {slug-work-item}`.
+    - **Preserve other entries:** All other `work_items` entries remain unchanged. Do not select another item automatically.
+    - If `.lcs/state.md` points to a work-item directory that no longer exists, report it as a stale reference and offer to clean it up.
     - **Exclusion:** Never touch `.lcs/docs/self-improvements/` (diagnostic history from `lcs-self-improvement`). It is outside the work-item archive scope and must remain intact.
 11. End with a Handoff section.
 

@@ -253,7 +253,10 @@ If the repository uses different paths, locate the most relevant LCS artifacts.
 
 1. Verify all claims in the report are backed by evidence from artifacts or code.
 2. Confirm final status (PASS / PASS_WITH_NOTES / NEEDS_FIX / BLOCKED).
-3. Update `.lcs/state.md` with `current_phase: code-review`.
+3. Update `.lcs/state.md` with:
+   - `current_phase: code-review`
+   - `work_items[state.current_work].phase = code-review`
+   - `work_items[state.current_work].updated_at = <current-ISO-timestamp>`
 4. Present handoff for `lcs-task-executor` with required fixes and execution order.
 
 ---

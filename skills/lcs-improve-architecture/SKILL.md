@@ -38,6 +38,8 @@ Do NOT trigger for:
 ## Workflow Checklist
 
 - [ ] Read `.lcs/state.md` for project context and active work item
+- [ ] If no work item is selected (`current_work` is null), create/register a new work item before or together with the state transition
+- [ ] If a work item is already selected, use it (do not create a duplicate)
 - [ ] Prompt user for scope: specific directory, feature list, or "full codebase"
 - [ ] Validate scope size (≤50 files; warn if exceeded, prompt confirmation)
 - [ ] Scan scope and identify logical features (group by responsibility)
@@ -125,7 +127,12 @@ graph TD
    - Proposed Architecture diagram
    - Migration Task Breakdown
 2. Write to `.lcs/work-items/{timestamp}-{slug-work-item}/architecture-improvement.md`.
-3. Update `.lcs/state.md` with `current_phase: architecture-planning`.
+3. Update `.lcs/state.md` with:
+   - `current_phase: architecture-planning`
+   - `work_items[state.current_work].phase = architecture-planning`
+   - `work_items[state.current_work].updated_at = <current-ISO-timestamp>`
+   - `timestamp: <current-ISO-timestamp>`
+   - `last_session_note: <brief summary>`
 
 ## Output Format
 
@@ -218,31 +225,17 @@ Suggested next command:
 
 ### Missing .lcs/state.md
 - Create a new work item folder with generated timestamp and slug.
-- Write initial `state.md` with `current_phase: architecture-planning`.
+- Register the new work item in `work_items` with `phase: architecture-planning`.
+- Write initial `state.md` with `current_phase: architecture-planning` and the new `current_work` and `work_items` entries.
 
 ### Single feature (no duplication possible)
 - Produce flowchart and current state analysis only.
 - Note: "Single feature analyzed; cross-feature duplication analysis not applicable."
 - Recommend `lcs-task-slicer` if refactoring within the feature is desired.
 
-## Handoff
-
-Next recommended skill: lcs-task-slicer (if architecture improvement approved) or lcs-domain-modeling (if vocabulary alignment needed)
-Next file to read: architecture-improvement.md
-Current phase: architecture-planning
-Current confidence: medium
-Blocking questions: None
-Risks to carry forward: Scope limited to ≤50 files; migration complexity depends on duplication count
-Source of Truth Bundle: .lcs/state.md, CONTEXT.md if present, docs/ARCHITECTURE.md if present, analyzed source files
-Must Preserve IDs: DC-001, T-001 (concern and task IDs assigned in report)
-Unresolved IDs: None
-Suggested next command: Slice architecture improvement tasks with lcs-task-slicer
-
-## Chain of Truth Level
-
-Level: Strict
-
-This skill follows the LCS Chain of Truth protocol at the declared level.
+## Chain of Truth Report
+### Level
+Strict
 
 ### Sources Checked
 - `.lcs/state.md` for active work item
@@ -272,3 +265,22 @@ This skill follows the LCS Chain of Truth protocol at the declared level.
 
 ### Report
 <Structured summary with confidence rating>
+
+## Handoff
+
+Next recommended skill: lcs-task-slicer (if architecture improvement approved) or lcs-domain-modeling (if vocabulary alignment needed)
+Next file to read: architecture-improvement.md
+Current phase: architecture-planning
+Current confidence: medium
+Blocking questions: None
+Risks to carry forward: Scope limited to ≤50 files; migration complexity depends on duplication count
+Source of Truth Bundle: .lcs/state.md, CONTEXT.md if present, docs/ARCHITECTURE.md if present, analyzed source files
+Must Preserve IDs: DC-001, T-001 (concern and task IDs assigned in report)
+Unresolved IDs: None
+Suggested next command: Slice architecture improvement tasks with lcs-task-slicer
+
+## Chain of Truth Level
+
+Level: Strict
+
+This skill follows the LCS Chain of Truth protocol at the declared level.

@@ -3,8 +3,11 @@
 // Checks structural integrity and Chain of Truth compliance across all skills.
 // No runtime dependencies beyond Node.js built-ins.
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const ROOT = path.resolve(__dirname, '..');
 const SKILLS_DIR = path.join(ROOT, 'skills');
@@ -32,6 +35,7 @@ const CANONICAL_LEVELS = {
   'lcs-chain-of-truth':  'Meta',
   'lcs-shared':          'Meta',
   'lcs-master':          'Standard',
+  'lcs-new':             'Standard',
   'lcs-domain-modeling': 'Standard',
   'lcs-research':        'Standard',
   'lcs-prototype':       'Strict',
@@ -110,6 +114,13 @@ function parseFrontmatter(content) {
   return result;
 }
 
+/** Remove fenced code blocks so section-structure checks only see real
+ *  skill-level headings, not `## Handoff` / `## Chain of Truth ...` examples
+ *  shown inside artifact templates. */
+function stripFencedBlocks(content) {
+  return content.replace(/```[\s\S]*?```/g, '');
+}
+
 /** Extract the declared Chain of Truth level from SKILL.md body */
 function extractCoTLevel(content) {
   // Match "## Chain of Truth Level\n\nLevel: <value>" (with optional blank lines)
@@ -118,10 +129,12 @@ function extractCoTLevel(content) {
   return m[1].trim();
 }
 
-/** Check that "## Chain of Truth Report" appears before "## Handoff" in text */
+/** Check that "## Chain of Truth Report" appears before "## Handoff" in text
+ *  (fenced artifact-template examples excluded — see stripFencedBlocks). */
 function cotReportBeforeHandoff(content) {
-  const cotMatch = content.match(/^## Chain of Truth Report\s*$/m);
-  const handoffMatch = content.match(/^## Handoff\s*$/m);
+  const stripped = stripFencedBlocks(content);
+  const cotMatch = stripped.match(/^## Chain of Truth Report\s*$/m);
+  const handoffMatch = stripped.match(/^## Handoff\s*$/m);
   const cotIdx = cotMatch ? cotMatch.index : -1;
   const handoffIdx = handoffMatch ? handoffMatch.index : -1;
   if (cotIdx === -1) return { hasCot: false, handoffExists: handoffIdx !== -1 };
@@ -192,8 +205,8 @@ function checkSkills() {
       pass(`[${folder}] folder name matches frontmatter name`);
     }
 
-    // Check 3 — exactly one CoT Level declaration
-    const allCoT = [...content.matchAll(/##\s+Chain of Truth Level[\s\S]*?Level:\s*([^\n\r]+)/g)];
+    // Check 3 — exactly one CoT Level declaration (outside fenced examples)
+    const allCoT = [...stripFencedBlocks(content).matchAll(/##\s+Chain of Truth Level[\s\S]*?Level:\s*([^\n\r]+)/g)];
     if (allCoT.length === 0) {
       fail(`[${folder}] no '## Chain of Truth Level' declaration found`);
     } else if (allCoT.length > 1) {
@@ -323,6 +336,44 @@ function checkExecutors() {
 }
 
 // ---------------------------------------------------------------------------
+// Check 9 — multi-workitem registry references (stable-token check)
+// Every managed-work-item skill MUST reference the `work_items` registry token
+// (or the shared state contract that defines it), so no phase writer remains
+// obviously single-pointer-only. Simple substring check by design.
+// ---------------------------------------------------------------------------
+
+const MANAGED_WORK_ITEM_SKILLS = [
+  'lcs-new',
+  'lcs-explore',
+  'lcs-debug',
+  'lcs-toprd',
+  'lcs-prd-reviewer',
+  'lcs-tosrs',
+  'lcs-task-slicer',
+  'lcs-task-executor',
+  'lcs-code-review',
+  'lcs-improve-architecture',
+  'lcs-doc-finalizer',
+  'lcs-master',
+  'lcs-onboarding',
+];
+
+function checkMultiWorkitemReferences() {
+  for (const skill of MANAGED_WORK_ITEM_SKILLS) {
+    const content = readFile(path.join(SKILLS_DIR, skill, 'SKILL.md'));
+    if (!content) {
+      fail(`multi-workitem: '${skill}' SKILL.md missing`);
+      continue;
+    }
+    if (!content.includes('work_items')) {
+      fail(`multi-workitem: '${skill}' does not reference the 'work_items' registry token`);
+    } else {
+      pass(`multi-workitem: '${skill}' references the 'work_items' registry`);
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Check 10 — cross-document level consistency spot-check
 // Verifies that README.md, contract.md, and lcs-chain-of-truth/SKILL.md all
 // mention the same set of key skills at the same levels.
@@ -385,6 +436,9 @@ checkPackageTestScript();
 
 console.log('\n--- Executor checks ---');
 checkExecutors();
+
+console.log('\n--- Multi-workitem registry references ---');
+checkMultiWorkitemReferences();
 
 console.log('\n--- Cross-document consistency ---');
 checkCrossDocConsistency();

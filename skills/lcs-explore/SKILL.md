@@ -46,37 +46,39 @@ Do not load the artifact template during normal interview rounds unless the arti
 
 1. Establish a concise work name from the user's intent.
 2. If `.lcs/state.md` exists, read it before continuing.
-3. Assess the topic complexity.
-4. Recommend an Explore Level:
+3. **Blank work reuse**: If a work item is already selected (`current_work` is set) with `phase: new`, no primary artifact exists in its directory, and the user is clearly continuing that same named work, reuse the existing ID/path. Do not generate a second timestamped directory. Write `explore.md` into the existing path and set phase to `explore` using the synchronization rule.
+4. If no work item is selected or the user is starting genuinely new work, create/register a new work item before or together with the state transition.
+5. Assess the topic complexity.
+6. Recommend an Explore Level:
    - Easy
    - Medium
    - Hard
    - Auto
-5. Let the user choose the level.
-6. If the user's manual level is materially lower or higher than recommended:
+7. Let the user choose the level.
+8. If the user's manual level is materially lower or higher than recommended:
    - explain the mismatch briefly,
    - warn about the likely consequence,
    - ask whether they want to keep their choice or switch.
    - Never override a manually selected level without confirmation.
-7. Run the interview using `references/interview-protocol.md`.
-8. Ask 3 related high-value questions per round.
-9. After each round:
+9. Run the interview using `references/interview-protocol.md`.
+10. Ask 3 related high-value questions per round.
+11. After each round:
    - interpret the answers,
    - separate resolved decisions from unresolved questions,
    - provide a 1-3 line recap,
    - update remaining uncertainty,
    - update approximate progress.
-10. Continue until:
+12. Continue until:
     - the work becomes PRD-ready,
     - the selected question budget is reached,
     - or a blocker prevents responsible progress.
-11. Question count does not determine PRD readiness.
-12. At the end of the main exploration, let the user choose whether to:
+13. Question count does not determine PRD readiness.
+14. At the end of the main exploration, let the user choose whether to:
     - finish and hand off to PRD,
     - add one round,
     - deep-dive a specific area,
     - increase the Explore Level.
-13. When the user finishes exploration:
+15. When the user finishes exploration:
     - read `../lcs-shared/templates/explore.template.md`,
     - synthesize the complete artifact,
     - persist `explore.md`,
@@ -178,7 +180,10 @@ When exploration finishes:
 3. Update `.lcs/state.md` with:
    - `current_phase: explore`
    - `current_work: {timestamp}-{slug-work-item}`
+   - `work_items[state.current_work].phase = explore`
+   - `work_items[state.current_work].updated_at = <current-ISO-timestamp>`
    - `last_session_note: <brief summary>`
+   - `timestamp: <current-ISO-timestamp>`
 4. End with Handoff recommending `lcs-toprd`.
 
 If filesystem or repository access is unavailable:
@@ -200,3 +205,7 @@ Expose:
 - risks.
 
 Do not expose hidden chain-of-thought.
+
+## Chain of Truth Level
+
+Level: Light

@@ -23,8 +23,11 @@ OKF_RECOMMENDED = {"tags", "summary", "status", "related"}
 LCS_REQUIRED = {"artifact_type", "source", "cot_level"}
 LCS_OPTIONAL = {"artifact_id", "version"}
 # Runtime/control fields used by state.md, task files, and DEC tickets (recognized, not required)
-LCS_RUNTIME = {"type", "timestamp", "blocked_by", "current_phase", "current_work", "last_session_note"}
+LCS_RUNTIME = {"type", "timestamp", "blocked_by", "current_phase", "current_work", "last_session_note", "work_items"}
 ALL_FIELDS = OKF_REQUIRED | OKF_RECOMMENDED | LCS_REQUIRED | LCS_OPTIONAL | LCS_RUNTIME
+
+VALID_WORK_ITEM_STATUSES = {"open"}
+REQUIRED_WORK_ITEM_FIELDS = {"title", "path", "phase", "status", "created_at", "updated_at"}
 
 VALID_STATUSES = {"draft", "reviewed", "active", "archived"}
 VALID_COT_LEVELS = {"light", "standard", "strict", "very_strict"}
@@ -119,6 +122,53 @@ def validate_file(path: Path, strict: bool = False) -> list[dict]:
     unknown = set(fm.keys()) - ALL_FIELDS
     if unknown:
         issues.append({"level": "WARN", "msg": f"Unknown fields: {sorted(unknown)}"})
+
+    # Multi-workitem validation (when artifact_type is state and work_items exists)
+    if fm.get("artifact_type") == "state" and "work_items" in fm:
+        wi = fm["work_items"]
+        if not isinstance(wi, dict):
+            issues.append({"level": "ERROR", "msg": "work_items must be a mapping/object"})
+        else:
+            current_work = fm.get("current_work")
+            current_phase = fm.get("current_phase")
+
+            # Validate each work item entry
+            for key, entry in wi.items():
+                if not isinstance(entry, dict):
+                    issues.append({"level": "ERROR", "msg": f"work_items['{key}'] must be a mapping/object"})
+                    continue
+
+                # Check required fields
+                for rf in sorted(REQUIRED_WORK_ITEM_FIELDS):
+                    if rf not in entry:
+                        issues.append({"level": "ERROR", "msg": f"work_items['{key}'] missing required field: {rf}"})
+
+                # Validate status
+                if "status" in entry and entry["status"] not in VALID_WORK_ITEM_STATUSES:
+                    issues.append({"level": "ERROR", "msg": f"work_items['{key}'] invalid status: '{entry['status']}'. Allowed: {VALID_WORK_ITEM_STATUSES}"})
+
+                # Validate path format
+                if "path" in entry:
+                    expected_path = f".lcs/work-items/{key}"
+                    if entry["path"] != expected_path:
+                        issues.append({"level": "ERROR", "msg": f"work_items['{key}'] path mismatch: '{entry['path']}' != '{expected_path}'"})
+
+                # Validate timestamps
+                for ts_field in ("created_at", "updated_at"):
+                    if ts_field in entry:
+                        val = str(entry[ts_field])
+                        if not TIMESTAMP_RE.match(val):
+                            issues.append({"level": "ERROR", "msg": f"work_items['{key}'] invalid {ts_field}: '{val}'. Expected ISO-8601."})
+
+            # Validate selected work item reference
+            if current_work is not None:
+                if current_work not in wi:
+                    issues.append({"level": "ERROR", "msg": f"current_work '{current_work}' does not exist in work_items"})
+                else:
+                    # Validate phase mirror
+                    selected_phase = wi[current_work].get("phase") if isinstance(wi[current_work], dict) else None
+                    if current_phase is not None and selected_phase is not None and current_phase != selected_phase:
+                        issues.append({"level": "ERROR", "msg": f"current_phase '{current_phase}' does not match work_items['{current_work}'].phase '{selected_phase}'"})
 
     return issues
 

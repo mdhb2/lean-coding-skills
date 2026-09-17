@@ -43,6 +43,15 @@ Behavior checklist
 - Add Review Notes with last reviewed/summary/changes applied.
 - End with Handoff recommending lcs-prd-reviewer, including Source of Truth Bundle, Must Preserve IDs, and Unresolved IDs.
 
+## State Synchronization
+
+After successful `prd.md` creation, update `.lcs/state.md`:
+- `current_phase: prd`
+- `work_items[state.current_work].phase = prd`
+- `work_items[state.current_work].updated_at = <current-ISO-timestamp>`
+- `timestamp: <current-ISO-timestamp>`
+- `last_session_note: Created prd.md for <work-name>`
+
 Prompt templates
 - Starter: "Create PRD for <work-name> based on explore.md"
 - Minimal PRD ask: "Include objective, scope, requirements, acceptance criteria, test strategy"
