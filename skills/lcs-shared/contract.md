@@ -125,6 +125,7 @@ This exception overrides the timestamped folder convention for domain-model outp
 
 Create only when relevant:
 - explore.md
+- intent.md
 - debug.md
 - prd.md
 - prd-enhanced.md
@@ -158,12 +159,15 @@ Downstream skills must not ignore enhanced upstream artifacts. Read available ar
 1. `.lcs/state.md` to locate the active work item.
 2. `prd-enhanced.md` if present. This is the authoritative PRD.
 3. `prd.md` as baseline fallback and source ledger baseline.
-4. `source-ledger.md` if present for legacy/source-only workflows.
-5. `srs.md` if present for deterministic requirement decomposition.
-6. `tests.md` if present for test coverage mapping.
-7. `api.md` and `db.md` if present for implementation contracts.
-8. `traceability.md` if present for ID mapping.
-9. `research/<topic>.md` and `wayfinder-map.md` if present for validated findings and decision maps.
+4. `intent.md` if present. Primary source for problem, proposed outcome, constraints, and out-of-scope boundaries; use to detect intent drift against downstream artifacts.
+5. `source-ledger.md` if present for legacy/source-only workflows.
+6. `srs.md` if present for deterministic requirement decomposition.
+7. `tests.md` if present for test coverage mapping.
+8. `api.md` and `db.md` if present for implementation contracts.
+9. `traceability.md` if present for ID mapping.
+10. `research/<topic>.md` and `wayfinder-map.md` if present for validated findings and decision maps.
+
+`intent.md` may not exist for historical work items created before this artifact was introduced. Downstream skills must degrade gracefully — proceed from `explore.md`/`prd.md` alone without blocking.
 
 If `prd-enhanced.md` exists but was not read, stop and report a source conflict. Do not proceed from `prd.md` alone when enhanced PRD exists.
 
@@ -269,7 +273,7 @@ Empty/missing required fields → apply `invalid_frontmatter` marker.
 
 ### Templates
 
-All 28 artifact types registered — templates available in `lcs-shared/templates/{artifact_type}.template.md` (27 files; `execution_log` reuses `session-log.template.md`).
+All 29 artifact types registered — templates available in `lcs-shared/templates/{artifact_type}.template.md` (28 files; `execution_log` reuses `session-log.template.md`).
 Copy template → rename → fill frontmatter → write content.
 
 ## Artifact Type Registry (Quick Reference)
@@ -279,6 +283,7 @@ Full definitions + templates: `lcs-shared/templates/okf-schema.md`
 | `artifact_type` | File(s) | Primary Skill | CoT Level |
 |---|---|---|---|
 | `explore` | explore.md | lcs-explore | light |
+| `intent` | intent.md | lcs-explore | light |
 | `prd` | prd.md | lcs-toprd | standard |
 | `prd_enhanced` | prd-enhanced.md | lcs-prd-reviewer | strict |
 | `srs` | srs.md | lcs-tosrs | strict |

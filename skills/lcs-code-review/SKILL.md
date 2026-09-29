@@ -176,7 +176,8 @@ BLOCKED: SRS not found, behavior compliance review cannot be performed fully.
 Before review, read artifacts in this order:
 
 1. `explore.md`
-2. `prd.md`
+2. `intent.md` (if present)
+3. `prd.md`
 3. `prd-enhanced.md` or PRD reviewer output
 4. `srs.md`
 5. `task-coverage.md`
@@ -287,7 +288,7 @@ Strict
 
 ### Sources Checked
 - Project source files, configs, and manifests
-- LCS artifacts: explore.md, prd.md, prd-enhanced.md, srs.md, task-coverage.md, task-###.md
+- LCS artifacts: explore.md, intent.md, prd.md, prd-enhanced.md, srs.md, task-coverage.md, task-###.md
 - Task acceptance criteria
 - Diff or changed code files
 - `.lcs/state.md`
@@ -332,6 +333,7 @@ This skill executes code review along two independent axes. Both axes MUST be ru
 Checks that implementation matches originating LCS artifacts. This axis answers: **"Did the code follow the spec?"**
 
 - Verify code aligns with `explore.md`, `prd.md`, `prd-enhanced.md`, `srs.md`, and `task-###.md`.
+- If `intent.md` is present, verify implemented behavior does not conflict with its Problem, Proposed Outcome, Constraints, or Out of Scope. Flag intent drift as a finding if code introduces something explicitly excluded.
 - Check that acceptance criteria are fully met.
 - Verify traceability: every artifact requirement maps to implemented code.
 - Each finding MUST cite the artifact name, section, and the specific requirement being checked.

@@ -30,6 +30,7 @@ Activate when user requests related to this skill's purpose. See description fie
 Behavior checklist
 - Read `.lcs/state.md` to identify the active work-item directory: `.lcs/work-items/{timestamp}-{slug-work-item}/`.
 - Read `prd.md` inside that active directory.
+- If `intent.md` exists in that directory, read it and check `prd.md` for material drift against its Problem, Proposed Outcome, Constraints, and Out of Scope. Flag any conflict under a `## Intent Alignment` note before hardening further.
 - Review it for gaps: ambiguous acceptance criteria, missing tests, security, performance, and missing Affected Areas / Files.
 - Create or update `prd-enhanced.md` in the same directory with the fully hardened specifications.
 - Keep the original `prd.md` intact, but write all improvements and hardenings directly to `prd-enhanced.md`.
@@ -65,7 +66,7 @@ Must be exact structure as prd.md:
 <why we are doing this, context>
 
 ## Source Context
-<links to explore.md, debug.md, or other sources>
+<links to explore.md, intent.md, debug.md, or other sources>
 
 ## Scope
 <what is included>
@@ -94,6 +95,9 @@ Must be exact structure as prd.md:
 ## Acceptance Criteria
 - AC 1: <detail>
 - AC 2: <detail>
+
+## Intent Alignment
+<if intent.md is present: confirm Problem, Proposed Outcome, Constraints, and Out of Scope remain respected. Flag any material drift here rather than silently accepting it.>
 
 ## Preservation Check
 
@@ -151,7 +155,7 @@ Current phase: prd_review
 Current confidence: high
 Blocking questions: None
 Risks to carry forward: <risks>
-Source of Truth Bundle: .lcs/state.md, prd.md, prd-enhanced.md
+Source of Truth Bundle: .lcs/state.md, prd.md, prd-enhanced.md, intent.md if present
 Must Preserve IDs: SRC-001, SRC-002, ...
 Unresolved IDs: <list or None>
 Suggested next command: Transform prd-enhanced.md menjadi SRS deterministik (lcs-tosrs)

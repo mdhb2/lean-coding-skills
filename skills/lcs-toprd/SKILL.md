@@ -28,15 +28,17 @@ Activate when user requests related to this skill's purpose. See description fie
 
 Behavior checklist
 - Read state.md first when continuing work. Otherwise, locate explore.md or debug.md. **If prd-enhanced.md exists in the work-item directory, read it first** — it contains reviewer-hardened sections. Do not overwrite sections in prd-enhanced.md without explicit user confirmation.
+- If `intent.md` exists in the work-item directory, read it. It is the primary source for the problem, intended outcome, constraints, and out-of-scope boundaries. `explore.md` remains the supporting source for findings, evidence, alternatives, assumptions, decisions, and context. Do not blindly restate the user's initial raw request as the problem when `intent.md` establishes a more accurate one. If `intent.md` is absent (historical work item), proceed from `explore.md`/`debug.md` alone.
 - Explore the repo to understand the current state of the codebase, if you haven't already. Use the project's domain glossary vocabulary throughout the PRD, and respect any ADRs in the area you're touching.
 - Sketch out the major modules you will need to build or modify to complete the implementation. Actively look for opportunities to extract deep modules that can be tested in isolation. A deep module encapsulates a lot of functionality in a simple, testable interface which rarely changes.
 - Ensure PRD uses Affected Areas / Files to limit later code reads.
-- Extract every user instruction, explicit constraint, and requirement bullet from explore.md, debug.md, and direct user input into SRC-### rows in the Source Requirement Ledger. Do not collapse P0 requirements into summaries.
+- Extract every user instruction, explicit constraint, and requirement bullet from explore.md, intent.md, debug.md, and direct user input into SRC-### rows in the Source Requirement Ledger. Do not collapse P0 requirements into summaries.
 - If `explore.md` already contains `SRC-###` IDs in its Decision Ledger,
   preserve those IDs exactly in the PRD Source Requirement Ledger.
   Never renumber, replace, or reassign existing `SRC-###` IDs.
   Assign new `SRC-###` IDs only to requirements that are not already represented.
 - If `research/` or `wayfinder-map.md` exists in the work-item directory, read them and fold validated findings/decisions into the PRD (Source Context + Source Requirement Ledger).
+- If `intent.md` exists, check the drafted PRD against its Problem, Proposed Outcome, Constraints, and Out of Scope. If the PRD introduces behavior that materially conflicts with `intent.md` (e.g. building something explicitly listed in Out of Scope), surface this conflict to the user instead of silently proceeding.
 - Write prd.md under .lcs/work-items/{timestamp}-{slug-work-item}/prd.md. Do not create versioned copies.
 - Provide clear Acceptance Criteria and Test Strategy (unit/integration/e2e where applicable).
 - Add ## Source Requirement Ledger section with SRC-### IDs, P0/P1/P2 priorities, origin, and description.
@@ -62,7 +64,7 @@ Use this template when writing prd.md. Keep concise and implementation-focused.
 # PRD: <work-name>
 
 ## Problem Statement & Objective
-- Problem Statement: <what is the problem from user perspective>
+- Problem Statement: <what is the problem from user perspective — align with intent.md Problem if present>
 - Objective: <what is the goal, how to solve it>
 
 ## Background & Solution
@@ -70,7 +72,7 @@ Use this template when writing prd.md. Keep concise and implementation-focused.
 - Solution: <the proposed solution from user perspective>
 
 ## Source Context
-<links to explore.md, debug.md, or other sources>
+<links to explore.md, intent.md, debug.md, or other sources>
 
 ## Scope & User Stories
 <what is included in this scope>
@@ -90,7 +92,7 @@ Every original user-provided instruction, explicit constraint, and requirement b
 | SRC-002 | P1 | user instruction | <exact instruction or faithful atomic paraphrase> |
 
 ## Non-Goals / Out of Scope
-<what is excluded / out of scope>
+<what is excluded / out of scope — must not silently drop items listed in intent.md Out of Scope>
 
 ## Requirements
 <functional requirements checklist>
@@ -171,7 +173,7 @@ Current phase: prd
 Current confidence: <low/medium/high>
 Blocking questions: <list or None>
 Risks to carry forward: <summary>
-Source of Truth Bundle: .lcs/state.md, explore.md if present, debug.md if present, research/ if present, prototype.md if present, wayfinder-map.md if present, prd.md
+Source of Truth Bundle: .lcs/state.md, explore.md if present, intent.md if present, debug.md if present, research/ if present, prototype.md if present, wayfinder-map.md if present, prd.md
 Must Preserve IDs: SRC-001, SRC-002, ...
 Unresolved IDs: <list or None>
 Suggested next command: Review and fix prd.md

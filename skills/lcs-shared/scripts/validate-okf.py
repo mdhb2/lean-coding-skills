@@ -32,7 +32,7 @@ REQUIRED_WORK_ITEM_FIELDS = {"title", "path", "phase", "status", "created_at", "
 VALID_STATUSES = {"draft", "reviewed", "active", "archived"}
 VALID_COT_LEVELS = {"light", "standard", "strict", "very_strict"}
 VALID_ARTIFACT_TYPES = {
-    "explore", "prd", "prd_enhanced", "srs", "tests", "api", "db",
+    "explore", "intent", "prd", "prd_enhanced", "srs", "tests", "api", "db",
     "traceability", "task_coverage", "task", "debug", "debug_ext",
     "code_review", "codebase_doc", "onboarding", "onboarding_map",
     "final_doc", "final_map", "analysis", "session_log",
