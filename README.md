@@ -12,9 +12,9 @@ Collection of small, markdown-first AI skills for lean, focused coding workflows
 | Skill | Purpose |
 |-------|---------|
 | `lcs-new` | Register a blank work item without creating artifacts |
-| `lcs-explore` | Interactive explore flow for brainstorming and shaping ideas |
+| `lcs-explore` | Interactive explore flow for brainstorming, shaping ideas, and refining user intent (`explore.md` + `intent.md`) |
 | `lcs-toprd` | Lean, implementation-focused PRD writer |
-| `lcs-prd-reviewer` | Review, harden, and security-check an existing PRD |
+| `lcs-prd-reviewer` | Review, harden, and security-check an existing PRD (flags intent drift against `intent.md`) |
 | `lcs-tosrs` | Transform PRD into deterministic Lean SRS and test contract |
 | `lcs-task-slicer` | Split a PRD or SRS into actionable, session-sized tasks |
 | `lcs-task-executor` | Execute a task plan with Chain of Truth verification |
@@ -22,7 +22,7 @@ Collection of small, markdown-first AI skills for lean, focused coding workflows
 | `lcs-debug` | Focused bug investigation and fix planning |
 | `lcs-debug-ext` | Evidence-based debug reports and patch proposals without applying code changes |
 | `lcs-codebase-doc` | Map and document existing repositories into verified onboarding docs |
-| `lcs-code-review` | Review implementation against LCS artifacts |
+| `lcs-code-review` | Review implementation against LCS artifacts (including `intent.md` alignment) |
 | `lcs-improve-architecture` | Generate visual architecture improvement plans by analyzing features and proposing unified refactoring |
 | `lcs-domain-modeling` | Build and sharpen the project's domain model (CONTEXT.md, ADRs) |
 | `lcs-master` | Contextual router/orchestrator over all LCS skills |
@@ -78,7 +78,9 @@ lcs-doc-finalizer (Strict)
 
 ### Artifacts & OKF Frontmatter
 
-Every LCS artifact carries OKF v0.2 YAML frontmatter. The shared contract registers **28 artifact types** (e.g. `prd`, `srs`, `task`, `state`, `index`, `wayfinder`), each with a template under `skills/lcs-shared/templates/{artifact_type}.template.md` (27 template files; `execution_log` reuses `session-log.template.md`).
+Every LCS artifact carries OKF v0.2 YAML frontmatter. The shared contract registers **29 artifact types** (e.g. `intent`, `prd`, `srs`, `task`, `state`, `index`, `wayfinder`), each with a template under `skills/lcs-shared/templates/{artifact_type}.template.md` (28 template files; `execution_log` reuses `session-log.template.md`).
+
+- `intent` → `.lcs/work-items/{ts}-{slug}/intent.md` (refined user intent, written by `lcs-explore`, consumed as guard rail by `lcs-toprd` and downstream review skills)
 
 - `state` → `.lcs/state.md` (session state, written by `lcs-master`)
 - `index` → navigation/control files: `.lcs/docs/docs-index.md` and `.lcs/docs/self-improvements/index.md`
@@ -99,16 +101,16 @@ Registers a blank work item in the state registry without creating `explore.md`,
 > → Creates `.lcs/work-items/{id}/` (empty), registers `phase: new` in `work_items`, selects it, then hands off to `lcs-explore` or `lcs-toprd` without invoking them.
 
 #### `lcs-explore` — Brainstorm & Shape Ideas
-Interactive question-and-answer flow to clarify intent, compare trade-offs, and assess feasibility before committing to a PRD.
+Interactive question-and-answer flow to discover the actual problem, refine user intent, compare trade-offs, and assess feasibility before committing to a PRD.
 
 **When to use:** You have a vague feature idea and need to sharpen it before planning.
 
 **Scenario:**
 > "I want to add offline mode to our mobile app. Explore what options exist."
-> → LCS asks one question at a time (target users, sync strategy, storage limits), records Q&A and options in `explore.md`, then hands off to `lcs-toprd`.
+> → LCS asks one question at a time (actual problem, intended outcome, target users, sync strategy, storage limits), records Q&A and options in `explore.md`, distills the refined intent into `intent.md`, then hands off to `lcs-toprd`.
 
 #### `lcs-toprd` — Lean PRD Writer
-Synthesizes exploration, debug notes, or direct requirements into a lean, implementation-focused PRD with acceptance criteria, test strategy, and Affected Areas / Files.
+Synthesizes exploration, refined intent, debug notes, or direct requirements into a lean, implementation-focused PRD with acceptance criteria, test strategy, and Affected Areas / Files. Uses `intent.md` as the primary source for problem, outcome, constraints, and out-of-scope boundaries.
 
 **When to use:** You are ready to define what to build.
 
@@ -291,6 +293,7 @@ Internal resource holding the canonical folder conventions, OKF frontmatter sche
 
 | Tag | Summary |
 |-----|---------|
+|`v2.8.1`| Intent artifact (`intent.md`, artifact type `intent`): `lcs-explore` now discovers the actual problem, refines user intent, and emits `intent.md` alongside `explore.md`; `lcs-toprd` consumes it as the primary source for problem/outcome/constraints/out-of-scope; `lcs-prd-reviewer`, `lcs-code-review`, and `lcs-doc-finalizer` detect intent drift against it. Backward compatible — historical work items without `intent.md` remain usable. |
 |`v2.8`| Multi-workitem state registry (`work_items` in `.lcs/state.md`, 23 skills): new `lcs-new` blank registration skill (Standard); `lcs-master` list/switch/resume control plane with legacy reconciliation; common phase-sync rule across explore/debug/planning/execution skills; onboarding state isolation; `npm test` restored (`node scripts/validate-skills.js`). Backward compatible — legacy state without `work_items` stays valid. |
 |`v2.3`| Contract.md alignment (13 GAP fixes): 10-field Handoff format in all 8 templates; AFK/HITL enforcement in `lcs-task-executor`; artifact preservation (explore.md → prd → srs flow); Source Requirement Ledger P0/P1/P2 notation; `lcs-tosrs` added to routing chain; task-coverage.md validation; prototype.md tracking. Zero contract violations. |
 |`v2.2`| OKF lifecycle alignment: wayfinder DEC tickets now use `status: active/archived` frontmatter; `artifact_type: index` registered for navigation files `docs-index.md`/`index.md` with full OKF frontmatter; validator alignment (quoted timestamps, no `type` frontmatter, date-only) plus PowerShell parity runner `validate-traceability.ps1`. |

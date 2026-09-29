@@ -3,7 +3,3 @@
 
 Dokumentasi :
 4. skill brag sheet : https://github.com/mdhb2/aix-skillpack/tree/master/skills/brag-sheet
-
-Debugging : 
-10. security review : https://github.com/mdhb2/aix-skillpack/tree/master/skills/security-review
-11. skill diagnose : https://github.com/mdhb2/aix-skillpack/tree/master/skills/diagnose
