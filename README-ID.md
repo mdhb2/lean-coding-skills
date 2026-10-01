@@ -17,15 +17,15 @@ Kumpulan skill AI berbasis markdown yang kecil dan fokus untuk alur kerja coding
 | `lcs-prd-reviewer` | Review, hardening, dan security-check PRD yang sudah ada (menandai intent drift terhadap `intent.md`) |
 | `lcs-tosrs` | Transformasi PRD menjadi Lean SRS deterministik + kontrak test |
 | `lcs-task-slicer` | Memecah PRD/SRS menjadi task yang actionable dan muat satu sesi |
-| `lcs-task-executor` | Mengeksekusi task plan dengan verifikasi Chain of Truth |
+| `lcs-task-executor` | Mengeksekusi task plan dengan verifikasi Chain of Truth (mode DIRECT/NORMAL/TDD dengan verifikasi V0/V1/V2) |
 | `lcs-doc-finalizer` | Finalisasi dan pembungkusan pekerjaan selesai menjadi docs kanonik |
 | `lcs-debug` | Investigasi bug terfokus dan perencanaan perbaikan |
 | `lcs-debug-ext` | Laporan debug berbasis bukti + proposal patch tanpa mengubah kode |
 | `lcs-codebase-doc` | Memetakan dan mendokumentasikan repo existing menjadi docs onboarding |
-| `lcs-code-review` | Review implementasi terhadap artifact LCS (termasuk alignment `intent.md`) |
+| `lcs-code-review` | Review implementasi terhadap artifact LCS dengan kedalaman QUICK/TARGETED/FULL (termasuk alignment `intent.md`) |
 | `lcs-improve-architecture` | Membuat rencana perbaikan arsitektur visual dengan menganalisis fitur dan mengusulkan refactoring terpadu |
 | `lcs-domain-modeling` | Membangun dan mempertajam domain model proyek (CONTEXT.md, ADR) |
-| `lcs-master` | Router/orchestrator kontekstual untuk semua skill LCS |
+| `lcs-master` | Router/orchestrator kontekstual untuk semua skill LCS dengan klasifikasi kerja (TRIVIAL/SMALL/NORMAL/COMPLEX) dan adaptive routing |
 | `lcs-onboarding` | Membuat dokumentasi onboarding yang ramah developer |
 | `lcs-prototype` | Membangun prototype sekali-pakai untuk memvalidasi keputusan desain |
 | `lcs-research` | Riset berbasis bukti terhadap sumber primer |
@@ -147,7 +147,7 @@ Memecah SRS/PRD menjadi vertical slice tracer-bullet kecil yang sadar dependensi
 > → Mengonfirmasi granularitas kepadamu, lalu menulis `task-coverage.md` dan satu file per task dengan Source coverage dan dependensi `blocked_by`.
 
 #### `lcs-task-executor` — Eksekusi Satu Task
-Mengeksekusi satu `task-###.md` dalam mode Normal atau TDD, menangkap output verifikasi apa adanya (verbatim), dan memperbarui status task serta `.lcs/state.md`.
+Mengeksekusi satu `task-###.md` dalam mode DIRECT, Normal, atau TDD dengan verifikasi V0/V1/V2, menangkap output verifikasi apa adanya (verbatim), dan memperbarui status task serta `.lcs/state.md`. DIRECT menangani pekerjaan TRIVIAL tanpa file task; NORMAL/TDD tetap task-backed. Safety hanya boleh naik — tidak boleh turun ke mode yang lebih ringan untuk pekerjaan berisiko.
 
 **Kapan dipakai:** Kamu siap mengimplementasikan task yang sudah di-slice.
 
@@ -156,7 +156,7 @@ Mengeksekusi satu `task-###.md` dalam mode Normal atau TDD, menangkap output ver
 > → Membaca task dan sumbernya, merekomendasikan mode Normal vs TDD, implementasi, menjalankan validasi, dan mencatat bukti hasil di Chain of Truth Report.
 
 #### `lcs-code-review` — Review Implementasi
-Me-review kode hasil eksekusi terhadap artifact LCS (Explore, PRD, SRS, task, AC), memberi severity P0–P3, dan menulis `code-review.md` berisi FIX entries untuk executor.
+Me-review kode hasil eksekusi terhadap artifact LCS (Explore, PRD, SRS, task, AC) dengan kedalaman QUICK, TARGETED, atau FULL, memberi severity P0–P3, dan menulis `code-review.md` berisi FIX entries untuk executor. Kedalaman mengikuti mode executor dan risiko; perubahan security-sensitive selalu FULL.
 
 **Kapan dipakai:** Setelah satu atau beberapa task selesai, sebelum finalisasi.
 
@@ -273,7 +273,7 @@ Meta-skill protokol yang disuntikkan ke semua skill LCS: setiap artifact menampi
 **Kapan dipakai:** Otomatis aktif di dalam setiap skill LCS yang menghasilkan artifact untuk dikomit atau dirilis.
 
 #### `lcs-master` — Router / Orchestrator Kontekstual
-Titik masuk tunggal yang menganalisis niat, mengenali situasi awal (on-ramps), merutekan ke skill yang tepat dengan panduan kontekstual kaya, dan menegakkan kontrak bersama di setiap handoff. Berjalan dalam mode konfirmasi (default) atau mode autopilot.
+Titik masuk tunggal yang menganalisis niat, mengklasifikasikan pekerjaan (TRIVIAL/SMALL/NORMAL/COMPLEX berdasarkan scope, risk, ambiguity, blast radius), mengenali situasi awal (on-ramps), merutekan ke skill yang tepat dengan panduan kontekstual kaya, dan menegakkan kontrak bersama di setiap handoff. Pekerjaan TRIVIAL lewat FAST PATH (`lcs-task-executor` DIRECT/V0); NORMAL/COMPLEX tetap memakai full workflow. Berjalan dalam mode konfirmasi (default) atau mode autopilot.
 
 **Kapan dipakai:** Kamu tidak yakin skill LCS mana yang cocok, atau ingin memulai workflow dari nol.
 
@@ -294,6 +294,7 @@ Resource internal berisi konvensi folder kanonik, skema frontmatter OKF, format 
 
 | Tag | Ringkasan |
 |-----|-----------|
+|`v2.8.2`| Full Adaptive LCS (Fase 1–5): `lcs-master` mengklasifikasikan pekerjaan menjadi TRIVIAL/SMALL/NORMAL/COMPLEX dan merutekan TRIVIAL ke FAST PATH (`lcs-task-executor` DIRECT/V0) sementara NORMAL/COMPLEX tetap memakai full workflow; executor menambah mode DIRECT/NORMAL/TDD dengan verifikasi V0 MINIMAL / V1 TARGETED / V2 FULL (exit 0 + output verbatim + HALT saat gagal); `lcs-code-review` menambah kedalaman QUICK/TARGETED/FULL dengan `N/A` vs `PARTIAL_REVIEW` dan selalu FULL untuk perubahan security-sensitive; satu handoff membawa class, risk, mode, hasil verifikasi, file berubah, dan ID belum tuntas dari ujung ke ujung. Safety hanya boleh naik, tidak boleh turun. `contract.md` tidak disentuh. |
 |`v2.8.1`| Artifact Intent (`intent.md`, artifact type `intent`): `lcs-explore` kini menemukan masalah sebenarnya, memurnikan intent user, dan menghasilkan `intent.md` berdampingan dengan `explore.md`; `lcs-toprd` memakainya sebagai sumber utama problem/outcome/constraints/out-of-scope; `lcs-prd-reviewer`, `lcs-code-review`, dan `lcs-doc-finalizer` mendeteksi intent drift terhadapnya. Backward compatible — work item lama tanpa `intent.md` tetap bisa dipakai. |
 |`v2.8`| Registry state multi-workitem (`work_items` di `.lcs/state.md`, 23 skill): skill baru `lcs-new` untuk registrasi kosong (Standard); control plane list/switch/resume di `lcs-master` dengan rekonsiliasi legacy; aturan sinkronisasi phase umum di semua skill explore/debug/planning/execution; isolasi state onboarding; `npm test` dipulihkan (`node scripts/validate-skills.js`). Backward compatible — state legacy tanpa `work_items` tetap valid. |
 |`v2.3`| Penyelarasan contract.md (13 perbaikan GAP): Format Handoff 10-field di semua 8 template; enforcement AFK/HITL di `lcs-task-executor`; preservasi artifact (alur explore.md → prd → srs); notasi P0/P1/P2 di Source Requirement Ledger; `lcs-tosrs` ditambahkan ke routing chain; validasi task-coverage.md; tracking prototype.md. Nol pelanggaran contract. |

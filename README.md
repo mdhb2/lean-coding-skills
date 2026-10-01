@@ -17,15 +17,15 @@ Collection of small, markdown-first AI skills for lean, focused coding workflows
 | `lcs-prd-reviewer` | Review, harden, and security-check an existing PRD (flags intent drift against `intent.md`) |
 | `lcs-tosrs` | Transform PRD into deterministic Lean SRS and test contract |
 | `lcs-task-slicer` | Split a PRD or SRS into actionable, session-sized tasks |
-| `lcs-task-executor` | Execute a task plan with Chain of Truth verification |
+| `lcs-task-executor` | Execute a task plan with Chain of Truth verification (DIRECT/NORMAL/TDD modes with V0/V1/V2 verification) |
 | `lcs-doc-finalizer` | Finalize and wrap completed work into canonical docs |
 | `lcs-debug` | Focused bug investigation and fix planning |
 | `lcs-debug-ext` | Evidence-based debug reports and patch proposals without applying code changes |
 | `lcs-codebase-doc` | Map and document existing repositories into verified onboarding docs |
-| `lcs-code-review` | Review implementation against LCS artifacts (including `intent.md` alignment) |
+| `lcs-code-review` | Review implementation against LCS artifacts at QUICK/TARGETED/FULL depth (including `intent.md` alignment) |
 | `lcs-improve-architecture` | Generate visual architecture improvement plans by analyzing features and proposing unified refactoring |
 | `lcs-domain-modeling` | Build and sharpen the project's domain model (CONTEXT.md, ADRs) |
-| `lcs-master` | Contextual router/orchestrator over all LCS skills |
+| `lcs-master` | Contextual router/orchestrator over all LCS skills with work classification (TRIVIAL/SMALL/NORMAL/COMPLEX) and adaptive routing |
 | `lcs-onboarding` | Generate developer-friendly onboarding documentation |
 | `lcs-prototype` | Build throwaway prototypes to validate design questions |
 | `lcs-research` | Evidence-based research against primary sources |
@@ -146,7 +146,7 @@ Splits the SRS/PRD into small, dependency-aware tracer-bullet vertical slices, c
 > → Confirms granularity with you, then writes `task-coverage.md` and one file per task with Source coverage and `blocked_by` dependencies.
 
 #### `lcs-task-executor` — Execute a Task
-Executes a single `task-###.md` in Normal or TDD mode, captures verification output verbatim, and updates task status and `.lcs/state.md`.
+Executes a single `task-###.md` in DIRECT, Normal, or TDD mode with V0/V1/V2 verification, captures verification output verbatim, and updates task status and `.lcs/state.md`. DIRECT handles TRIVIAL work without a task file; NORMAL/TDD stay task-backed. Safety can only upgrade — never downgrade to a lighter mode on risky work.
 
 **When to use:** You are ready to implement a sliced task.
 
@@ -155,7 +155,7 @@ Executes a single `task-###.md` in Normal or TDD mode, captures verification out
 > → Reads the task and its sources, recommends Normal vs TDD mode, implements, runs validation, and records proof of result in the Chain of Truth Report.
 
 #### `lcs-code-review` — Review Implementation
-Reviews the executed code against LCS artifacts (Explore, PRD, SRS, tasks, AC), assigns P0–P3 severities, and writes `code-review.md` with FIX entries for the executor.
+Reviews the executed code against LCS artifacts (Explore, PRD, SRS, tasks, AC) at QUICK, TARGETED, or FULL depth, assigns P0–P3 severities, and writes `code-review.md` with FIX entries for the executor. Depth follows executor mode and risk; security-sensitive changes always get FULL review.
 
 **When to use:** After one or more tasks are done, before finalizing.
 
@@ -272,7 +272,7 @@ A meta-skill protocol injected into all LCS skills: every artifact exposes audit
 **When to use:** Automatically active inside every LCS skill that produces a commitable or shipped artifact.
 
 #### `lcs-master` — Contextual Router / Orchestrator
-The single entry point that analyzes intent, recognizes starting situations (on-ramps), routes to the correct skill with rich contextual guidance, and enforces the shared contract on every handoff. Runs in confirmation mode (default) or autopilot mode.
+The single entry point that analyzes intent, classifies work (TRIVIAL/SMALL/NORMAL/COMPLEX by scope, risk, ambiguity, blast radius), recognizes starting situations (on-ramps), routes to the correct skill with rich contextual guidance, and enforces the shared contract on every handoff. TRIVIAL work takes the FAST PATH (`lcs-task-executor` DIRECT/V0); NORMAL/COMPLEX keep the full workflow. Runs in confirmation mode (default) or autopilot mode.
 
 **When to use:** You are unsure which LCS skill fits, or you want to start the workflow from scratch.
 
@@ -293,6 +293,7 @@ Internal resource holding the canonical folder conventions, OKF frontmatter sche
 
 | Tag | Summary |
 |-----|---------|
+|`v2.8.2`| Full Adaptive LCS (Phases 1–5): `lcs-master` classifies work into TRIVIAL/SMALL/NORMAL/COMPLEX and routes TRIVIAL to FAST PATH (`lcs-task-executor` DIRECT/V0) while NORMAL/COMPLEX keep the full workflow; executor adds DIRECT/NORMAL/TDD modes with V0 MINIMAL / V1 TARGETED / V2 FULL verification (exit 0 + verbatim output + HALT on failure); `lcs-code-review` adds QUICK/TARGETED/FULL depth with `N/A` vs `PARTIAL_REVIEW` and always-FULL for security-sensitive changes; one handoff carries class, risk, mode, verification results, changed files, and unresolved IDs end to end. Safety can only upgrade, never downgrade. `contract.md` untouched. |
 |`v2.8.1`| Intent artifact (`intent.md`, artifact type `intent`): `lcs-explore` now discovers the actual problem, refines user intent, and emits `intent.md` alongside `explore.md`; `lcs-toprd` consumes it as the primary source for problem/outcome/constraints/out-of-scope; `lcs-prd-reviewer`, `lcs-code-review`, and `lcs-doc-finalizer` detect intent drift against it. Backward compatible — historical work items without `intent.md` remain usable. |
 |`v2.8`| Multi-workitem state registry (`work_items` in `.lcs/state.md`, 23 skills): new `lcs-new` blank registration skill (Standard); `lcs-master` list/switch/resume control plane with legacy reconciliation; common phase-sync rule across explore/debug/planning/execution skills; onboarding state isolation; `npm test` restored (`node scripts/validate-skills.js`). Backward compatible — legacy state without `work_items` stays valid. |
 |`v2.3`| Contract.md alignment (13 GAP fixes): 10-field Handoff format in all 8 templates; AFK/HITL enforcement in `lcs-task-executor`; artifact preservation (explore.md → prd → srs flow); Source Requirement Ledger P0/P1/P2 notation; `lcs-tosrs` added to routing chain; task-coverage.md validation; prototype.md tracking. Zero contract violations. |
