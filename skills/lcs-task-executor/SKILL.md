@@ -34,9 +34,9 @@ Modes: `DIRECT | NORMAL | TDD`. Rule-based, no numeric scoring, no new skill. Re
 
 ### Mode definitions
 
-- **DIRECT:** TRIVIAL work without a task file. Contoh: rename variable/function, typo, copy/text, constant sederhana, formatting, import cleanup. Verification: minimal sufficient (`search old → apply → search sisa → inspect diff` + targeted test bila murah). No SRS/tests/PRD required.
-- **NORMAL:** SMALL/NORMAL task-backed work. Wajib `task-###.md` + source coverage seperti flow existing. Implement → test bila relevan → validate.
-- **TDD:** logic-heavy, complex state, algorithm/data transform, high-risk, atau task yang eksplisit minta testing. Wajib task file + tracer bullet RED→GREEN per seam seperti flow existing.
+- **DIRECT:** TRIVIAL work without a task file. Contoh: rename variable/function, typo, copy/text, constant sederhana, formatting, import cleanup. Verification: V0 MINIMAL (`search old → apply → search sisa → inspect diff` + targeted test bila murah). No SRS/tests/PRD required.
+- **NORMAL:** SMALL/NORMAL task-backed work. Wajib `task-###.md` + source coverage seperti flow existing. Verification: V1 TARGETED. Implement → test bila relevan → validate.
+- **TDD:** logic-heavy, complex state, algorithm/data transform, high-risk, atau task yang eksplisit minta testing. Wajib task file + tracer bullet RED→GREEN per seam seperti flow existing. Verification: V2 FULL.
 
 ### Mode selection priority
 
@@ -193,18 +193,28 @@ Very Strict
 - **Rule:** Refactoring is NOT part of the red-green loop. It belongs to the review stage.
 
 
-## Strict Completion Criteria (Mandatory)
+## Adaptive Verification Levels (Phase 3, Mandatory)
 
-Every validation step MUST follow this pattern:
+Levels adapt to mode, strictness never drops to zero. Every level requires exit 0 + verbatim capture + HALT on failure.
+
+- **V0 MINIMAL (DIRECT default):** `search old refs → git diff --check → inspect diff` (+ targeted single test only if cheap and exists). Fail if old refs remain or `diff --check` fails → `blocked`, HALT.
+- **V1 TARGETED (NORMAL default):** V0 + relevant test/linter for touched area (single file/module, e.g. `npm test -- <file>`, `pytest <file>`), exit 0 verbatim. No full suite unless cheap. Fail → `blocked`, HALT.
+- **V2 FULL (TDD default):** V1 + full relevant suite + `python3 ./skills/lcs-shared/scripts/validate-traceability.py --work-item <path>` when task artifacts exist, exit 0 verbatim. Fail → `blocked`, HALT.
+
+Rules:
+- Default mapping: `DIRECT→V0`, `NORMAL→V1`, `TDD→V2`.
+- Upgrade allowed (`V0→V1/V2`), downgrade forbidden (`TDD` must not use V0/V1; `NORMAL` must not use V0 unless re-classified to DIRECT with explicit user approval + reason).
+- V0 is minimum, never zero. `No verification` is forbidden.
+- Pattern for every validation step:
 
 ```
-- **Step: Execute Validation.**
-  - **Action:** Run `<command>` (project-specific: npm test, pytest, cargo test, etc.)
+- **Step: Execute Validation (V0/V1/V2).**
+  - **Action:** Run `<command>` (V0: search/diff-check; V1: targeted test/lint; V2: full suite + traceability validator)
   - **Completion Criterion:** Command MUST exit with code 0. The exact stdout/stderr MUST be captured verbatim in the `Verification` section of the Chain of Truth Report.
-  - **Failure Handling:** If exit code ≠ 0, mark task status as `blocked`, record the error output verbatim, and HALT. Do not attempt to fix without user confirmation or a new task.
+  - **Failure Handling:** If exit code ≠ 0, mark task status as `blocked` (or stop Direct with report), record the error output verbatim, and HALT. Do not attempt to fix without user confirmation or a new task.
 ```
 
-**Leading Words:** "exit code 0", "verbatim stdout/stderr", "HALT on failure"
+**Leading Words:** "exit code 0", "verbatim stdout/stderr", "HALT on failure", "V0 minimum never zero"
 **Anti-Pattern:** "Run tests and make sure they pass" — too vague, no capture mechanism.
 
 ## Handoff
