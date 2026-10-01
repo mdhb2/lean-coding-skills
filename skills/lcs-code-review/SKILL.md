@@ -35,7 +35,8 @@ Activate when user wants to: review code implementation, verify task completion,
 
 ## Output Artifact
 
-- Save review report as: `.lcs/work-items/{timestamp}-{slug-work-item}/code-review.md`
+- With an active work item, save review report as: `.lcs/work-items/{timestamp}-{slug-work-item}/code-review.md`
+- QUICK review without an active work item returns the report inline; do not create a work item just to store it.
 - Artifact type: `code_review`
 - Use the active work item folder from `.lcs/state.md`
 
@@ -249,10 +250,11 @@ If the repository uses different paths, locate the most relevant LCS artifacts.
 ## Phase 1: Setup
 
 1. Select QUICK/TARGETED/FULL using Adaptive Review Depth rules.
-2. For TARGETED/FULL, read `.lcs/state.md` to locate active work item folder. QUICK may proceed without a work item when user explicitly requests review of a direct change.
-3. Read artifacts required for selected depth: QUICK reads available relevant artifacts; TARGETED reads task acceptance criteria and relevant PRD/SRS; FULL reads all available artifacts in Required Reading Order.
-4. Read diff or changed code files within selected depth.
-5. Build expected behavior from applicable artifacts; record `N/A` when QUICK has none.
+2. Consume executor handoff when present: work class, risk dimensions, execution mode, verification level/results, changed files, unresolved IDs, and user override. Treat these as routing context, not proof; verify claims from source evidence.
+3. For TARGETED/FULL, read `.lcs/state.md` to locate active work item folder. QUICK may proceed without a work item when user explicitly requests review of a direct change.
+4. Read artifacts required for selected depth: QUICK reads available relevant artifacts; TARGETED reads task acceptance criteria and relevant PRD/SRS; FULL reads all available artifacts in Required Reading Order.
+5. Read diff or changed code files within selected depth.
+6. Build expected behavior from applicable artifacts; record `N/A` when QUICK has none.
 
 ## Phase 2: Review Execution
 
@@ -268,17 +270,20 @@ If the repository uses different paths, locate the most relevant LCS artifacts.
 3. For each issue found, create a FIX-{n} entry with problem, location, expected vs actual, fix instructions, and validation.
 4. Include Fix Request Copy block per FIX entry for executor consumption.
 5. Add execution order and final status.
-6. Write report to `.lcs/work-items/{timestamp}-{slug-work-item}/code-review.md`.
+6. Include selected review depth, executor mode, verification level, exact checks/results, and any unresolved IDs from the handoff.
+7. Write report to `.lcs/work-items/{timestamp}-{slug-work-item}/code-review.md` when a work item is active; otherwise return QUICK report inline.
 
 ## Phase 4: Validation & Handoff
 
 1. Verify all claims in the report are backed by evidence from artifacts or code.
 2. Confirm final status (PASS / PASS_WITH_NOTES / NEEDS_FIX / BLOCKED).
-3. Update `.lcs/state.md` with:
-   - `current_phase: code-review`
-   - `work_items[state.current_work].phase = code-review`
-   - `work_items[state.current_work].updated_at = <current-ISO-timestamp>`
+3. If a work item is active, update `.lcs/state.md` with:
+    - `current_phase: code-review`
+    - `work_items[state.current_work].phase = code-review`
+    - `work_items[state.current_work].updated_at = <current-ISO-timestamp>`
+   For QUICK review without an active work item, do not mutate `.lcs/state.md`.
 4. Present handoff for `lcs-task-executor` with required fixes and execution order.
+5. On PASS or PASS_WITH_NOTES, recommend `lcs-doc-finalizer` when work-item documentation requires finalization. On NEEDS_FIX, return actionable FIX items, review depth, and unresolved IDs to `lcs-task-executor`; require re-review at same or higher depth. On BLOCKED, stop and state missing input. Never lower depth on remediation or re-review.
 
 ---
 

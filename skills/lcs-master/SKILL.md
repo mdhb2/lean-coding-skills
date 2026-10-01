@@ -173,19 +173,32 @@ Classification is cheap (seconds). Rule-based, no numeric scoring, no new skill.
 
 ### Adaptive Routing
 
-- **TRIVIAL → FAST PATH:** `Inspect → Direct change → Minimal verification → Report → Done`. Lewati explore/PRD/SRS/slicer/formal review/finalizer.
+- **TRIVIAL → FAST PATH:** `lcs-task-executor (DIRECT/V0) → Report → Done`. Lewati explore/PRD/SRS/slicer/formal review/finalizer kecuali user meminta depth lebih tinggi.
 - **SMALL → LIGHT:** pilih existing skill paling ringan (mis. langsung `lcs-debug` untuk bug kecil, atau direct change + targeted test). Jangan buat pseudo-workflow baru.
 - **NORMAL → EXISTING MAIN WORKFLOW:** `lcs-explore → lcs-toprd → lcs-prd-reviewer → lcs-tosrs → lcs-task-slicer → lcs-task-executor → lcs-code-review → lcs-doc-finalizer` (dengan prototype/wayfinder detour bila terpicu).
 - **COMPLEX → EXISTING FULL/STRICT:** sama dengan NORMAL + `lcs-wayfinder` di depan bila huge/foggy, Chain of Truth Strict/Very Strict tetap berlaku.
 
+### Full Adaptive Handoff (Phase 5)
+
+Carry one routing decision through execution, verification, and review. Do not reclassify to a lighter mode downstream without user-approved scope change; downstream safety checks may upgrade rigor.
+
+| Work class | Executor mode | Verification | Review |
+|---|---|---|---|
+| TRIVIAL | DIRECT | V0 MINIMAL | No formal review by default; QUICK only on explicit review request |
+| SMALL | NORMAL, task-backed for code changes | V1 TARGETED | TARGETED |
+| NORMAL | NORMAL by default; TDD for logic-heavy/high-risk work | V1 TARGETED or V2 FULL to match mode | TARGETED for NORMAL; FULL for TDD/high-risk |
+| COMPLEX | TDD | V2 FULL | FULL |
+
+Explicit user requests may increase depth. Risk, ambiguity, blast-radius, and mode rules in downstream skills may only preserve or increase depth, never weaken safety. For non-code work or routes handled by another existing skill, preserve its current workflow; this mapping applies when work reaches code execution.
+
+The handoff to `lcs-task-executor` must carry `work_class`, `risk`, `ambiguity`, `blast_radius`, user override (if any), and expected executor/verification/review depth. The executor handoff to `lcs-code-review` must carry selected mode, verification level, exact checks/results, changed files, and unresolved acceptance/source IDs. Reviewer verdict routes: PASS/PASS_WITH_NOTES may continue to `lcs-doc-finalizer`; NEEDS_FIX returns to executor; BLOCKED stops for user input.
+
 ### Fast Path Contract
 
 Hanya bila `work_class=TRIVIAL` dan tidak ada explicit request full workflow. Must:
-1. Inspect relevant code.
-2. Confirm exact change.
-3. Make bounded change.
-4. Verify: `search old symbol → apply → search sisa referensi → inspect diff` (+ targeted test bila murah).
-5. Report result. 6. Stop.
+1. Handoff ke `lcs-task-executor` dalam `DIRECT` mode dengan classification context; executor owns code edits and V0 verification.
+2. Jika user explicitly requests review, route ke `lcs-code-review` dalam `QUICK` depth, kecuali risk rules require `FULL`.
+3. Otherwise report executor result and stop; jangan invoke formal review atau finalizer automatically.
 
 Must NOT: perluas scope, refactor tambahan, buat PRD/SRS/task breakdown, formal review, unrelated cleanup.
 
@@ -210,6 +223,10 @@ Reason:
 
 Route:
 <FAST PATH | LIGHT PATH | MAIN LCS WORKFLOW | FULL / STRICT WORKFLOW>
+
+Execution: <DIRECT | NORMAL | TDD | N/A>
+Verification: <V0 MINIMAL | V1 TARGETED | V2 FULL | N/A>
+Review: <NONE | QUICK | TARGETED | FULL | N/A>
 ```
 
 Jangan jadi long-form analysis.
@@ -292,7 +309,7 @@ Skills that run beneath the main flow sebagai vocabulary sources:
 
 ### Autopilot Mode (opt-in)
 User must explicitly choose autopilot. Flow:
-- Run Work Classification first. If TRIVIAL → FAST PATH langsung (inspect → change → verify → report), jangan chain artifact-heavy.
+- Run Work Classification first. If TRIVIAL → `lcs-task-executor` DIRECT/V0, jangan chain artifact-heavy. Run QUICK/FULL review only when explicitly requested or risk rules require it.
 - If SMALL → LIGHT path dengan existing skill paling ringan.
 - If NORMAL/COMPLEX → chain berikut:
 - If workflow has not yet gathered enough context (no `explore.md` / no clear intent), invoke `lcs-explore` first
@@ -525,6 +542,9 @@ Append audit-trail entry ke `.lcs/work-items/{timestamp}-lcs-master/session-log.
     ambiguity: low
     blast_radius: medium
   route: main-workflow
+  execution_mode: normal
+  verification_level: V1 TARGETED
+  review_depth: TARGETED
   user_override: none
 ```
 

@@ -77,11 +77,18 @@ Unchanged existing flow below (task file wajib, dependency check, source coverag
 Execution Mode
 
 Mode: <DIRECT|NORMAL|TDD>
+Work Class: <TRIVIAL|SMALL|NORMAL|COMPLEX>
 Risk: <LOW|MEDIUM|HIGH|CRITICAL>
 Reason: <1 kalimat>
 
 Route: <DIRECT EXECUTION | TASK-BACKED NORMAL | TASK-BACKED TDD>
+Verification: <V0 MINIMAL | V1 TARGETED | V2 FULL>
+Review: <NONE | QUICK | TARGETED | FULL>
 ```
+
+### Adaptive Handoff to Review (Phase 5)
+
+When review is requested or workflow requires review, hand off to `lcs-code-review` with: work class and risk dimensions; selected execution mode and review depth; changed files; exact verification commands, exit codes, and verbatim results; applicable acceptance/source IDs and unresolved IDs; and user override. Apply Phase 4 review-depth rules. Default review mapping: DIRECT→QUICK only when explicitly requested (otherwise NONE), NORMAL→TARGETED, TDD→FULL. Risk or explicit-depth rules may upgrade review; never downgrade required depth. If verification failed, stop and report `blocked`; do not hand off as successful execution.
 
 Behavior checklist
 0. Determine mode first via Adaptive Execution Modes above (DIRECT vs NORMAL vs TDD). If DIRECT → skip steps 1-6 task-file gates, run Direct contract, then jump to step 9-11 reporting (no task status mutation). If NORMAL/TDD → continue task-backed steps below.
@@ -129,7 +136,7 @@ Behavior checklist
     - `work_items[state.current_work].updated_at = <current-ISO-timestamp>`
     - `last_session_note: Executed TASK-###: <task-name> successfully`
     - `timestamp: <current-ISO-timestamp>`
-11. End with Handoff pointing to the next logical step (e.g., the next sequential task, `lcs-code-review` after all tasks, or `lcs-doc-finalizer`).
+11. End with Handoff carrying the Phase 5 fields above and pointing to the next logical step (e.g., next task, `lcs-code-review`, or `lcs-doc-finalizer` only when review is not required).
 
 Prompt templates
 - Starter Task Execution: "Eksekusi TASK-001"
