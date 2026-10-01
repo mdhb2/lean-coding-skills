@@ -35,7 +35,8 @@ Activate when user wants to: review code implementation, verify task completion,
 
 ## Output Artifact
 
-- Save review report as: `.lcs/work-items/{timestamp}-{slug-work-item}/code-review.md`
+- With an active work item, save review report as: `.lcs/work-items/{timestamp}-{slug-work-item}/code-review.md`
+- QUICK review without an active work item returns the report inline; do not create a work item just to store it.
 - Artifact type: `code_review`
 - Use the active work item folder from `.lcs/state.md`
 
@@ -51,6 +52,29 @@ Level: Strict
 This skill verifies that implementation matches specifications. Every claim in the review must cite evidence from artifacts or code.
 
 ---
+
+## Adaptive Review Depth (Phase 4)
+
+Choose review depth from executor mode and work risk. Review depth changes effort, not safety rules: no code edits, no unsupported PASS, evidence for findings, and security/data risks always receive FULL review.
+
+| Depth | Default mapping | Required scope |
+|---|---|---|
+| **QUICK** | DIRECT / TRIVIAL, only when review is explicitly requested | Changed diff + affected symbols/references + relevant cheap test; report artifact alignment as `N/A` when no LCS artifacts exist. |
+| **TARGETED** | NORMAL / SMALL | Changed files + task acceptance criteria and relevant PRD/SRS requirements + targeted tests + focused security/error-handling checks. |
+| **FULL** | TDD / COMPLEX / high or critical risk / explicit full review | Existing complete Required Reading Order, both review axes, relevant/full test evidence, traceability where artifacts exist. |
+
+### Depth selection rules
+
+1. Explicit request for full review → FULL.
+2. High/critical risk, security-sensitive change, high blast radius, or unclear scope → FULL, regardless of executor mode.
+3. TDD/COMPLEX → FULL.
+4. NORMAL/SMALL → TARGETED.
+5. DIRECT/TRIVIAL → QUICK only if user explicitly asks for review; otherwise `lcs-master` Fast Path does not invoke formal review.
+6. Missing executor mode → infer from scope/risk; if uncertain, use the more rigorous depth.
+
+QUICK and TARGETED preserve verdicts `PASS`, `PASS_WITH_NOTES`, `NEEDS_FIX`, `BLOCKED`; use `PARTIAL_REVIEW` when missing inputs prevent a required check. Never treat skipped artifact compliance as passed: mark it `N/A` (QUICK with no artifacts) or `PARTIAL_REVIEW` (TARGETED/FULL missing required artifacts).
+
+QUICK/TARGETED do not run full-suite validation by default; they must state exact checks run and tests not run with reason. FULL retains existing strict test evidence and halt-on-failure rules.
 
 ## Primary Role
 
@@ -226,20 +250,19 @@ If the repository uses different paths, locate the most relevant LCS artifacts.
 
 ## Phase 1: Setup
 
-1. Read `.lcs/state.md` to locate active work item folder.
-2. Read all available LCS artifacts in Required Reading Order.
-3. Read diff or changed code files.
-4. Build a list of expected behavior from artifacts.
+1. Select QUICK/TARGETED/FULL using Adaptive Review Depth rules.
+2. Consume executor handoff when present: work class, risk dimensions, execution mode, verification level/results, changed files, unresolved IDs, and user override. Treat these as routing context, not proof; verify claims from source evidence.
+3. For TARGETED/FULL, read `.lcs/state.md` to locate active work item folder. QUICK may proceed without a work item when user explicitly requests review of a direct change.
+4. Read artifacts required for selected depth: QUICK reads available relevant artifacts; TARGETED reads task acceptance criteria and relevant PRD/SRS; FULL reads all available artifacts in Required Reading Order.
+5. Read diff or changed code files within selected depth.
+6. Build expected behavior from applicable artifacts; record `N/A` when QUICK has none.
 
 ## Phase 2: Review Execution
 
-1. Check alignment with Explore, PRD, PRD Enhance, SRS, and Task Breakdown.
-2. Scan for potential bugs (null handling, race conditions, edge cases, etc.).
-3. Check security and data safety (auth, injection, exposure, etc.).
-4. Check error handling and failure modes.
-5. Review test coverage.
-6. Review maintainability.
-7. Determine severity (P0-P3) for each issue found.
+1. Run both review axes at selected depth; FULL uses complete checks below, QUICK/TARGETED limit checks to changed behavior and affected boundaries.
+2. Check applicable artifact alignment; distinguish `N/A` from passed compliance.
+3. Scan proportionally for bugs, security/data safety, error handling, tests, and maintainability. Security/data risks always trigger FULL.
+4. Determine severity (P0-P3) for each issue found.
 
 ## Phase 3: Report Writing
 
@@ -248,17 +271,20 @@ If the repository uses different paths, locate the most relevant LCS artifacts.
 3. For each issue found, create a FIX-{n} entry with problem, location, expected vs actual, fix instructions, and validation.
 4. Include Fix Request Copy block per FIX entry for executor consumption.
 5. Add execution order and final status.
-6. Write report to `.lcs/work-items/{timestamp}-{slug-work-item}/code-review.md`.
+6. Include selected review depth, executor mode, verification level, exact checks/results, and any unresolved IDs from the handoff.
+7. Write report to `.lcs/work-items/{timestamp}-{slug-work-item}/code-review.md` when a work item is active; otherwise return QUICK report inline.
 
 ## Phase 4: Validation & Handoff
 
 1. Verify all claims in the report are backed by evidence from artifacts or code.
 2. Confirm final status (PASS / PASS_WITH_NOTES / NEEDS_FIX / BLOCKED).
-3. Update `.lcs/state.md` with:
-   - `current_phase: code-review`
-   - `work_items[state.current_work].phase = code-review`
-   - `work_items[state.current_work].updated_at = <current-ISO-timestamp>`
+3. If a work item is active, update `.lcs/state.md` with:
+    - `current_phase: code-review`
+    - `work_items[state.current_work].phase = code-review`
+    - `work_items[state.current_work].updated_at = <current-ISO-timestamp>`
+   For QUICK review without an active work item, do not mutate `.lcs/state.md`.
 4. Present handoff for `lcs-task-executor` with required fixes and execution order.
+5. On PASS or PASS_WITH_NOTES, recommend `lcs-doc-finalizer` when work-item documentation requires finalization. On NEEDS_FIX, return actionable FIX items, review depth, and unresolved IDs to `lcs-task-executor`; require re-review at same or higher depth. On BLOCKED, stop and state missing input. Never lower depth on remediation or re-review.
 
 ---
 
@@ -326,7 +352,7 @@ Strict
 
 ## Two-Axis Review Process
 
-This skill executes code review along two independent axes. Both axes MUST be run and reported separately before aggregation.
+This skill executes code review along two independent axes. Both axes MUST be run and reported separately before aggregation. QUICK/TARGETED may narrow each axis to changed scope, but must not silently omit an axis; use `N/A` only where no artifact basis exists.
 
 ### Axis 1: Artifact Compliance
 

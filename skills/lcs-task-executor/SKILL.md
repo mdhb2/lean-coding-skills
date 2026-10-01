@@ -1,6 +1,6 @@
 ---
 name: lcs-task-executor
-description: 'Use this skill whenever the user asks to implement, execute, or continue a specific task from sliced tasks. Trigger on "Eksekusi TASK-###", "Eksekusi task-###.md", "continue TASK-###", "implement TASK-###". Always read .lcs/state.md first, check dependencies, analyze and recommend Normal vs TDD mode, confirm with user, and update task status and .lcs/state.md when done. Do NOT trigger for: design review (use lcs-code-review), brainstorming (use lcs-explore), documentation (use lcs-doc-finalizer), or debugging (use lcs-debug).'
+description: 'Use this skill whenever the user asks to implement, execute, or continue a specific task from sliced tasks. Trigger on "Eksekusi TASK-###", "Eksekusi task-###.md", "continue TASK-###", "implement TASK-###". Also handles Direct mode for TRIVIAL work without a task file. Always read .lcs/state.md first (when task-backed), check dependencies, analyze and recommend Direct vs Normal vs TDD mode, confirm with user, and update task status and .lcs/state.md when done. Do NOT trigger for: design review (use lcs-code-review), brainstorming (use lcs-explore), documentation (use lcs-doc-finalizer), or debugging (use lcs-debug).'
 adapters: [claudecode, opencode]
 compatibility: [claudecode, opencode]
 ---
@@ -11,7 +11,8 @@ Shared Coding Contract
 - Refer to Shared Coding Workflow Contract in `../lcs-shared/contract.md` for folder conventions, Handoff format, and token optimization.
 
 Purpose
-- Execute a single task (`task-###.md`), update its status to `done` (or `blocked`), and support Normal or TDD development flows with automatic analysis and user recommendation.
+- Execute a single task (`task-###.md`), update its status to `done` (or `blocked`), and support Direct, Normal, or TDD flows with automatic analysis and user recommendation.
+- Direct = fast path for TRIVIAL work without a task file. Normal/TDD = task-backed execution as before.
 
 Trigger
 - Activate when the user requests to "Eksekusi TASK-###", "Eksekusi task-###.md", "continue TASK-###", or "implement TASK-###".
@@ -27,9 +28,72 @@ Trigger
 
 Activate when user requests related to this skill's purpose. See description field in YAML frontmatter for trigger phrases.
 
+## [NEW] Adaptive Execution Modes (Phase 2)
+
+Modes: `DIRECT | NORMAL | TDD`. Rule-based, no numeric scoring, no new skill. Reuses Phase 1 dimensions (`scope/risk/ambiguity/blast radius`) from `lcs-master` classification when available, but re-validates independently — never trust upstream blindly. Mapping: `FAST PATH (lcs-master) = DIRECT (executor)`. `LIGHT/MAIN/FULL → NORMAL/TDD` task-backed.
+
+### Mode definitions
+
+- **DIRECT:** TRIVIAL work without a task file. Contoh: rename variable/function, typo, copy/text, constant sederhana, formatting, import cleanup. Verification: V0 MINIMAL (`search old → apply → search sisa → inspect diff` + targeted test bila murah). No SRS/tests/PRD required.
+- **NORMAL:** SMALL/NORMAL task-backed work. Wajib `task-###.md` + source coverage seperti flow existing. Verification: V1 TARGETED. Implement → test bila relevan → validate.
+- **TDD:** logic-heavy, complex state, algorithm/data transform, high-risk, atau task yang eksplisit minta testing. Wajib task file + tracer bullet RED→GREEN per seam seperti flow existing. Verification: V2 FULL.
+
+### Mode selection priority
+
+```
+1. Explicit user instruction (mode request)
+2. Critical/high-risk detection
+3. Ambiguity
+4. Blast radius
+5. Scope / task size
+6. Default: NORMAL (task-backed)
+```
+
+- **Safety override:** `risk=critical/high → never DIRECT`, naik ke NORMAL minimal atau TDD bila blast/ambiguity tinggi. `ambiguity=high → never DIRECT`. `blast=high → never DIRECT`. User shortcut (`"langsung saja"`) tidak boleh memaksa DIRECT pada pekerjaan berisiko.
+- **Upgrade allowed:** user boleh minta `NORMAL→TDD` atau `DIRECT→NORMAL/TDD` (lebih rigorous). Catat sebagai `user_override`.
+- **Downgrade forbidden:** bila `task-###.md` sudah ada untuk scope tersebut, wajib task-backed. `TASK-BACKED→DIRECT` hanya bila memenuhi Direct eligibility DAN user eksplisit setuju dengan alasan tercatat. Tanpa itu → tetap NORMAL/TDD.
+- **Direct eligibility (semua harus terpenuhi):** intent jelas + scope tiny + risk low + ambiguity low + blast low + tidak butuh architectural decision. Satu saja gagal → fallback NORMAL/TDD.
+- **High-risk indicators (DIRECT forbidden):** auth, authz, security, credentials, payment/financial, destructive DB, prod infra, migration, data loss, privacy-sensitive.
+- Konflik → pilih mode yang lebih rigorous.
+
+### Direct contract
+
+Only when mode=DIRECT and no explicit request for task-backed flow. Must:
+1. Inspect relevant code/symbols.
+2. Confirm exact bounded change with user intent.
+3. Apply minimal change (no scope creep).
+4. Verify: search old references → confirm zero sisa (atau sisa yang diharapkan) → `git diff` inspect → targeted test bila murah.
+5. Report `Execution Mode` + result + files changed + minimal CoT (sources=inspected files, verification=commands run). 6. Stop. No state.md mutation required unless work item already active (then append session note only). Never skip report even for trivial change.
+
+Must NOT: perluas scope, refactor tambahan, buat PRD/SRS/task breakdown, formal review, unrelated cleanup, sentuh high-risk area.
+
+### Task-backed contract (NORMAL/TDD)
+
+Unchanged existing flow below (task file wajib, dependency check, source coverage, HITL gate, seam discipline, strict completion criteria). Jika task file hilang → `blocked`, arahkan ke `lcs-task-slicer`, jangan diam-diam turun ke DIRECT kecuali memenuhi Direct eligibility dan user menyetujui re-klasifikasi.
+
+### Mode output (singkat)
+
+```
+Execution Mode
+
+Mode: <DIRECT|NORMAL|TDD>
+Work Class: <TRIVIAL|SMALL|NORMAL|COMPLEX>
+Risk: <LOW|MEDIUM|HIGH|CRITICAL>
+Reason: <1 kalimat>
+
+Route: <DIRECT EXECUTION | TASK-BACKED NORMAL | TASK-BACKED TDD>
+Verification: <V0 MINIMAL | V1 TARGETED | V2 FULL>
+Review: <NONE | QUICK | TARGETED | FULL>
+```
+
+### Adaptive Handoff to Review (Phase 5)
+
+When review is requested or workflow requires review, hand off to `lcs-code-review` with: work class and risk dimensions; selected execution mode and review depth; changed files; exact verification commands, exit codes, and verbatim results; applicable acceptance/source IDs and unresolved IDs; and user override. Apply Phase 4 review-depth rules. Default review mapping: DIRECT→QUICK only when explicitly requested (otherwise NONE), NORMAL→TARGETED, TDD→FULL. Risk or explicit-depth rules may upgrade review; never downgrade required depth. If verification failed, stop and report `blocked`; do not hand off as successful execution.
+
 Behavior checklist
-1. Read `.lcs/state.md` first to identify active work-item directory: `.lcs/work-items/{timestamp}-{slug-work-item}/`.
-2. Locate and read target task file `.lcs/work-items/{timestamp}-{slug-work-item}/task/task-###.md`.
+0. Determine mode first via Adaptive Execution Modes above (DIRECT vs NORMAL vs TDD). If DIRECT → skip steps 1-6 task-file gates, run Direct contract, then jump to step 9-11 reporting (no task status mutation). If NORMAL/TDD → continue task-backed steps below.
+1. Read `.lcs/state.md` first to identify active work-item directory: `.lcs/work-items/{timestamp}-{slug-work-item}/`. (DIRECT with no active work item: state read optional, do not create work item just for trivial change.)
+2. Locate and read target task file `.lcs/work-items/{timestamp}-{slug-work-item}/task/task-###.md`. (DIRECT: skip — no task file required. NORMAL/TDD: missing file → `blocked`, re-run `lcs-task-slicer`.)
 3. **Check task type field**:
    - If `Type: HITL` (human-in-the-loop), output plan and STOP with message: "⚠️ HITL GATE: This task requires human approval before execution. Review the plan above and confirm to proceed."
    - If `Type: AFK` (autonomous), proceed with execution.
@@ -72,7 +136,7 @@ Behavior checklist
     - `work_items[state.current_work].updated_at = <current-ISO-timestamp>`
     - `last_session_note: Executed TASK-###: <task-name> successfully`
     - `timestamp: <current-ISO-timestamp>`
-11. End with Handoff pointing to the next logical step (e.g., the next sequential task, `lcs-code-review` after all tasks, or `lcs-doc-finalizer`).
+11. End with Handoff carrying the Phase 5 fields above and pointing to the next logical step (e.g., next task, `lcs-code-review`, or `lcs-doc-finalizer` only when review is not required).
 
 Prompt templates
 - Starter Task Execution: "Eksekusi TASK-001"
@@ -136,18 +200,28 @@ Very Strict
 - **Rule:** Refactoring is NOT part of the red-green loop. It belongs to the review stage.
 
 
-## Strict Completion Criteria (Mandatory)
+## Adaptive Verification Levels (Phase 3, Mandatory)
 
-Every validation step MUST follow this pattern:
+Levels adapt to mode, strictness never drops to zero. Every level requires exit 0 + verbatim capture + HALT on failure.
+
+- **V0 MINIMAL (DIRECT default):** `search old refs → git diff --check → inspect diff` (+ targeted single test only if cheap and exists). Fail if old refs remain or `diff --check` fails → `blocked`, HALT.
+- **V1 TARGETED (NORMAL default):** V0 + relevant test/linter for touched area (single file/module, e.g. `npm test -- <file>`, `pytest <file>`), exit 0 verbatim. No full suite unless cheap. Fail → `blocked`, HALT.
+- **V2 FULL (TDD default):** V1 + full relevant suite + `python3 ./skills/lcs-shared/scripts/validate-traceability.py --work-item <path>` when task artifacts exist, exit 0 verbatim. Fail → `blocked`, HALT.
+
+Rules:
+- Default mapping: `DIRECT→V0`, `NORMAL→V1`, `TDD→V2`.
+- Upgrade allowed (`V0→V1/V2`), downgrade forbidden (`TDD` must not use V0/V1; `NORMAL` must not use V0 unless re-classified to DIRECT with explicit user approval + reason).
+- V0 is minimum, never zero. `No verification` is forbidden.
+- Pattern for every validation step:
 
 ```
-- **Step: Execute Validation.**
-  - **Action:** Run `<command>` (project-specific: npm test, pytest, cargo test, etc.)
+- **Step: Execute Validation (V0/V1/V2).**
+  - **Action:** Run `<command>` (V0: search/diff-check; V1: targeted test/lint; V2: full suite + traceability validator)
   - **Completion Criterion:** Command MUST exit with code 0. The exact stdout/stderr MUST be captured verbatim in the `Verification` section of the Chain of Truth Report.
-  - **Failure Handling:** If exit code ≠ 0, mark task status as `blocked`, record the error output verbatim, and HALT. Do not attempt to fix without user confirmation or a new task.
+  - **Failure Handling:** If exit code ≠ 0, mark task status as `blocked` (or stop Direct with report), record the error output verbatim, and HALT. Do not attempt to fix without user confirmation or a new task.
 ```
 
-**Leading Words:** "exit code 0", "verbatim stdout/stderr", "HALT on failure"
+**Leading Words:** "exit code 0", "verbatim stdout/stderr", "HALT on failure", "V0 minimum never zero"
 **Anti-Pattern:** "Run tests and make sure they pass" — too vague, no capture mechanism.
 
 ## Handoff

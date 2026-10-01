@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"protocol":2,"sentinel":true,"token":"opencode-goal-plugin-immutable-claims-v2","pid":1,"hostname":"opencode-goal-plugin-v2.invalid","createdAt":1790655765436}
+=======
+{"protocol":2,"sentinel":true,"token":"opencode-goal-plugin-immutable-claims-v2","pid":1,"hostname":"opencode-goal-plugin-v2.invalid","createdAt":1790829550036}
+>>>>>>> dev
