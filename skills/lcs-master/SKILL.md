@@ -116,6 +116,106 @@ Recognize starting situations dan route ke flow yang tepat:
 
 ---
 
+## [NEW] Work Classification & Adaptive Routing (Phase 1)
+
+Layer: `User Request → Context Detection (On-ramps) → Work Classification → Adaptive Routing → Selected Workflow`.
+
+Classification is cheap (seconds). Rule-based, no numeric scoring, no new skill.
+
+### Classes
+
+- **TRIVIAL:** intent jelas, tiny scope, low risk/ambiguity/blast radius, no arch decision. Contoh: rename variable/function, typo, copy/text, constant sederhana, formatting, import cleanup, mechanical replacement. Route: `FAST PATH`.
+- **SMALL:** scope kecil, behavior sedikit berubah, risk low-medium, beberapa file, targeted verification. Contoh: small bug fix, small UI change, config adjustment, local refactor, simple validation. Route: `LIGHT / EXISTING APPROPRIATE PATH` (gunakan existing skill yang paling ringan, jangan buat workflow baru).
+- **NORMAL:** behavior berubah meaningful, perlu clarification, multi-component, test strategy, risk medium. Contoh: feature normal, API behavior change, db-backed feature. Route: `EXISTING MAIN WORKFLOW`.
+- **COMPLEX:** architectural impact, high risk, large blast radius, multi-session, security/data-sensitive, irreversible, high uncertainty. Contoh: auth redesign, payment flow, migrasi besar, arch refactor. Route: `EXISTING FULL / STRICT WORKFLOW` (termasuk `lcs-wayfinder` on-ramp bila perlu).
+
+### Dimensions
+
+- **Scope:** `tiny | small | medium | large` (jumlah file, luas perubahan, lokal vs cross-cutting).
+- **Risk:** `low | medium | high | critical`. High-risk indicators: auth, authz, security, credentials, payment/financial, destructive DB, prod infra, migration, data loss, privacy-sensitive.
+- **Ambiguity:** `low | medium | high`. Low: `Rename foo() to bar()`. High: `Improve the customer system.`
+- **Blast Radius:** `low | medium | high`. Low: single local function. Medium: shared service. High: public API, DB schema, auth, shared infra.
+
+### Rule Priority
+
+```
+1. Explicit user instruction
+2. Critical/high-risk detection
+3. Ambiguity
+4. Blast radius
+5. Scope
+6. Default class
+```
+
+- **Rule A — Critical override:** `risk=critical → COMPLEX`, walau scope tiny. Contoh: satu baris payment authorization tetap COMPLEX.
+- **Rule B — High risk override:** `risk=high → minimal NORMAL`, naik ke COMPLEX bila blast radius/ambiguity juga tinggi.
+- **Rule C — High ambiguity:** intent tidak jelas → never TRIVIAL.
+- **Rule D — High blast radius:** impact luas → never TRIVIAL.
+- **Rule E — Mechanical trivial:** `intent clear + scope tiny + risk low + ambiguity low + blast_radius low → TRIVIAL`.
+- Konflik → pilih class higher-risk.
+
+### Classification Matrix (decision aid, bukan scoring engine)
+
+| Scope | Risk | Ambiguity | Blast | Class |
+|---|---|---|---|---|
+| tiny | low | low | low | TRIVIAL |
+| small | low | low | low | SMALL |
+| small | medium | low | low | SMALL |
+| small | high | low | low | NORMAL |
+| tiny | critical | low | low | COMPLEX |
+| tiny | low | high | low | SMALL/NORMAL |
+| tiny | low | low | high | NORMAL |
+| medium | low | low | low | NORMAL |
+| medium | medium | medium | medium | NORMAL |
+| large | any | any | any | COMPLEX |
+| any | critical | any | any | COMPLEX |
+| any | high | high | any | COMPLEX |
+
+### Adaptive Routing
+
+- **TRIVIAL → FAST PATH:** `Inspect → Direct change → Minimal verification → Report → Done`. Lewati explore/PRD/SRS/slicer/formal review/finalizer.
+- **SMALL → LIGHT:** pilih existing skill paling ringan (mis. langsung `lcs-debug` untuk bug kecil, atau direct change + targeted test). Jangan buat pseudo-workflow baru.
+- **NORMAL → EXISTING MAIN WORKFLOW:** `lcs-explore → lcs-toprd → lcs-prd-reviewer → lcs-tosrs → lcs-task-slicer → lcs-task-executor → lcs-code-review → lcs-doc-finalizer` (dengan prototype/wayfinder detour bila terpicu).
+- **COMPLEX → EXISTING FULL/STRICT:** sama dengan NORMAL + `lcs-wayfinder` di depan bila huge/foggy, Chain of Truth Strict/Very Strict tetap berlaku.
+
+### Fast Path Contract
+
+Hanya bila `work_class=TRIVIAL` dan tidak ada explicit request full workflow. Must:
+1. Inspect relevant code.
+2. Confirm exact change.
+3. Make bounded change.
+4. Verify: `search old symbol → apply → search sisa referensi → inspect diff` (+ targeted test bila murah).
+5. Report result. 6. Stop.
+
+Must NOT: perluas scope, refactor tambahan, buat PRD/SRS/task breakdown, formal review, unrelated cleanup.
+
+### User Override
+
+- User boleh naikkan depth: `TRIVIAL + "minta full workflow" = FULL WORKFLOW`.
+- User tidak boleh turunkan safety: `COMPLEX/HIGH-RISK + "langsung saja" ≠ FAST PATH`. Safety boundary tetap menang.
+- Catat override di decision log (`user_override: requested-full | requested-shortcut-denied`).
+
+### Classification Output (singkat, actionable)
+
+```
+Work Classification
+
+Class: <TRIVIAL|SMALL|NORMAL|COMPLEX>
+Risk: <LOW|MEDIUM|HIGH|CRITICAL>
+Ambiguity: <LOW|MEDIUM|HIGH>
+Blast Radius: <LOW|MEDIUM|HIGH>
+
+Reason:
+<1-2 kalimat singkat>
+
+Route:
+<FAST PATH | LIGHT PATH | MAIN LCS WORKFLOW | FULL / STRICT WORKFLOW>
+```
+
+Jangan jadi long-form analysis.
+
+---
+
 ## [ENHANCED] Main Flow dengan Branching Logic
 
 Optional: If user wants to register a blank work item first, route to `lcs-new` before `lcs-explore`.
@@ -183,14 +283,18 @@ Skills that run beneath the main flow sebagai vocabulary sources:
 
 ### Confirmation Mode (default)
 1. Recognize starting situation (on-ramp atau main flow)
-2. Check vocabulary foundation (auto-invoke domain-modeling jika needed)
-3. Generate rich contextual guidance (recommended skill + reason + context + flow + alternatives + warnings)
-4. Ask user untuk confirm atau choose alternative
-5. After invoked skill completes, stop dan ask lagi untuk next step
-6. Log routing decision ke session-log.md
+2. Run Work Classification (class/risk/ambiguity/blast radius + user override check, murah dan singkat)
+3. Check vocabulary foundation (auto-invoke domain-modeling jika needed)
+4. Generate rich contextual guidance (recommended skill + reason + context + flow + alternatives + warnings)
+5. Ask user untuk confirm atau choose alternative
+6. After invoked skill completes, stop dan ask lagi untuk next step
+7. Log routing decision ke session-log.md (termasuk classification)
 
 ### Autopilot Mode (opt-in)
-User must explicitly choose autopilot. Before chaining:
+User must explicitly choose autopilot. Flow:
+- Run Work Classification first. If TRIVIAL → FAST PATH langsung (inspect → change → verify → report), jangan chain artifact-heavy.
+- If SMALL → LIGHT path dengan existing skill paling ringan.
+- If NORMAL/COMPLEX → chain berikut:
 - If workflow has not yet gathered enough context (no `explore.md` / no clear intent), invoke `lcs-explore` first
 - Then chain forward dengan branching logic: explore → [prototype detour?] → toprd → [wayfinder detour?] → prd-reviewer → tosrs → task-slicer → (task-executor / debug-ext)
 - **Autopilot STOPS (no prompting) dan writes a SOT blocker** when it reaches a critical point (see Stop Matrix). User reviews blocker later dan resumes.
@@ -415,7 +519,16 @@ Append audit-trail entry ke `.lcs/work-items/{timestamp}-lcs-master/session-log.
   situation-type: main-flow
   alternatives-offered: ["Skip to lcs-toprd", "Add lcs-wayfinder", "Add lcs-prototype"]
   warnings-given: []
+  classification:
+    work_class: normal
+    risk: medium
+    ambiguity: low
+    blast_radius: medium
+  route: main-workflow
+  user_override: none
 ```
+
+Jika struktur log existing tidak mendukung nested object, flatten ke `work_class/risk/ambiguity/blast_radius/route` sejajar `routed-to`. Jangan buat format log baru.
 
 **Behavior:**
 - Create log file (dengan OKF frontmatter `type: artifact, artifact_type: session_log`) pada first routing of session
