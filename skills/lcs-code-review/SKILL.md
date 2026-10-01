@@ -52,6 +52,29 @@ This skill verifies that implementation matches specifications. Every claim in t
 
 ---
 
+## Adaptive Review Depth (Phase 4)
+
+Choose review depth from executor mode and work risk. Review depth changes effort, not safety rules: no code edits, no unsupported PASS, evidence for findings, and security/data risks always receive FULL review.
+
+| Depth | Default mapping | Required scope |
+|---|---|---|
+| **QUICK** | DIRECT / TRIVIAL, only when review is explicitly requested | Changed diff + affected symbols/references + relevant cheap test; report artifact alignment as `N/A` when no LCS artifacts exist. |
+| **TARGETED** | NORMAL / SMALL | Changed files + task acceptance criteria and relevant PRD/SRS requirements + targeted tests + focused security/error-handling checks. |
+| **FULL** | TDD / COMPLEX / high or critical risk / explicit full review | Existing complete Required Reading Order, both review axes, relevant/full test evidence, traceability where artifacts exist. |
+
+### Depth selection rules
+
+1. Explicit request for full review → FULL.
+2. High/critical risk, security-sensitive change, high blast radius, or unclear scope → FULL, regardless of executor mode.
+3. TDD/COMPLEX → FULL.
+4. NORMAL/SMALL → TARGETED.
+5. DIRECT/TRIVIAL → QUICK only if user explicitly asks for review; otherwise `lcs-master` Fast Path does not invoke formal review.
+6. Missing executor mode → infer from scope/risk; if uncertain, use the more rigorous depth.
+
+QUICK and TARGETED preserve verdicts `PASS`, `PASS_WITH_NOTES`, `NEEDS_FIX`, `BLOCKED`; use `PARTIAL_REVIEW` when missing inputs prevent a required check. Never treat skipped artifact compliance as passed: mark it `N/A` (QUICK with no artifacts) or `PARTIAL_REVIEW` (TARGETED/FULL missing required artifacts).
+
+QUICK/TARGETED do not run full-suite validation by default; they must state exact checks run and tests not run with reason. FULL retains existing strict test evidence and halt-on-failure rules.
+
 ## Primary Role
 
 Acts as **reviewer and verifier**, not as a second executor.
@@ -225,20 +248,18 @@ If the repository uses different paths, locate the most relevant LCS artifacts.
 
 ## Phase 1: Setup
 
-1. Read `.lcs/state.md` to locate active work item folder.
-2. Read all available LCS artifacts in Required Reading Order.
-3. Read diff or changed code files.
-4. Build a list of expected behavior from artifacts.
+1. Select QUICK/TARGETED/FULL using Adaptive Review Depth rules.
+2. For TARGETED/FULL, read `.lcs/state.md` to locate active work item folder. QUICK may proceed without a work item when user explicitly requests review of a direct change.
+3. Read artifacts required for selected depth: QUICK reads available relevant artifacts; TARGETED reads task acceptance criteria and relevant PRD/SRS; FULL reads all available artifacts in Required Reading Order.
+4. Read diff or changed code files within selected depth.
+5. Build expected behavior from applicable artifacts; record `N/A` when QUICK has none.
 
 ## Phase 2: Review Execution
 
-1. Check alignment with Explore, PRD, PRD Enhance, SRS, and Task Breakdown.
-2. Scan for potential bugs (null handling, race conditions, edge cases, etc.).
-3. Check security and data safety (auth, injection, exposure, etc.).
-4. Check error handling and failure modes.
-5. Review test coverage.
-6. Review maintainability.
-7. Determine severity (P0-P3) for each issue found.
+1. Run both review axes at selected depth; FULL uses complete checks below, QUICK/TARGETED limit checks to changed behavior and affected boundaries.
+2. Check applicable artifact alignment; distinguish `N/A` from passed compliance.
+3. Scan proportionally for bugs, security/data safety, error handling, tests, and maintainability. Security/data risks always trigger FULL.
+4. Determine severity (P0-P3) for each issue found.
 
 ## Phase 3: Report Writing
 
@@ -325,7 +346,7 @@ Strict
 
 ## Two-Axis Review Process
 
-This skill executes code review along two independent axes. Both axes MUST be run and reported separately before aggregation.
+This skill executes code review along two independent axes. Both axes MUST be run and reported separately before aggregation. QUICK/TARGETED may narrow each axis to changed scope, but must not silently omit an axis; use `N/A` only where no artifact basis exists.
 
 ### Axis 1: Artifact Compliance
 
